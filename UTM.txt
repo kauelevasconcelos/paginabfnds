@@ -1,0 +1,57 @@
+<script>
+(function() {
+    const utms = {
+        'source': 281,
+        'medium': 283,
+        'campaign': 282,
+        'content': 285,
+        'term': 284,
+        'paginaCaptura': 293
+    };
+
+    const prefixo = "utm_"; // Prefixo customizado para os parâmetros UTM
+
+    function criarCampos() {
+        const form = document.querySelectorAll('form');
+        const urlParamsCapt = new URLSearchParams(window.location.search);
+        const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+
+        form.forEach(el => {
+            for (let utm in utms) {
+                const paramName = prefixo + utm;
+                console.log(`Processando UTM: ${paramName}`);
+
+                if (!el.querySelector(`input[name="field[${utms[utm]}]"]`)) {
+                    let x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", `field[${utms[utm]}]`);
+
+                    let utmValue;
+                    if (utm === "source") {
+                        utmValue = urlParamsCapt.get(paramName) 
+                            ? urlParamsCapt.get(paramName) 
+                            : (document.referrer ? (urlParamsCaptReferrer.get(paramName) || new URL(document.referrer).hostname) : "direto");
+                    } else if (utm === "paginaCaptura") {
+                        utmValue = window.location.pathname.replace('/', '');
+                    } else {
+                        utmValue = urlParamsCapt.get(paramName) || urlParamsCaptReferrer.get(paramName) || "";
+                    }
+
+                    console.log(`Campo: ${paramName}, Valor: ${utmValue}`);
+                    x.setAttribute("value", utmValue);
+                    el.appendChild(x);
+                } else {
+                    console.log(`Campo ${paramName} já existe no formulário.`);
+                }
+            }
+        });
+    }
+
+    criarCampos();
+    window.onload = criarCampos;
+    document.getElementById("form-field-email").onchange = function () {
+        criarCampos();
+        console.log("Campos UTM recriados após alteração no campo de e-mail.");
+    }
+})();
+</script>

@@ -1,0 +1,242 @@
+<!-- intl-tel-input CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+<!-- intl-tel-input JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<!-- Utils para formatar E.164 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
+<script>
+(function() {
+    // IDs dos campos extras
+    var FIELD_PHONE_COUNTRY_FLAG = 42;
+    var FIELD_PHONE_DDI = 43;
+    var FIELD_RAW_PHONE = 41;
+
+    function ensureHiddenField(form, fieldId) {
+        var selector = `input[name="field[${fieldId}]"]`;
+        var el = form.querySelector(selector);
+        if (!el) {
+            el = document.createElement("input");
+            el.type = "hidden";
+            el.name = `field[${fieldId}]`;
+            form.appendChild(el);
+        }
+        return el;
+    }
+
+    // Máscaras e placeholders
+    var maskMap = {
+        'br': '(00) 00000-0000',
+        'us': '(000) 000-0000',
+        'pt': '000 000 000',
+        'gb': '00000 000000',
+        'ie': '000 000 0000',
+        'ca': '(000) 000-0000',
+        'es': '000 000 000',
+        'jp': '000-0000-0000',
+        'au': '0000 000 000',
+        'it': '000 000 0000',
+        'de': '0000 0000000',
+        'vi': '(000) 000-0000',
+        'be': '000 00 00 00',
+        'nl': '000 000 0000',
+        'fr': '00 00 00 00 00',
+        'ar': '00 0000-0000',
+        'ae': '000 000 0000',
+        'af': '000 000 0000'
+    };
+
+    var placeholderMap = {
+        br: '(11) 98765-4321',
+        us: '(202) 555-0199',
+        pt: '912 345 678',
+        gb: '07123 456789',
+        ie: '085 123 4567',
+        ca: '(416) 555-0133',
+        es: '612 345 678',
+        jp: '090-1234-5678',
+        au: '0412 345 678',
+        it: '347 123 4567',
+        de: '1512 3456789',
+        vi: '(340) 555-0123',
+        be: '470 12 34 56',
+        nl: '061 234 5678',
+        fr: '06 12 34 56 78',
+        ar: '11 2345-6789',
+        ae: '050 123 4567',
+        af: '070 123 4567'
+    };
+
+    function maskNumber(val, mask) {
+        var clean = val.replace(/\D/g, '');
+        var newVal = '';
+        var maskIdx = 0, cleanIdx = 0;
+        while (maskIdx < mask.length && cleanIdx < clean.length) {
+            if (mask[maskIdx] === '0') {
+                newVal += clean[cleanIdx++];
+            } else {
+                newVal += mask[maskIdx];
+            }
+            maskIdx++;
+        }
+        return newVal;
+    }
+
+    function initPhoneFields(context) {
+        const phoneFields = context.querySelectorAll('#form-field-telefone');
+
+        phoneFields.forEach(function(input) {
+            if (input.dataset.itiInitialized === "true") return;
+
+            var iti = window.intlTelInput(input, {
+                separateDialCode: true,
+                preferredCountries: ["br", "us", "pt", "gb", "ie", "ca", "es", "jp", "au", "it", "de"],
+                initialCountry: "br",
+                utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            input.dataset.itiInitialized = "true";
+
+            // placeholder inicial
+            var country = iti.getSelectedCountryData().iso2;
+            input.placeholder = placeholderMap[country] || '';
+
+            // máscara dinâmica
+            input.addEventListener('input', function () {
+                var ctry = iti.getSelectedCountryData().iso2;
+                var mask = maskMap[ctry];
+                if (mask) {
+                    input.value = maskNumber(input.value, mask);
+                } else {
+                    input.value = input.value.replace(/\D/g, '');
+                }
+            });
+
+            // troca de país → reseta
+            input.addEventListener('countrychange', function () {
+                setTimeout(function () {
+                    input.value = '';
+                    var newCtry = iti.getSelectedCountryData().iso2;
+                    input.placeholder = placeholderMap[newCtry] || '';
+                }, 30);
+            });
+            
+
+            // validação no submit
+            input.closest("form").addEventListener("submit", function(e) {
+                var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+                var isValid = iti.isValidNumberPrecise 
+                    ? iti.isValidNumberPrecise() 
+                    : iti.isValidNumber();
+                var errorCode = iti.getValidationError();
+
+                console.log("[submit] raw:", input.value,
+                            "full:", fullNumber,
+                            "isValid:", isValid,
+                            "errorCode:", errorCode);
+
+                if (!isValid || errorCode !== 0) {
+                    e.preventDefault();
+                    alert("Número inválido.");
+                    return false;
+                }
+
+                // regra extra BR
+                if (iti.getSelectedCountryData().iso2 === "br") {
+                    var digitsBR = fullNumber.replace(/\D/g, '').replace(/^55/, '');
+                    if (digitsBR.length < 10) {
+                        e.preventDefault();
+                        alert("Número de telefone muito curto para o Brasil.");
+                        return false;
+                    }
+                }
+
+                // força E.164
+                input.value = fullNumber;
+
+                // hidden fields
+                var form = input.closest("form");
+                var sel = iti.getSelectedCountryData();
+                var iso2 = sel?.iso2 || '';
+                var ddi = sel?.dialCode || '';
+
+                var numeroDigits = (input.value || '').replace(/\D/g, '');
+                var numeroSemDdi = numeroDigits.startsWith(ddi)
+                    ? numeroDigits.substring(ddi.length)
+                    : numeroDigits;
+
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = numeroSemDdi;
+            });
+        });
+    }
+
+    // forms em popup
+    window.addEventListener('DOMContentLoaded', (event) => {
+        initPhoneFields(document);
+    });
+})();
+</script>
+
+
+
+
+<style>
+/* Ajusta a largura do container da flag/DDI */
+.iti, .iti--allow-dropdown {
+  width: 100% !important;
+  z-index: 9999 !important;
+}
+.iti__country-list {
+  color: #F9F9F9 !important;
+  background-color: #1A1A1A !important;
+  border-color: #1A1A1A !important;
+}
+.iti__selected-flag {
+  background-color: #280017 !important;
+}
+/* Cor do texto do dropdown da lista de países */
+.iti__country-list,
+.iti__country-name,
+.iti__dial-code {
+  color: #FFFFFF !important;
+}
+/* Cor de fundo do dropdown */
+.iti__country-list {
+  background-color: #0D260C !important;
+  border-color: #0D260C !important;
+}
+/* Cor do ícone da setinha (dropdown) */
+.iti__arrow {
+  border-top-color: #FFFFFF !important;
+}
+/* Itens ativos/selecionados */
+.iti__country.iti__highlight,
+.iti__country.iti__active {
+  background-color: #162B15 !important; /* hover/seleção, verde escuro um pouco mais claro */
+  color: #FFFFFF !important;
+}
+/* Cor do DDI ao lado da bandeira */
+.iti__selected-dial-code {
+  color: #FFFFFF !important;
+}
+/* Cor de fundo da flag */
+.iti__selected-flag {
+  background-color: #0D260C !important;
+}
+</style>
+
+
+<!-- Remover qualquer erro no form/number -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    const inputPhone = document.querySelector('#form-field-phone');
+    if (inputPhone) {
+      inputPhone.removeAttribute('pattern');
+      inputPhone.removeAttribute('title');
+    }
+  }, 800);
+});
+</script>
