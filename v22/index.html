@@ -1066,7 +1066,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scene--acc .acc .lbl{font-size:1.3rem}
   .scene--acc .x2{position:absolute;top:14px;right:22px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4rem .8rem;font-weight:800;font-size:.9rem}
   /* mobile: no illustrations inside the deliverable cards (the stack at the top carries them) */
-  @media(max-width:640px){.dcard--big .mini{display:none}.dcard--big .txt{padding:1rem 1.1rem 1.1rem}}
+  /* mobile: imagem de cada card visível (mesma proporção 16/10 do desktop, na largura do card), título e bullets logo abaixo */
+  @media(max-width:640px){.dcard--big .txt{padding:1rem 1.1rem 1.1rem}}
 
 
   /* deliverable chips: contextual icons instead of checks; no card shadow */
@@ -1287,8 +1288,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pack-badges li{display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.82rem;text-align:center;line-height:1.25;color:var(--ink)}
   .pack-badges span{width:52px;height:52px;border-radius:50%;background:#fff;display:grid;place-items:center}
   .pack-badges svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .pack-list{display:none}
   @media(min-width:900px){.pack{grid-template-columns:1.1fr 1fr;margin-top:2rem}.pack-list{display:flex}}
+  /* mobile: lista de entregáveis visível, empilhada abaixo da arte (mesmo estilo do desktop, em tamanho menor) */
+  @media(max-width:899px){
+    .pack-list{list-style:none;margin:0;padding:1rem 1.25rem 1.25rem;display:flex;flex-direction:column}
+    .pack-list li{display:flex;align-items:center;gap:.75rem;padding:.8rem 0;border-bottom:1px solid var(--line);font-size:1.05rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;color:var(--ink)}
+    .pack-list li:last-child{border-bottom:0}
+    .pack-list li::before{content:"";flex:none;width:22px;height:22px;border-radius:7px;background:var(--lime) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12.5l4.5 4.5L19 7.5'/></svg>") center/13px no-repeat}
+  }
   .gets-head{padding-bottom:0}
 
   .gets,.gets-head{background:#F0FFFF}
