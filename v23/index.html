@@ -712,7 +712,7 @@ form button[disabled]{opacity:.7;cursor:progress}
         if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
         message(form, '', '');
 
-        fetch('/api/contato', {
+        fetch('https://paginabfnds-v1.pages.dev/api/contato', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
