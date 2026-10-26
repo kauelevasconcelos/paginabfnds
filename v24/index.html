@@ -568,7 +568,7 @@ form button[disabled]{opacity:.7;cursor:progress}
 <script>
 (function () {
     // Para onde levar o lead depois do envio. Vazio = mostra a mensagem de sucesso no próprio formulário.
-    var REDIRECT_URL = 'https://cronogramadosfluentes.com.br/confirmacao-bf26v1/?email=[field id="email"]';
+    var REDIRECT_URL = '';
     var SUCCESS_TEXT = 'Pré-matrícula recebida! Em breve meu time entra em contato com você.';
     var ERROR_TEXT = 'Não conseguimos enviar agora. Confira seus dados e tente de novo em instantes.';
 
@@ -626,9 +626,7 @@ form button[disabled]{opacity:.7;cursor:progress}
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'lead_form_success', form_dom_id: form.id || '' });
             if (REDIRECT_URL) {
-                // Troca o marcador pelo e-mail digitado e espera ~300 ms para o GTM/pixels registrarem a conversão.
-                var target = REDIRECT_URL.replace('[field id="email"]', encodeURIComponent(body.email));
-                setTimeout(function () { window.location.href = target; }, 300);
+                window.location.href = REDIRECT_URL;
                 return;
             }
             Array.prototype.forEach.call(form.children, function (el) {
