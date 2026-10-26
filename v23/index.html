@@ -296,18 +296,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><span>Livros físicos inclusos, com frete grátis para todo o Brasil</span></li>
         <li><span>Fluência garantida em contrato</span></li>
       </ul>
-      <form class="hero-form" id="matricula">
-        <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_content"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_term"><input type="hidden" name="fbclid"><input type="hidden" name="gclid"><input type="hidden" name="conversion_type_id" value="1"><input type="hidden" name="campaign_id" value="ppt-bf26-leads"><input type="hidden" name="form_id" value=""><input type="hidden" name="form_name" value="New Form"><input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
+      <form class="hero-form" id="matricula" method="POST" action="https://aloud.activehosted.com/proc.php">
+        <input type="hidden" name="u" value="116"><input type="hidden" name="f" value="116"><input type="hidden" name="s"><input type="hidden" name="c" value="0"><input type="hidden" name="m" value="0"><input type="hidden" name="act" value="sub"><input type="hidden" name="v" value="2">
         <p class="hero-form-title">Preencha a pré-matrícula para desbloquear a oferta:</p>
         <div class="two">
-          <div class="field"><label for="form-field-nome">Primeiro nome</label><input id="form-field-nome" name="nome" type="text" placeholder="Digite seu primeiro nome" required></div>
+          <div class="field"><label for="form-field-nome">Primeiro nome</label><input id="form-field-nome" name="fullname" data-name="fullname" type="text" placeholder="Digite seu primeiro nome" required></div>
           <div class="field"><label for="form-field-email">E-mail</label><input id="form-field-email" name="email" data-name="email" type="email" placeholder="Digite seu melhor e-mail" required></div>
         </div>
         <div class="field"><label for="form-field-telefone">WhatsApp</label>
           <div class="phone"><input id="form-field-telefone" name="phone" type="tel" placeholder="WhatsApp" inputmode="tel" required></div>
         </div>
         <button class="btn btn--wide" type="submit">CONFERIR OFERTA</button>
-        <p class="form-msg" role="status" aria-live="polite" hidden></p>
       </form>
     </div>
     <div class="hero-photo">
@@ -382,6 +381,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 (function() {
+    // IDs dos campos extras
+    var FIELD_PHONE_COUNTRY_FLAG = 42;
+    var FIELD_PHONE_DDI = 43;
+    var FIELD_RAW_PHONE = 41;
+
+    function ensureHiddenField(form, fieldId) {
+        var selector = `input[name="field[${fieldId}]"]`;
+        var el = form.querySelector(selector);
+        if (!el) {
+            el = document.createElement("input");
+            el.type = "hidden";
+            el.name = `field[${fieldId}]`;
+            form.appendChild(el);
+        }
+        return el;
+    }
+
     // Máscaras e placeholders
     var maskMap = {
         'br': '(00) 00000-0000',
@@ -511,6 +527,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 // força E.164
                 input.value = fullNumber;
+
+                // hidden fields
+                var form = input.closest("form");
+                var sel = iti.getSelectedCountryData();
+                var iso2 = sel?.iso2 || '';
+                var ddi = sel?.dialCode || '';
+
+                var numeroDigits = (input.value || '').replace(/\D/g, '');
+                var numeroSemDdi = numeroDigits.startsWith(ddi)
+                    ? numeroDigits.substring(ddi.length)
+                    : numeroDigits;
+
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = numeroSemDdi;
             });
         });
     }
@@ -583,6 +614,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 // força E.164
                 input.value = fullNumber;
+
+                // hidden fields
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = sel.iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = sel.ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = digits;
             }, true);
         });
     }
@@ -656,98 +692,62 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<style>
-.form-msg{margin-top:.6rem;font-size:.9rem;font-weight:600;line-height:1.35}
-.form-msg--err{color:#C62828}
-.card-form .form-msg--err{color:#FF8A80}
-.form-msg--ok{font-weight:800;font-size:1rem}
-form button[disabled]{opacity:.7;cursor:progress}
-</style>
 <script>
-(function () {
-    // Para onde levar o lead depois do envio. Vazio = mostra a mensagem de sucesso no próprio formulário.
-    var REDIRECT_URL = '';
-    var SUCCESS_TEXT = 'Pré-matrícula recebida! Em breve meu time entra em contato com você.';
-    var ERROR_TEXT = 'Não conseguimos enviar agora. Confira seus dados e tente de novo em instantes.';
+(function() {
+    const utms = {
+        'source': 281,
+        'medium': 283,
+        'campaign': 282,
+        'content': 285,
+        'term': 284,
+        'paginaCaptura': 293
+    };
 
-    var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_content', 'utm_campaign', 'utm_term', 'fbclid', 'gclid'];
-    var FIELDS = ['nome', 'email', 'phone', 'website', 'conversion_type_id', 'campaign_id', 'form_id', 'form_name'].concat(TRACK_KEYS);
+    const prefixo = "utm_"; // Prefixo customizado para os parâmetros UTM
 
-    function save(k, v) { try { sessionStorage.setItem('lead_' + k, v); } catch (e) {} }
-    function load(k) { try { return sessionStorage.getItem('lead_' + k) || ''; } catch (e) { return ''; } }
+    function criarCampos() {
+        const form = document.querySelectorAll('form');
+        const urlParamsCapt = new URLSearchParams(window.location.search);
+        const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
 
-    // Salva só o que veio na URL; o que já estava salvo continua valendo.
-    var params = new URLSearchParams(window.location.search);
-    TRACK_KEYS.forEach(function (k) { var v = params.get(k); if (v) save(k, v); });
+        form.forEach(el => {
+            for (let utm in utms) {
+                const paramName = prefixo + utm;
+                console.log(`Processando UTM: ${paramName}`);
 
-    function fillHidden(form) {
-        TRACK_KEYS.forEach(function (k) {
-            var el = form.querySelector('input[name="' + k + '"]');
-            if (el) el.value = load(k);
-        });
-    }
+                // campo já existente (ex.: valores fixos do 2º formulário) é atualizado em vez de ignorado
+                let x = el.querySelector(`input[name="field[${utms[utm]}]"]`);
+                if (!x) {
+                    x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", `field[${utms[utm]}]`);
+                    el.appendChild(x);
+                }
 
-    function message(form, text, type) {
-        var el = form.querySelector('.form-msg');
-        if (!el) return;
-        el.textContent = text;
-        el.className = 'form-msg' + (type ? ' form-msg--' + type : '');
-        el.hidden = !text;
-    }
+                let utmValue;
+                if (utm === "source") {
+                    utmValue = urlParamsCapt.get(paramName)
+                        ? urlParamsCapt.get(paramName)
+                        : (document.referrer ? (urlParamsCaptReferrer.get(paramName) || new URL(document.referrer).hostname) : "direto");
+                } else if (utm === "paginaCaptura") {
+                    utmValue = window.location.pathname.replace('/', '');
+                } else {
+                    utmValue = urlParamsCapt.get(paramName) || urlParamsCaptReferrer.get(paramName) || "";
+                }
 
-    function onSubmit(e) {
-        // A validação do telefone já barrou o envio (alert de número inválido).
-        if (e.defaultPrevented) return;
-        e.preventDefault();
-        var form = e.currentTarget;
-        if (form.dataset.sending === '1') return;
-
-        fillHidden(form);
-        var fd = new FormData(form);
-        var body = {};
-        FIELDS.forEach(function (k) { var v = fd.get(k); body[k] = v == null ? '' : String(v); });
-
-        var btn = form.querySelector('button[type="submit"]');
-        form.dataset.sending = '1';
-        if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
-        message(form, '', '');
-
-        fetch('/api/contato', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        }).then(function (res) {
-            return res.json().catch(function () { return {}; }).then(function (data) {
-                if (!res.ok || !data.ok) throw new Error('HTTP ' + res.status);
-            });
-        }).then(function () {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ event: 'lead_form_success', form_dom_id: form.id || '' });
-            if (REDIRECT_URL) {
-                window.location.href = REDIRECT_URL;
-                return;
+                console.log(`Campo: ${paramName}, Valor: ${utmValue}`);
+                x.setAttribute("value", utmValue);
+                x.value = utmValue;
             }
-            Array.prototype.forEach.call(form.children, function (el) {
-                if (!el.classList.contains('form-msg')) el.style.display = 'none';
-            });
-            message(form, SUCCESS_TEXT, 'ok');
-        }).catch(function () {
-            message(form, ERROR_TEXT, 'err');
-            form.dataset.sending = '';
-            if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
         });
     }
 
-    function init() {
-        document.querySelectorAll('form').forEach(function (form) {
-            fillHidden(form);
-            form.addEventListener('submit', onSubmit);
-        });
+    criarCampos();
+    window.onload = criarCampos;
+    document.getElementById("form-field-email").onchange = function () {
+        criarCampos();
+        console.log("Campos UTM recriados após alteração no campo de e-mail.");
     }
-
-    // Registra depois da validação do telefone (que roda no DOMContentLoaded do script anterior).
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-    else init();
 })();
 </script>
 </body>
