@@ -25,38 +25,7 @@ export function normalizePhone(raw) {
   return digits;
 }
 
-const ALLOWED_ORIGINS = [
-  'https://cronogramadosfluentes.com.br',
-  'https://www.cronogramadosfluentes.com.br',
-  'https://paginabfnds-v1.pages.dev',
-];
-
-// Só libera CORS para as origens da lista; para as outras, nenhum header de CORS.
-function withCors(request, response) {
-  const origin = request.headers.get('Origin');
-  if (origin && ALLOWED_ORIGINS.includes(origin)) {
-    response.headers.set('Access-Control-Allow-Origin', origin);
-    response.headers.append('Vary', 'Origin');
-  }
-  return response;
-}
-
-export function onRequestOptions({ request }) {
-  const res = new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
-  return withCors(request, res);
-}
-
-export async function onRequestPost(context) {
-  return withCors(context.request, await handlePost(context));
-}
-
-async function handlePost({ request, env }) {
+export async function onRequestPost({ request, env }) {
   let data;
   try {
     data = await request.json();
