@@ -44,6 +44,17 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
   em Rotas de Workers) e voltar a slug original da página no WordPress. Observação: `wrangler deploy` recria as
   rotas do Worker (a rota da v80 trocou de ID ao publicar a da v111), o que pode deixar a página alguns segundos
   sem o Worker — nesse intervalo o WordPress redireciona a slug antiga para a `-off`.
+- **Redirecionamento da slug antiga no WordPress (mantido de propósito).** Ao trocar a slug para `-off`, o
+  WordPress gravou `_wp_old_slug` = `pc-le-cdf-v80` (página 4553) e `pc-le-cdf-v111` (página 5651). Por isso, se
+  um pedido para `/pc-le-cdf-v80/` ou `/pc-le-cdf-v111/` chegar ao WordPress, ele responde **301 para a `-off`**.
+  Hoje isso não acontece, porque o Worker atende esses caminhos antes. Só entra em ação se o Worker deixar de
+  atender: rota removida (rollback), Worker fora do ar, ou os segundos em que `wrangler deploy` recria as rotas.
+  - **Regra:** republicar o `pc-le-cdf-v80-v111-router` (`npx wrangler@4 deploy`) só em horário de pouco tráfego.
+  - **Solução definitiva (quando for preciso):** apagar os dois registros pelo phpMyAdmin da hospedagem. Conferir
+    antes com `SELECT meta_id, post_id, meta_value FROM wp_postmeta WHERE meta_key = '_wp_old_slug' AND
+    ((post_id = 4553 AND meta_value = 'pc-le-cdf-v80') OR (post_id = 5651 AND meta_value = 'pc-le-cdf-v111'));`
+    (o prefixo `wp_` pode ser outro) e então `DELETE` só desses `meta_id`. Não mexe em mais nada nas páginas.
+    Depois testar que `/pc-le-cdf-v80-off/` e `/pc-le-cdf-v111-off/` abrem e que a v80/v111 seguem no Pages.
 - **Processo usado para colocar uma página no domínio** (v80 e v111, 10/11/2026): conferir que nenhuma rota
   existente cobre o caminho → rota no Worker → limpar o cache da Cloudflare das URLs com e sem barra (Caching →
   Configuração → Limpeza personalizada → URL) → testes (com/sem barra, desktop/mobile, perfil anônimo, assets,
