@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4.160.0/config-schema.json",
+  "name": "pc-le-cdf-v80-v111-router",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  // conta da zona cronogramadosfluentes.com.br (Admin@matheuswerner.com.br's Account)
+  "account_id": "1674537158620e3e2821c20c2f1dd48a",
+  // rotas: uma por página, só v80 e v111 (com * para atender com e sem barra, img/ e fonts/)
+  "routes": [
+    { "pattern": "cronogramadosfluentes.com.br/pc-le-cdf-v80*", "zone_name": "cronogramadosfluentes.com.br" }
+  ],
+  // workers.dev desligado (usado só no teste antes da rota)
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true }
+}
