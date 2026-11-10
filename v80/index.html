@@ -68,7 +68,7 @@ b,strong{font-weight:bolder}
 .li span{padding-left:5px}
 
 /* botão com brilho (btn4 do original) */
-.btn{position:relative;display:block;width:416px;max-width:100%;padding:27px 0 15px;border-radius:12px;background:linear-gradient(90deg,#01FEFE 0%,#7AE2E2 100%);box-shadow:0 20px 30px -6px rgba(81,235,236,.26);overflow:hidden;color:#000;text-align:center;text-decoration:none;font-size:19px;font-weight:700;line-height:2.2;letter-spacing:-.7px}
+.btn{position:relative;display:block;width:416px;max-width:100%;padding:15px 0;border-radius:12px;background:linear-gradient(90deg,#01FEFE 0%,#7AE2E2 100%);box-shadow:0 20px 30px -6px rgba(81,235,236,.26);overflow:hidden;color:#000;text-align:center;text-decoration:none;font-size:19px;font-weight:700;line-height:2.2;letter-spacing:-.7px}
 .btn::before{content:'';position:absolute;bottom:0;width:70px;height:130%;background:linear-gradient(10deg,#72ffff 12.81%,rgba(255,255,255,0) 66.66%);transform:translateX(-50%) skew(-25deg);filter:blur(3px);pointer-events:none;user-select:none;animation:shinery 3s infinite ease-in-out}
 .btn span{position:relative}
 .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
@@ -306,7 +306,8 @@ form *{box-sizing:border-box}
   .pre{margin:0;font-size:14px}
   .ef input:not([type=hidden]){font-size:13px}
   .ef button{font-size:17px}
-  .btn{width:100%;padding:31px 19px 19px;font-size:15px;line-height:1.3}
+  .btn{width:100%;padding:19px;font-size:15px;line-height:1.3}
+  .btn.btn-sm{padding-top:15px;padding-bottom:15px}
   .res{padding:11vw 8vw 13vw}
   .res .tit{width:290px;margin-bottom:10px}
   .res .tit img{width:150px;margin-bottom:24px}
@@ -389,6 +390,7 @@ form *{box-sizing:border-box}
   .form-block button{font-size:16px;padding:18px 0;margin:16px 0}
   .anim.vis{animation-name:fadeIn}
 }
+h1,h2,h3,h4{text-wrap:balance}
 </style>
 </head>
 <body>
@@ -410,7 +412,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="w">
     <div class="head">
       <img class="logo" src="/pc-le-cdf-v80/img/lpmatt002-15b5be06.svg" width="120" height="37" alt="" fetchpriority="high">
-      <h1>Fale inglês desde o primeiro dia, e ganhe 1 ano de <span class="cor1">conversação ilimitada!</span></h1>
+      <h1>Fale inglês desde o primeiro dia, e ganhe 1 ano de <span class="cor1">conversação&nbsp;ilimitada!</span></h1>
     </div>
     <ul class="li">
       <li><svg><use href="#ck"/></svg><span>1 ano de aulas de conversação ao vivo ilimitadas</span></li>
@@ -445,7 +447,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="res">
   <div class="tit c">
     <img src="/pc-le-cdf-v80/img/alunos-84987953.svg" width="220" height="39" alt="" loading="lazy">
-    <h2 class="t41">O que aconteceu com quem seguiu o <span class="cor1"><b>Curso de Inglês da Aloud</b></span></h2>
+    <h2 class="t41">O que aconteceu com quem seguiu o <span class="cor1"><b>Curso de Inglês&nbsp;da&nbsp;Aloud</b></span></h2>
   </div>
   <div class="vids">
     <button class="vid" type="button" data-yt="R4WuD2NHO4I" style="background-image:url(/pc-le-cdf-v80/img/christian-novo-5f32baa0.webp)" aria-label="Reproduzir vídeo"><svg><use href="#play"/></svg></button>
@@ -463,7 +465,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="seta"><div class="circle"><svg viewBox="0 0 24 24" fill="none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg></div></div>
   <div class="box">
     <div class="tit c">
-      <h2 class="t41">Do <span class="cor1">Zero à Fluência </span> em 2026 com o Curso de Inglês da Aloud.</h2>
+      <h2 class="t41">Do <span class="cor1">Zero à Fluência </span> em 2026 com o Curso de Inglês&nbsp;da&nbsp;Aloud.</h2>
       <p>Você receberá um passo a passo completo e previsível até falar inglês com tranquilidade.</p>
     </div>
     <p class="chip"><svg viewBox="0 0 273 269" fill="none"><path d="M192.556 263.373C189.365 262.717 177.495 254.396 175.139 254.516C129.419 284.31 62.6436 261.882 29.2411 223.052C-7.4123 180.463 -9.55961 107.097 22.5307 61.5264C59.6314 8.82782 138.605 -9.24536 193.928 25.1712L193.093 17.5065L194.584 16.2241L272.841 0C272.424 2.32625 272.513 1.10347 272.424 2.32625C271.171 17.3276 271.35 29.6448 271.41 44.1689C271.648 97.0464 270.575 243.093 272.841 263.373H192.556ZM207.796 236.264C207.587 202.414 207.647 134.624 207.647 134.624C207.647 134.624 208.392 118.52 206.483 108.379C201.443 81.1206 185.756 50.253 157.394 41.962C59.542 13.3312 33.0287 194.331 117.489 227.466C139.082 235.936 158.646 229.732 177.674 218.697L207.736 236.293L207.796 236.264Z" fill="#03C2C2"/></svg><span>Conheça os 4 níveis de fluência:</span></p>
@@ -479,19 +481,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
       <div class="lvls">
-        <div class="lv"><h3><span class="lvl">Nível 01:</span> <span class="cor1 ftt">Survival</span></h3><p>Comece a formar frases para <b>situações essenciais do dia a dia.</b></p></div>
+        <div class="lv"><h3><span class="lvl">Nível 01:</span>&nbsp;<span class="cor1 ftt">Survival</span></h3><p>Comece a formar frases para <b>situações essenciais do dia a dia.</b></p></div>
         <p class="tag"><span class="cor2"><b>Tempo de prática:</b></span> 30 dias.</p>
-        <div class="lv"><h3><span class="lvl">Nível 02:</span> <span class="cor1 ftt">Adapt</span></h3><p>Esteja pronto para ter conversas casuais com nativos em viagens.</p></div>
+        <div class="lv"><h3><span class="lvl">Nível 02:</span>&nbsp;<span class="cor1 ftt">Adapt</span></h3><p>Esteja pronto para ter conversas casuais com nativos em viagens.</p></div>
         <p class="tag"><span class="cor2"><b>Tempo de prática:</b></span> 3 meses.</p>
-        <div class="lv"><h3><span class="lvl">Nível 03:</span> <span class="cor1 ftt">Explore</span></h3><p>Comece a socializar de forma mais profunda com nativos. Podendo até resolver problemas e sugerir soluções.</p></div>
+        <div class="lv"><h3><span class="lvl">Nível 03:</span>&nbsp;<span class="cor1 ftt">Explore</span></h3><p>Comece a socializar de forma mais profunda com nativos. Podendo até resolver problemas e sugerir soluções.</p></div>
         <p class="tag"><span class="cor2"><b>Tempo de prática:</b></span> 6 meses.</p>
-        <div class="lv"><h3><span class="lvl">Nível 04:</span> <span class="cor1 ftt">Create</span></h3><p>Entenda e seja entendido em qualquer contexto. Você vai ser capaz de expressar ideias complexas, fazer piadas e se comunicar com confiança.</p></div>
+        <div class="lv"><h3><span class="lvl">Nível 04:</span>&nbsp;<span class="cor1 ftt">Create</span></h3><p>Entenda e seja entendido em qualquer contexto. Você vai ser capaz de expressar ideias complexas, fazer piadas e se comunicar com confiança.</p></div>
         <p class="tag"><span class="cor2"><b>Tempo de prática:</b></span> 10 meses.</p>
       </div>
     </div>
     <div class="div" role="separator"></div>
     <div class="fim c">
-      <h2>Apenas no Curso de Inglês da Aloud você tem um cronograma com tudo que precisa fazer, dia após dia, para conquistar estes resultados.</h2>
+      <h2>Apenas no Curso de Inglês da&nbsp;Aloud você tem um cronograma com tudo que precisa fazer, dia após dia, para conquistar estes&nbsp;resultados.</h2>
       <p>Toque no botão abaixo para garantir sua vaga.</p>
     </div>
     <a class="btn" href="#topo"><span>FAZER PRÉ-MATRICULA</span></a>
@@ -503,26 +505,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="in">
     <div class="tit c">
       <img src="/pc-le-cdf-v80/img/niveraloud007-a588dc34.svg" width="30" height="30" alt="" loading="lazy">
-      <h2 class="t41">Tudo o que você vai receber nesta <span class="cor1"> Oferta especial do Curso de Inglês da Aloud:</span></h2>
+      <h2 class="t41">Tudo o que você vai receber nesta <span class="cor1"> Oferta especial do Curso de Inglês&nbsp;da&nbsp;Aloud:</span></h2>
     </div>
     <div class="cards">
       <div class="card g30 anim">
         <img src="/pc-le-cdf-v80/img/lpmcopa015-1024x741-c8f230c9.webp" srcset="/pc-le-cdf-v80/img/lpmcopa015-1024x741-c8f230c9.webp 1024w, /pc-le-cdf-v80/img/lpmcopa015-768x556-e223ffd8.webp 768w, /pc-le-cdf-v80/img/lpmcopa015-300x217-d1929fee.webp 300w" sizes="(max-width:767px) 84vw, 385px" width="800" height="579" alt="" loading="lazy">
         <div class="ct">
-          <h3 class="s1">1 ANO DE AULAS DE <span class="cor1">CONVERSAÇÃO AO VIVO ILIMITADAS</span></h3>
+          <h3 class="s1">1 ANO DE AULAS DE <span class="cor1">CONVERSAÇÃO AO VIVO&nbsp;ILIMITADAS</span></h3>
           <p>Agende quantas aulas de conversação ao vivo quiser durante 1 ano. 100% adaptadas ao seu nível. <b><span class="cor1">É prática ao vivo à vontade!</span> </b></p>
         </div>
       </div>
       <div class="card g30 anim">
         <img src="/pc-le-cdf-v80/img/cursook-c2618ed1.webp" srcset="/pc-le-cdf-v80/img/cursook-c2618ed1.webp 648w, /pc-le-cdf-v80/img/cursook-300x217-44687626.webp 300w" sizes="(max-width:767px) 84vw, 385px" width="648" height="469" alt="" loading="lazy">
         <div class="ct">
-          <h3 class="s2"><span class="cor1">CURSO </span>DE INGLÊS</h3>
+          <h3 class="s2"><span class="cor1">CURSO </span>DE&nbsp;INGLÊS</h3>
           <p>Tenha acesso ao mapa da fluência que vai te fazer falar inglês em <b>qualquer situação em apenas 10 meses.</b></p>
         </div>
       </div>
       <div class="card anim">
         <img src="/pc-le-cdf-v80/img/lpmcopa013-700693f9.webp" srcset="/pc-le-cdf-v80/img/lpmcopa013-700693f9.webp 648w, /pc-le-cdf-v80/img/lpmcopa013-300x217-e79c963e.webp 300w" sizes="(max-width:767px) 84vw, 385px" width="648" height="469" alt="" loading="lazy">
-        <div class="ct"><h3> <span class="cor1">APOSTILAS FÍSICAS</span> <br>DO CURSO</h3></div>
+        <div class="ct"><h3> <span class="cor1">APOSTILAS FÍSICAS</span> <br>DO&nbsp;CURSO</h3></div>
         <ul class="li ct m30">
           <li><svg><use href="#ok"/></svg><span>2 apostilas com simulação de diálogos para revisar vocabulário.</span></li>
           <li><svg><use href="#ok"/></svg><span>Cronograma dos Fluentes - tudo que você precisa fazer todos os dias para chegar até a fluência num checklist.</span></li>
@@ -532,7 +534,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="card anim">
         <img src="/pc-le-cdf-v80/img/lpmcopa014-1024x686-0391c043.webp" srcset="/pc-le-cdf-v80/img/lpmcopa014-1024x686-0391c043.webp 1024w, /pc-le-cdf-v80/img/lpmcopa014-768x514-41f052fe.webp 768w, /pc-le-cdf-v80/img/lpmcopa014-300x201-c3f4a18e.webp 300w" sizes="(max-width:767px) 84vw, 385px" width="800" height="536" alt="" loading="lazy">
         <div class="ct">
-          <h3> <span class="cor1">Silver</span> Ticket</h3>
+          <h3> <span class="cor1">Silver</span>&nbsp;Ticket</h3>
           <p>Passe livre à biblioteca completa de cursos do Teacher Matheus:</p>
         </div>
         <ul class="li ct m12 f15">
@@ -544,7 +546,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="card w399 anim">
         <img src="/pc-le-cdf-v80/img/para-dar-de-presenteok-38896478.webp" srcset="/pc-le-cdf-v80/img/para-dar-de-presenteok-38896478.webp 648w, /pc-le-cdf-v80/img/para-dar-de-presenteok-300x217-1f230da3.webp 300w" sizes="(max-width:767px) 84vw, 399px" width="648" height="469" alt="" loading="lazy">
         <div class="ct">
-          <h3> <span class="cor1">1 ACESSO EXTRA AO CURSO</span> PARA PRESENTE</h3>
+          <h3> <span class="cor1">1 ACESSO EXTRA AO CURSO</span> PARA&nbsp;PRESENTE</h3>
           <p>Você receberá um acesso extra, válido por 12 meses, para presentear qualquer pessoa. São duas matrículas no curso pelo valor de apenas uma.</p>
         </div>
       </div>
@@ -552,7 +554,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img src="/pc-le-cdf-v80/img/lpmcopa017-ae540331.webp" srcset="/pc-le-cdf-v80/img/lpmcopa017-ae540331.webp 800w, /pc-le-cdf-v80/img/lpmcopa017-768x768-579bf1c6.webp 768w, /pc-le-cdf-v80/img/lpmcopa017-300x300-35978acf.webp 300w" sizes="(max-width:767px) 84vw, 333px" width="800" height="800" alt="" loading="lazy">
         <div class="ct">
           <div>
-            <h3>Bônus <span class="cor1">Especiais</span></h3>
+            <h3>Bônus&nbsp;<span class="cor1">Especiais</span></h3>
             <p>Acesso a todos os bônus da <b>nossa caixa de ferramentas: </b></p>
           </div>
           <ul class="li f15">
@@ -573,14 +575,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="cmp">
   <div class="w">
     <div class="sem">
-      <h3>SEU INGLÊS SEM A OFERTA EXCLUSIVA DO CURSO DE INGLÊS DA ALOUD</h3>
+      <h3>SEU INGLÊS SEM A OFERTA EXCLUSIVA DO CURSO DE INGLÊS DA&nbsp;ALOUD</h3>
       <ul class="li x">
         <li><svg><use href="#no"/></svg><span>Método tradicionais focados em gramática.</span></li>
         <li><svg><use href="#no"/></svg><span>Horas intermináveis de estudo sem resultado.</span></li>
         <li><svg><use href="#no"/></svg><span>Medo e trava na hora de falar na vida real.</span></li>
         <li><svg><use href="#no"/></svg><span>Termina o ano sem falar inglês (de novo!).</span></li>
       </ul>
-      <h3 class="h2">SEU INGLÊS COM A OFERTA EXCLUSIVA DO <span class="cor1">CURSO DE INGLÊS DA ALOUD</span></h3>
+      <h3 class="h2">SEU INGLÊS COM A OFERTA EXCLUSIVA DO <span class="cor1">CURSO DE INGLÊS DA&nbsp;ALOUD</span></h3>
       <ul class="li ok">
         <li><svg><use href="#ok"/></svg><span>Método focado em conversação para o dia a dia.</span></li>
         <li><svg><use href="#ok"/></svg><span>Aulas de 15-20 min que expandem seu vocabulário.</span></li>
@@ -591,7 +593,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="form2">
       <div class="tit">
         <img src="/pc-le-cdf-v80/img/lpmopen007-e9fd763b.svg" width="100" height="31" alt="" loading="lazy">
-        <h3>Falta pouco para desbloquear <span class="cor2">a melhor oferta que já fiz.</span></h3>
+        <h3>Falta pouco para desbloquear <span class="cor2">a melhor oferta que já&nbsp;fiz.</span></h3>
         <p>Toque no botão abaixo para fazer sua pré-matrícula</p>
       </div>
       <form class="ef" method="post" name="New Form" aria-label="New Form">
@@ -621,7 +623,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="bio">
   <div class="w">
     <div class="tx">
-      <h2>Quem vai <span class="cor1">te guiar</span> nessa Jornada?</h2>
+      <h2>Quem vai <span class="cor1">te guiar</span> nessa&nbsp;Jornada?</h2>
       <p>Matheus Werner Jerke é professor de inglês e fundador da Aloud, escola com mais de 56 mil alunos.<br><br>Depois de impactar mais de 13 milhões de pessoas nas redes sociais e se tornar uma referência no ensino de inglês, Matheus reuniu anos de experiência em uma jornada completa, criada para levar você do zero à fluência.<br><br>Com um método estruturado, prático e focado na conversação desde o início, você sempre saberá o que estudar, quando estudar e como evoluir, desenvolvendo a confiança necessária para falar inglês em situações do dia a dia e conquistar oportunidades na carreira, nas viagens e na vida.</p>
     </div>
     <a class="btn" href="#topo"><span>DESBLOQUEAR OFERTAS SECRETAS</span></a>
@@ -631,7 +633,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ===== DOBRA 7: FAQ ===== -->
 <section class="faq">
   <div class="w">
-    <h2 class="t41 c">Perguntas <span class="ne">Frequentes</span></h2>
+    <h2 class="t41 c">Perguntas&nbsp;<span class="ne">Frequentes</span></h2>
     <div class="cols">
       <div class="tg">
         <div><button class="tt" type="button" aria-expanded="false"><svg class="cl"><use href="#cr"/></svg><svg class="op"><use href="#cu"/></svg><span>O que eu recebo ao entrar na Oferta especial do Curso de Inglês da Aloud?</span></button>
@@ -666,7 +668,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>Aloud Idiomas LTDA | © Copyright 2026</p>
     <p><strong>CNPJ:</strong> 53.424.357/0001-63 | | <strong>Whatsapp:</strong> (41) 3797-1035 | <a href="mailto:suporte@aloud.com.br">suporte@aloud.com.br</a></p>
   </div>
-  <h2> Desenvolvido por Aloud</h2>
+  <h2> Desenvolvido por&nbsp;Aloud</h2>
 </footer>
 
 <!-- ===== POPUP DE SAÍDA (exit intent) ===== -->
@@ -676,7 +678,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="bx">
       <div class="hd">
         <img src="/pc-le-cdf-v80/img/lpmatt002-15b5be06.svg" width="80" height="25" alt="" loading="lazy">
-        <h3>Ei, espera!</h3>
+        <h3>Ei,&nbsp;espera!</h3>
         <p>Uma condição especial foi reservada para quem fizer a pré-matrícula agora:</p>
       </div>
       <div class="af">
