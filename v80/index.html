@@ -5,17 +5,9 @@
 <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <link rel="preconnect" href="https://www.facebook.com">
-<link rel="preconnect" href="https://servidor.cronogramadosfluentes.com.br">
 <link rel="preload" href="https://connect.facebook.net/en_US/fbevents.js" as="script" importance="high" fetchpriority="high">
 <link rel="preload" href="https://www.googletagmanager.com/gtm.js?id=GTM-P9ZJRS9R" as="script" importance="high" fetchpriority="high">
 <!-- dataLayer do GTM4WP, como no original (antes do GTM) -->
-<script>
-var gtm4wp_datalayer_name = "dataLayer";
-var dataLayer = dataLayer || [];
-(function(){dataLayer.push(arguments);})('set', 'developer_id.dNGJiYT', true);
-var dataLayer_content = {"pagePostType":"page","pagePostType2":"single-page","pagePostAuthor":"carlos"};
-dataLayer.push( dataLayer_content );
-</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -24,7 +16,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-P9ZJRS9R');</script>
 <!-- End Google Tag Manager -->
 <!-- Microsoft Clarity (o script carrega depois do evento load) -->
-<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};function s(){t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)}if(l.readyState==="complete")s();else c.addEventListener("load",s)})(window,document,"clarity","script","wcovrh3plq");</script>
 <!-- End Microsoft Clarity -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -702,11 +693,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script>
-// como no original: sem menu de clique direito e sem arrastar imagens
-window.oncontextmenu = function () { return false; };
-window.ondragstart = function () { return false; };
-</script>
 
 <!-- intl-tel-input JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
@@ -740,67 +726,6 @@ criarCampos();window.onload=criarCampos;document.getElementById("form-field-emai
 })();
 </script>
 
-<script>
-// HandL UTM Grabber (plugin do WordPress), portado sem jQuery: grava os cookies
-// handl_* e utm_* (30 dias) e preenche os campos que tenham esses nomes.
-(function () {
-    var DAYS = 30;
-    function setCookie(n, v, days) {
-        var d = new Date(Date.now() + days * 864e5);
-        document.cookie = encodeURIComponent(n) + '=' + encodeURIComponent(v) + '; expires=' + d.toUTCString() + '; path=/';
-    }
-    function getCookie(n) {
-        var parts = document.cookie ? document.cookie.split('; ') : [];
-        for (var i = 0; i < parts.length; i++) {
-            var p = parts[i].split('=');
-            try { if (decodeURIComponent(p[0]) === n) return decodeURIComponent(p.slice(1).join('=')); } catch (e) {}
-        }
-        return undefined;
-    }
-    var qvars = {};
-    location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, k, v) { qvars[k] = v; });
-
-    function setHandLParams() {
-        setCookie('handl_url', location.href, DAYS);
-        setCookie('handl_ref', document.referrer, DAYS);
-        if (getCookie('handl_landing_page') === undefined) setCookie('handl_landing_page', location.href, DAYS);
-        if (getCookie('handl_original_ref') === undefined) setCookie('handl_original_ref', document.referrer, DAYS);
-    }
-    function fill(sel, val) { document.querySelectorAll(sel).forEach(function (el) { if ('value' in el) el.value = val; }); }
-    function RunFieldFiller() {
-        ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign', 'gclid', 'handl_landing_page', 'handl_original_ref', 'handl_ip', 'handl_ref', 'handl_url', 'email', 'username'].forEach(function (v) {
-            if (qvars[v] !== undefined && qvars[v] !== '') setCookie(v, qvars[v], DAYS);
-            var cur = getCookie(v);
-            if (cur !== undefined) {
-                cur = cur.replace(/[%]/g, ' ');
-                try { cur = decodeURIComponent(cur); } catch (e) {}
-                if (v === 'username') cur = cur.replace(/\+/g, ' ');
-            } else {
-                if (v === 'email' || v === 'username') return;
-                cur = '';
-            }
-            fill('input[name="' + v + '"]', cur);
-            fill('input#' + v, cur);
-            fill('input.' + v, cur);
-            fill('input#form-field-' + v, cur);
-            fill('#' + v + ' input', cur);
-            fill('.' + v + ' input', cur);
-            fill('[data-original_id="' + v + '"]', cur);
-            fill('[data-name="' + v + '"]', cur);
-            fill('[data-name="' + v.replace(/_/g, '') + '"]', cur);
-            fill('[placeholder="' + v + '"]', cur);
-            if (v.length > 4 && v !== 'email' && v !== 'username') {
-                fill('[name*="' + v + '"]', cur);
-                fill('[id*="' + v + '"]', cur);
-                fill('[class*="' + v + '"]', cur);
-            }
-        });
-    }
-    window.HandLRunFieldFiller = RunFieldFiller;
-    function run() { setHandLParams(); RunFieldFiller(); }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-})();
-</script>
 
 <script>
 // Telefone do popup (#form-field-telefone): DDI, máscara por país e validação, igual ao original.

@@ -5,17 +5,9 @@
 <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <link rel="preconnect" href="https://www.facebook.com">
-<link rel="preconnect" href="https://servidor.cronogramadosfluentes.com.br">
 <link rel="preload" href="https://connect.facebook.net/en_US/fbevents.js" as="script" importance="high" fetchpriority="high">
 <link rel="preload" href="https://www.googletagmanager.com/gtm.js?id=GTM-P9ZJRS9R" as="script" importance="high" fetchpriority="high">
 <!-- dataLayer do GTM4WP, como no original (antes do GTM) -->
-<script>
-var gtm4wp_datalayer_name = "dataLayer";
-var dataLayer = dataLayer || [];
-(function(){dataLayer.push(arguments);})('set', 'developer_id.dNGJiYT', true);
-var dataLayer_content = {"pagePostType":"page","pagePostType2":"single-page","pagePostAuthor":"kauele"};
-dataLayer.push( dataLayer_content );
-</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -24,7 +16,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-P9ZJRS9R');</script>
 <!-- End Google Tag Manager -->
 <!-- Microsoft Clarity (o script carrega depois do evento load) -->
-<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};function s(){t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)}if(l.readyState==="complete")s();else c.addEventListener("load",s)})(window,document,"clarity","script","wcovrh3plq");</script>
 <!-- End Microsoft Clarity -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -176,8 +167,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="active-form">
           <div class="form-block"><input type="text" name="fullname" id="form-field-nome" data-name="fullname" placeholder="Digite seu primeiro nome" required></div>
           <div class="form-block"><input type="email" name="email" id="form-field-email" data-name="email" placeholder="Digite seu melhor e-mail" required></div>
-          <div class="form-block"><input type="text" id="form-field-telefone" name="phone" placeholder="Digite seu telefone" required /></div>
-          <div class="form-block"><button>DESBLOQUEAR OFERTA</button></div>
+          <div class="form-block"><input type="tel" id="form-field-telefone" name="phone" placeholder="Digite seu telefone" inputmode="tel" required /></div>
+          <div class="form-block"><button type="submit">DESBLOQUEAR OFERTA</button></div>
         </div>
       </form>
 <!-- estilo do formulário copiado literalmente do widget do original (inclusive a "}" sobrando,
@@ -270,117 +261,331 @@ form * {
   <h2> Desenvolvido por&nbsp;Aloud</h2>
 </footer>
 
-<script>
-// como no original: sem menu de clique direito e sem arrastar imagens
-window.oncontextmenu = function () { return false; };
-window.ondragstart = function () { return false; };
-</script>
 
 <!-- intl-tel-input JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <!-- Utils para formatar E.164 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 
+<!-- Telefone e UTMs: mesmos scripts da v136/v137 (ActiveCampaign 113) -->
 <script>
-// UTMs para o ActiveCampaign (campos 281-293), igual ao original
-(function(){const utms={'source':281,'medium':283,'campaign':282,'content':285,'term':284,'paginaCaptura':293};const prefixo="utm_";function criarCampos(){const form=document.querySelectorAll('form');const urlParamsCapt=new URLSearchParams(window.location.search);const urlParamsCaptReferrer=new URLSearchParams(document.referrer.split('?')[1]||'');form.forEach(el=>{for(let utm in utms){const paramName=prefixo+utm;console.log(`Processando UTM: ${paramName}`);if(!el.querySelector(`input[name="field[${utms[utm]}]"]`)){let x=document.createElement("INPUT");x.setAttribute("type","hidden");x.setAttribute("name",`field[${utms[utm]}]`);let utmValue;if(utm==="source"){utmValue=urlParamsCapt.get(paramName)?urlParamsCapt.get(paramName):(document.referrer?(urlParamsCaptReferrer.get(paramName)||new URL(document.referrer).hostname):"direto")}else if(utm==="paginaCaptura"){utmValue=window.location.pathname.replace('/','')}else{utmValue=urlParamsCapt.get(paramName)||urlParamsCaptReferrer.get(paramName)||""}
-console.log(`Campo: ${paramName}, Valor: ${utmValue}`);x.setAttribute("value",utmValue);el.appendChild(x)}else{console.log(`Campo ${paramName} já existe no formulário.`)}}})}
-criarCampos();window.onload=criarCampos;document.getElementById("form-field-email").onchange=function(){criarCampos();console.log("Campos UTM recriados após alteração no campo de e-mail.")}})()
-</script>
+(function() {
+    // IDs dos campos extras
+    var FIELD_PHONE_COUNTRY_FLAG = 42;
+    var FIELD_PHONE_DDI = 43;
+    var FIELD_RAW_PHONE = 41;
 
-<script>
-// Telefone (script global do original, com validação e campos 41-43). No original ele rodava no
-// evento da window; aqui roda no DOMContentLoaded da window, que dispara depois do listener do document.
-(function(){var FIELD_PHONE_COUNTRY_FLAG=42;var FIELD_PHONE_DDI=43;var FIELD_RAW_PHONE=41;function ensureHiddenField(form,fieldId){var selector=`input[name="field[${fieldId}]"]`;var el=form.querySelector(selector);if(!el){el=document.createElement("input");el.type="hidden";el.name=`field[${fieldId}]`;form.appendChild(el)}
-return el}
-var maskMap={'br':'(00) 00000-0000','us':'(000) 000-0000','pt':'000 000 000','gb':'00000 000000','ie':'000 000 0000','ca':'(000) 000-0000','es':'000 000 000','jp':'000-0000-0000','au':'0000 000 000','it':'000 000 0000','de':'0000 0000000','vi':'(000) 000-0000','be':'000 00 00 00','nl':'000 000 0000','fr':'00 00 00 00 00','ar':'00 0000-0000','ae':'000 000 0000','af':'000 000 0000'};var placeholderMap={br:'(11) 98765-4321',us:'(202) 555-0199',pt:'912 345 678',gb:'07123 456789',ie:'085 123 4567',ca:'(416) 555-0133',es:'612 345 678',jp:'090-1234-5678',au:'0412 345 678',it:'347 123 4567',de:'1512 3456789',vi:'(340) 555-0123',be:'470 12 34 56',nl:'061 234 5678',fr:'06 12 34 56 78',ar:'11 2345-6789',ae:'050 123 4567',af:'070 123 4567'};function maskNumber(val,mask){var clean=val.replace(/\D/g,'');var newVal='';var maskIdx=0,cleanIdx=0;while(maskIdx<mask.length&&cleanIdx<clean.length){if(mask[maskIdx]==='0'){newVal+=clean[cleanIdx++]}else{newVal+=mask[maskIdx]}
-maskIdx++}
-return newVal}
-function initPhoneFields(context){const phoneFields=context.querySelectorAll('#form-field-telefone');phoneFields.forEach(function(input){if(input.dataset.itiInitialized==="true")return;var iti=window.intlTelInput(input,{separateDialCode:!0,preferredCountries:["br","us","pt","gb","ie","ca","es","jp","au","it","de"],initialCountry:"br",utilsScript:"//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"});input.dataset.itiInitialized="true";var country=iti.getSelectedCountryData().iso2;input.placeholder=placeholderMap[country]||'';input.addEventListener('input',function(){var ctry=iti.getSelectedCountryData().iso2;var mask=maskMap[ctry];if(mask){input.value=maskNumber(input.value,mask)}else{input.value=input.value.replace(/\D/g,'')}});input.addEventListener('countrychange',function(){setTimeout(function(){input.value='';var newCtry=iti.getSelectedCountryData().iso2;input.placeholder=placeholderMap[newCtry]||''},30)});input.closest("form").addEventListener("submit",function(e){var fullNumber=iti.getNumber(intlTelInputUtils.numberFormat.E164);var isValid=iti.isValidNumberPrecise?iti.isValidNumberPrecise():iti.isValidNumber();var errorCode=iti.getValidationError();console.log("[submit] raw:",input.value,"full:",fullNumber,"isValid:",isValid,"errorCode:",errorCode);if(!isValid||errorCode!==0){e.preventDefault();alert("Número inválido.");return!1}
-if(iti.getSelectedCountryData().iso2==="br"){var digitsBR=fullNumber.replace(/\D/g,'').replace(/^55/,'');if(digitsBR.length<10){e.preventDefault();alert("Número de telefone muito curto para o Brasil.");return!1}}
-input.value=fullNumber;var form=input.closest("form");var sel=iti.getSelectedCountryData();var iso2=sel?.iso2||'';var ddi=sel?.dialCode||'';var numeroDigits=(input.value||'').replace(/\D/g,'');var numeroSemDdi=numeroDigits.startsWith(ddi)?numeroDigits.substring(ddi.length):numeroDigits;ensureHiddenField(form,FIELD_PHONE_COUNTRY_FLAG).value=iso2;ensureHiddenField(form,FIELD_PHONE_DDI).value=ddi;ensureHiddenField(form,FIELD_RAW_PHONE).value=numeroSemDdi})})}
-window.addEventListener('DOMContentLoaded',(event)=>{initPhoneFields(document)})})()
-</script>
-
-<script>
-// HandL UTM Grabber (plugin do WordPress), portado sem jQuery: grava os cookies
-// handl_* e utm_* (30 dias) e preenche os campos que tenham esses nomes.
-(function () {
-    var DAYS = 30;
-    function setCookie(n, v, days) {
-        var d = new Date(Date.now() + days * 864e5);
-        document.cookie = encodeURIComponent(n) + '=' + encodeURIComponent(v) + '; expires=' + d.toUTCString() + '; path=/';
-    }
-    function getCookie(n) {
-        var parts = document.cookie ? document.cookie.split('; ') : [];
-        for (var i = 0; i < parts.length; i++) {
-            var p = parts[i].split('=');
-            try { if (decodeURIComponent(p[0]) === n) return decodeURIComponent(p.slice(1).join('=')); } catch (e) {}
+    function ensureHiddenField(form, fieldId) {
+        var selector = `input[name="field[${fieldId}]"]`;
+        var el = form.querySelector(selector);
+        if (!el) {
+            el = document.createElement("input");
+            el.type = "hidden";
+            el.name = `field[${fieldId}]`;
+            form.appendChild(el);
         }
-        return undefined;
+        return el;
     }
-    var qvars = {};
-    location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, k, v) { qvars[k] = v; });
 
-    function setHandLParams() {
-        setCookie('handl_url', location.href, DAYS);
-        setCookie('handl_ref', document.referrer, DAYS);
-        if (getCookie('handl_landing_page') === undefined) setCookie('handl_landing_page', location.href, DAYS);
-        if (getCookie('handl_original_ref') === undefined) setCookie('handl_original_ref', document.referrer, DAYS);
-    }
-    function fill(sel, val) { document.querySelectorAll(sel).forEach(function (el) { if ('value' in el) el.value = val; }); }
-    function RunFieldFiller() {
-        ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign', 'gclid', 'handl_landing_page', 'handl_original_ref', 'handl_ip', 'handl_ref', 'handl_url', 'email', 'username'].forEach(function (v) {
-            if (qvars[v] !== undefined && qvars[v] !== '') setCookie(v, qvars[v], DAYS);
-            var cur = getCookie(v);
-            if (cur !== undefined) {
-                cur = cur.replace(/[%]/g, ' ');
-                try { cur = decodeURIComponent(cur); } catch (e) {}
-                if (v === 'username') cur = cur.replace(/\+/g, ' ');
+    // Máscaras e placeholders
+    var maskMap = {
+        'br': '(00) 00000-0000',
+        'us': '(000) 000-0000',
+        'pt': '000 000 000',
+        'gb': '00000 000000',
+        'ie': '000 000 0000',
+        'ca': '(000) 000-0000',
+        'es': '000 000 000',
+        'jp': '000-0000-0000',
+        'au': '0000 000 000',
+        'it': '000 000 0000',
+        'de': '0000 0000000',
+        'vi': '(000) 000-0000',
+        'be': '000 00 00 00',
+        'nl': '000 000 0000',
+        'fr': '00 00 00 00 00',
+        'ar': '00 0000-0000',
+        'ae': '000 000 0000',
+        'af': '000 000 0000'
+    };
+
+    var placeholderMap = {
+        br: '(11) 98765-4321',
+        us: '(202) 555-0199',
+        pt: '912 345 678',
+        gb: '07123 456789',
+        ie: '085 123 4567',
+        ca: '(416) 555-0133',
+        es: '612 345 678',
+        jp: '090-1234-5678',
+        au: '0412 345 678',
+        it: '347 123 4567',
+        de: '1512 3456789',
+        vi: '(340) 555-0123',
+        be: '470 12 34 56',
+        nl: '061 234 5678',
+        fr: '06 12 34 56 78',
+        ar: '11 2345-6789',
+        ae: '050 123 4567',
+        af: '070 123 4567'
+    };
+
+    function maskNumber(val, mask) {
+        var clean = val.replace(/\D/g, '');
+        var newVal = '';
+        var maskIdx = 0, cleanIdx = 0;
+        while (maskIdx < mask.length && cleanIdx < clean.length) {
+            if (mask[maskIdx] === '0') {
+                newVal += clean[cleanIdx++];
             } else {
-                if (v === 'email' || v === 'username') return;
-                cur = '';
+                newVal += mask[maskIdx];
             }
-            fill('input[name="' + v + '"]', cur);
-            fill('input#' + v, cur);
-            fill('input.' + v, cur);
-            fill('input#form-field-' + v, cur);
-            fill('#' + v + ' input', cur);
-            fill('.' + v + ' input', cur);
-            fill('[data-original_id="' + v + '"]', cur);
-            fill('[data-name="' + v + '"]', cur);
-            fill('[data-name="' + v.replace(/_/g, '') + '"]', cur);
-            fill('[placeholder="' + v + '"]', cur);
-            if (v.length > 4 && v !== 'email' && v !== 'username') {
-                fill('[name*="' + v + '"]', cur);
-                fill('[id*="' + v + '"]', cur);
-                fill('[class*="' + v + '"]', cur);
-            }
+            maskIdx++;
+        }
+        return newVal;
+    }
+
+    function initPhoneFields(context) {
+        const phoneFields = context.querySelectorAll('#form-field-telefone');
+
+        phoneFields.forEach(function(input) {
+            if (input.dataset.itiInitialized === "true") return;
+
+            var iti = window.intlTelInput(input, {
+                separateDialCode: true,
+                preferredCountries: ["br", "us", "pt", "gb", "ie", "ca", "es", "jp", "au", "it", "de"],
+                initialCountry: "br",
+                utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            input.dataset.itiInitialized = "true";
+
+            // placeholder inicial
+            var country = iti.getSelectedCountryData().iso2;
+
+            // máscara dinâmica
+            input.addEventListener('input', function () {
+                var ctry = iti.getSelectedCountryData().iso2;
+                var mask = maskMap[ctry];
+                if (mask) {
+                    input.value = maskNumber(input.value, mask);
+                } else {
+                    input.value = input.value.replace(/\D/g, '');
+                }
+            });
+
+            // troca de país → reseta
+            input.addEventListener('countrychange', function () {
+                setTimeout(function () {
+                    input.value = '';
+                    var newCtry = iti.getSelectedCountryData().iso2;
+                }, 30);
+            });
+
+
+            // validação no submit
+            input.closest("form").addEventListener("submit", function(e) {
+                var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+                var isValid = iti.isValidNumberPrecise
+                    ? iti.isValidNumberPrecise()
+                    : iti.isValidNumber();
+                var errorCode = iti.getValidationError();
+
+                console.log("[submit] raw:", input.value,
+                            "full:", fullNumber,
+                            "isValid:", isValid,
+                            "errorCode:", errorCode);
+
+                if (!isValid || errorCode !== 0) {
+                    e.preventDefault();
+                    alert("Número inválido.");
+                    return false;
+                }
+
+                // regra extra BR
+                if (iti.getSelectedCountryData().iso2 === "br") {
+                    var digitsBR = fullNumber.replace(/\D/g, '').replace(/^55/, '');
+                    if (digitsBR.length < 10) {
+                        e.preventDefault();
+                        alert("Número de telefone muito curto para o Brasil.");
+                        return false;
+                    }
+                }
+
+                // força E.164
+                input.value = fullNumber;
+
+                // hidden fields
+                var form = input.closest("form");
+                var sel = iti.getSelectedCountryData();
+                var iso2 = sel?.iso2 || '';
+                var ddi = sel?.dialCode || '';
+
+                var numeroDigits = (input.value || '').replace(/\D/g, '');
+                var numeroSemDdi = numeroDigits.startsWith(ddi)
+                    ? numeroDigits.substring(ddi.length)
+                    : numeroDigits;
+
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = numeroSemDdi;
+            });
         });
     }
-    function run() { setHandLParams(); RunFieldFiller(); }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+
+    // telefone do 2º formulário (#tel2): mesma máscara/validação do 1º, país vindo do select.cc existente
+    function flagToIso2(text) {
+        var cps = Array.from(text || '').map(function (ch) { return ch.codePointAt(0); })
+            .filter(function (cp) { return cp >= 0x1F1E6 && cp <= 0x1F1FF; });
+        return cps.length >= 2 ? String.fromCharCode(cps[0] - 0x1F1E6 + 97, cps[1] - 0x1F1E6 + 97) : '';
+    }
+
+    function initSelectPhoneFields(context) {
+        context.querySelectorAll('#tel2').forEach(function (input) {
+            if (input.dataset.maskInitialized === "true") return;
+            var form = input.closest("form");
+            var cc = form && form.querySelector('select.cc');
+            if (!cc) return;
+            input.dataset.maskInitialized = "true";
+
+            function selected() {
+                var opt = cc.options[cc.selectedIndex];
+                return { iso2: flagToIso2(opt ? opt.text : ''), ddi: cc.value.replace(/\D/g, '') };
+            }
+
+            // máscara dinâmica
+            input.addEventListener('input', function () {
+                var mask = maskMap[selected().iso2];
+                if (mask) {
+                    input.value = maskNumber(input.value, mask);
+                } else {
+                    input.value = input.value.replace(/\D/g, '');
+                }
+            });
+
+            // troca de país → reseta
+            cc.addEventListener('change', function () {
+                input.value = '';
+            });
+
+            // validação no submit (captura: roda antes do handler genérico que prefixa o DDI)
+            form.addEventListener("submit", function (e) {
+                var sel = selected();
+                var digits = (input.value || '').replace(/\D/g, '');
+                if (input.value.trim().startsWith('+') && digits.startsWith(sel.ddi)) {
+                    digits = digits.substring(sel.ddi.length);
+                }
+                var fullNumber = '+' + sel.ddi + digits;
+                var isValid = intlTelInputUtils.isValidNumber(fullNumber, sel.iso2);
+                var errorCode = intlTelInputUtils.getValidationError(fullNumber, sel.iso2);
+
+                console.log("[submit #tel2] raw:", input.value,
+                            "full:", fullNumber,
+                            "isValid:", isValid,
+                            "errorCode:", errorCode);
+
+                if (!isValid || errorCode !== 0) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    alert("Número inválido.");
+                    return false;
+                }
+
+                // regra extra BR
+                if (sel.iso2 === "br" && digits.length < 10) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    alert("Número de telefone muito curto para o Brasil.");
+                    return false;
+                }
+
+                // força E.164
+                input.value = fullNumber;
+
+                // hidden fields
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = sel.iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = sel.ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = digits;
+            }, true);
+        });
+    }
+
+    // forms em popup
+    window.addEventListener('DOMContentLoaded', (event) => {
+        initPhoneFields(document);
+        initSelectPhoneFields(document);
+    });
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    const inputPhone = document.querySelector('#form-field-phone');
+    if (inputPhone) {
+      inputPhone.removeAttribute('pattern');
+      inputPhone.removeAttribute('title');
+    }
+  }, 800);
+});
+</script>
+<script>
+(function() {
+    // fluxo LPM (ActiveCampaign 113): os dois conjuntos de campos UTM/origem, igual às páginas LPM do WordPress (v80, v127)
+    const conjuntosUtm = [
+        { 'source': 281, 'medium': 283, 'campaign': 282, 'content': 285, 'term': 284, 'paginaCaptura': 293 },
+        { 'source': 357, 'medium': 359, 'campaign': 358, 'content': 361, 'term': 360, 'paginaCaptura': 370 }
+    ];
+
+    const prefixo = "utm_"; // Prefixo customizado para os parâmetros UTM
+
+    function criarCampos() {
+        const form = document.querySelectorAll('form');
+        const urlParamsCapt = new URLSearchParams(window.location.search);
+        const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+
+        conjuntosUtm.forEach(utms => form.forEach(el => {
+            for (let utm in utms) {
+                const paramName = prefixo + utm;
+                console.log(`Processando UTM: ${paramName}`);
+
+                // campo já existente (ex.: valores fixos do 2º formulário) é atualizado em vez de ignorado
+                let x = el.querySelector(`input[name="field[${utms[utm]}]"]`);
+                if (!x) {
+                    x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", `field[${utms[utm]}]`);
+                    el.appendChild(x);
+                }
+
+                let utmValue;
+                if (utm === "source") {
+                    utmValue = urlParamsCapt.get(paramName)
+                        ? urlParamsCapt.get(paramName)
+                        : (document.referrer ? (urlParamsCaptReferrer.get(paramName) || new URL(document.referrer).hostname) : "direto");
+                } else if (utm === "paginaCaptura") {
+                    utmValue = window.location.pathname.replace('/', '');
+                } else {
+                    utmValue = urlParamsCapt.get(paramName) || urlParamsCaptReferrer.get(paramName) || "";
+                }
+
+                console.log(`Campo: ${paramName}, Valor: ${utmValue}`);
+                x.setAttribute("value", utmValue);
+                x.value = utmValue;
+            }
+        }));
+    }
+
+    criarCampos();
+    window.onload = criarCampos;
+    document.getElementById("form-field-email").onchange = function () {
+        criarCampos();
+        console.log("Campos UTM recriados após alteração no campo de e-mail.");
+    }
 })();
 </script>
 
-<script>
-// UTMs para o ActiveCampaign (campos 357-370), igual ao widget do original
-(function(){const utms={'source':357,'medium':359,'campaign':358,'content':361,'term':360,'paginaCaptura':370};const prefixo="utm_";function criarCampos(){const form=document.querySelectorAll('form');const urlParamsCapt=new URLSearchParams(window.location.search);const urlParamsCaptReferrer=new URLSearchParams(document.referrer.split('?')[1]||'');form.forEach(el=>{for(let utm in utms){const paramName=prefixo+utm;console.log(`Processando UTM: ${paramName}`);if(!el.querySelector(`input[name="field[${utms[utm]}]"]`)){let x=document.createElement("INPUT");x.setAttribute("type","hidden");x.setAttribute("name",`field[${utms[utm]}]`);let utmValue;if(utm==="source"){utmValue=urlParamsCapt.get(paramName)?urlParamsCapt.get(paramName):(document.referrer?(urlParamsCaptReferrer.get(paramName)||new URL(document.referrer).hostname):"direto")}else if(utm==="paginaCaptura"){utmValue=window.location.pathname.replace('/','')}else{utmValue=urlParamsCapt.get(paramName)||urlParamsCaptReferrer.get(paramName)||""}
-console.log(`Campo: ${paramName}, Valor: ${utmValue}`);x.setAttribute("value",utmValue);el.appendChild(x)}else{console.log(`Campo ${paramName} já existe no formulário.`)}}})}
-criarCampos();window.onload=criarCampos;document.getElementById("form-field-email").onchange=function(){criarCampos();console.log("Campos UTM recriados após alteração no campo de e-mail.")}})()
-</script>
 
-<script>
-// Telefone (script do widget HTML do original). No original ele rodava no evento do document,
-// antes do script global acima, e não marca o campo como inicializado: por isso o campo recebe
-// duas instâncias do intl-tel-input (duas bandeiras sobrepostas), exatamente como no original.
-document.addEventListener("DOMContentLoaded",function(){var input=document.getElementById("form-field-telefone");if(!input)return;var maskMap={'br':'(00) 00000-0000','us':'(000) 000-0000','pt':'000 000 000','gb':'00000 000000','ie':'000 000 0000','ca':'(000) 000-0000','es':'000 000 000','jp':'000-0000-0000','au':'0000 000 000','it':'000 000 0000','de':'0000 0000000','vi':'(000) 000-0000','be':'000 00 00 00','nl':'000 000 0000','fr':'00 00 00 00 00','ar':'00 0000-0000','ae':'000 000 0000','af':'000 000 0000'};var placeholderMap={br:'(11) 98765-4321',us:'(202) 555-0199',pt:'912 345 678',gb:'07123 456789',ie:'085 123 4567',ca:'(416) 555-0133',es:'612 345 678',jp:'090-1234-5678',au:'0412 345 678',it:'347 123 4567',de:'1512 3456789',vi:'(340) 555-0123',be:'470 12 34 56',nl:'061 234 5678',fr:'06 12 34 56 78',ar:'11 2345-6789',ae:'050 123 4567',af:'070 123 4567'};var iti=window.intlTelInput(input,{separateDialCode:!0,preferredCountries:["br","us","pt","gb","ie","ca","es","jp","au","it","de","vi","be","nl","fr","ar","ae","af"],initialCountry:"br",utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"});function maskNumber(val,mask){var clean=val.replace(/\D/g,'');var newVal='';var maskIdx=0,cleanIdx=0;while(maskIdx<mask.length&&cleanIdx<clean.length){if(mask[maskIdx]==='0'){newVal+=clean[cleanIdx];cleanIdx++}else{newVal+=mask[maskIdx]}
-maskIdx++}
-return newVal}
-function applyDynamicMask(){var country=iti.getSelectedCountryData().iso2;var mask=maskMap[country];if(mask){input.value=maskNumber(input.value,mask)}else{input.value=input.value.replace(/\D/g,'')}}
-function updatePlaceholder(){var country=iti.getSelectedCountryData().iso2;if(placeholderMap[country]){input.placeholder=placeholderMap[country]}else{input.placeholder=''}}
-input.addEventListener('input',applyDynamicMask);input.addEventListener('countrychange',function(){setTimeout(function(){input.value='';applyDynamicMask();updatePlaceholder()},30)});updatePlaceholder();var form=input.closest("form");if(form){form.addEventListener("submit",function(){var fullNumber=iti.getNumber(intlTelInputUtils.numberFormat.E164);if(fullNumber)input.value=fullNumber})}
-input.addEventListener("focus",function(){setTimeout(function(){var dropdown=document.querySelector(".iti__country-list");if(dropdown)dropdown.style.width=input.offsetWidth+"px"},50)})})
-</script>
+
+
 </body>
 </html>
