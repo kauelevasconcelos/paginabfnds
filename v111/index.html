@@ -224,8 +224,9 @@ form * {
   background-color: #b4f22f; /* Cor normal anterior */
   color: #ffffff; /* ou mantenha a cor que preferir para o texto */
 }</style>
-<!-- como no widget do original: o CSS do intl-tel-input é carregado de novo depois do estilo do formulário (e por isso zera a margem do campo de telefone) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+<!-- No original o CSS do intl-tel-input era carregado de novo aqui só para zerar a margem do telefone;
+     a regra abaixo faz o mesmo sem baixar o CSS duas vezes. -->
+<style>.active-form .iti input[name=phone]{margin-top:0 !important;margin-bottom:0 !important;padding-right:6px}</style>
     </div>
   </div>
 </section>
