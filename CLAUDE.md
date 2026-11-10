@@ -22,6 +22,15 @@ Até nov/2026 os formulários principais da v80 enviavam pelo WordPress (página
 `7a14b0e`/`3de2f0f` → webhook `aloud-etl` com `campaign_id=ppt-lpm-cdf` e `conversion_type_id=1`).
 Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 
+## Roteador do domínio (Workers da Cloudflare, fora deste repositório)
+
+- **`bf26-v14-router`**: rotas `cronogramadosfluentes.com.br/pc-lpm-bf26vNN*` e `/pc-le-cdf-v128*` … `v137*`
+  (uma rota por página) → pastas do Pages `paginabfnds-v1`.
+- ⚠️ **Não use "Editar código" no `bf26-v14-router`.** A versão ativa é a `1de3160a` (rollback feito em
+  28/10/2026 às 15:22), mas o painel e a API mostram o código da `c7a57e20`, que foi revertida (tem os cookies
+  de geolocalização das BF26 V4/V8/V11/V22–V24, que não estão no ar). Editar e salvar a partir do painel
+  publicaria a `c7a57e20` de volta em todas as páginas BF26. Resolver antes de qualquer mudança nesse Worker.
+
 ## Preview
 
 Branches que não são o `main` geram `https://<branch>.paginabfnds-v1.pages.dev`. Os assets usam caminhos
