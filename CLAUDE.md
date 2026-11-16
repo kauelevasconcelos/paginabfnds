@@ -65,9 +65,9 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
   | V27 | `…/pc-lpm-bf26v27*` (`b0c22e65`) | 16/11/2026 17:36 UTC | id 6558, slug `pc-lpm-bf26v27` (mantida) |
 
   **Decisão (16/11/2026): a slug da V25–V27 NÃO vira `-off`.** As páginas do WordPress ficam com a slug original
-  e publicadas; o Worker e as Redirect Rules (abaixo) garantem que todo acesso cai no código. Se o Worker falhar,
-  o WordPress serve a página antiga no mesmo endereço (sem 301). Pendente (precisa de login no wp-admin):
-  acrescentar "[EM CÓDIGO] " no título das páginas 6458, 6493 e 6558, sem mexer em slug nem no conteúdo.
+  e publicadas, com o título prefixado por "[EM CÓDIGO] " (16/11/2026, só pela Edição rápida: slug, status e
+  conteúdo do Elementor intactos). O Worker e as Redirect Rules (abaixo) garantem que todo acesso cai no código.
+  Se o Worker falhar, o WordPress serve a página antiga no mesmo endereço (sem 301).
   Rollback de uma página: `DELETE /zones/<zona>/workers/routes/<id>` (ou apagar a rota no painel), tirá-la do
   `wrangler.jsonc` e desligar a Redirect Rule dela.
 - **Redirect Rules da zona (Regras → Regras de redirecionamento), criadas em 16/11/2026.** Rodam antes dos
