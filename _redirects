@@ -1,3 +1,6 @@
 # Preview only: mirror the domain router so /pc-le-cdf-vNNN/ paths work on pages.dev
 /pc-le-cdf-v80/*   /v80/:splat   200
 /pc-le-cdf-v111/*  /v111/:splat  200
+/pc-lpm-bf26v25/*  /v25/:splat  200
+/pc-lpm-bf26v26/*  /v26/:splat  200
+/pc-lpm-bf26v27/*  /v27/:splat  200
