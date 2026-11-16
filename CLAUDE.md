@@ -60,16 +60,48 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 
   | Página | Rota (id) | No ar desde | WordPress (página antiga) |
   |---|---|---|---|
-  | V25 | `…/pc-lpm-bf26v25*` (`a5022431`) | 16/11/2026 17:33 UTC | id 6458, slug `pc-lpm-bf26v25` — **`-off` pendente** |
-  | V26 | `…/pc-lpm-bf26v26*` (`32252a1b`) | 16/11/2026 17:35 UTC | id 6493, slug `pc-lpm-bf26v26` — **`-off` pendente** |
-  | V27 | `…/pc-lpm-bf26v27*` (`b0c22e65`) | 16/11/2026 17:36 UTC | id 6558, slug `pc-lpm-bf26v27` — **`-off` pendente** |
+  | V25 | `…/pc-lpm-bf26v25*` (`a5022431`) | 16/11/2026 17:33 UTC | id 6458, slug `pc-lpm-bf26v25` (mantida) |
+  | V26 | `…/pc-lpm-bf26v26*` (`32252a1b`) | 16/11/2026 17:35 UTC | id 6493, slug `pc-lpm-bf26v26` (mantida) |
+  | V27 | `…/pc-lpm-bf26v27*` (`b0c22e65`) | 16/11/2026 17:36 UTC | id 6558, slug `pc-lpm-bf26v27` (mantida) |
 
-  Pendente (precisa de login no wp-admin): trocar a slug das 3 páginas para `-off` sem despublicar, limpar o
-  LiteSpeed dessas URLs e testar de novo, incluindo as `-off`. Enquanto a slug não muda, uma falha do Worker
-  faz o WordPress servir a página antiga no mesmo endereço, sem o 301. Depois da troca, vale a mesma observação
-  sobre `_wp_old_slug` do item abaixo (ids 6458/6493/6558).
+  **Decisão (16/11/2026): a slug da V25–V27 NÃO vira `-off`.** As páginas do WordPress ficam com a slug original
+  e publicadas; o Worker e as Redirect Rules (abaixo) garantem que todo acesso cai no código. Se o Worker falhar,
+  o WordPress serve a página antiga no mesmo endereço (sem 301). Pendente (precisa de login no wp-admin):
+  acrescentar "[EM CÓDIGO] " no título das páginas 6458, 6493 e 6558, sem mexer em slug nem no conteúdo.
   Rollback de uma página: `DELETE /zones/<zona>/workers/routes/<id>` (ou apagar a rota no painel), tirá-la do
-  `wrangler.jsonc` e, se a slug já tiver sido trocada, voltar a slug original no WordPress.
+  `wrangler.jsonc` e desligar a Redirect Rule dela.
+- **Redirect Rules da zona (Regras → Regras de redirecionamento), criadas em 16/11/2026.** Rodam antes dos
+  Workers e cobrem o que a rota do Worker não pega (a rota diferencia maiúsculas e não decodifica `%2D`; o
+  WordPress aceita essas variações e os acessos por ID). Uma regra por página, 301 estático para o endereço
+  canônico, **preservando a query string** (UTMs, fbclid, gclid). Plano Free: 5 de 10 regras em uso.
+
+  | Ordem | Regra | Destino | ID WP |
+  |---|---|---|---|
+  | 1 | `BF26 V25 -> codigo (variantes e ID WP 6458)` | `/pc-lpm-bf26v25/` | 6458 |
+  | 2 | `BF26 V26 -> codigo (variantes e ID WP 6493)` | `/pc-lpm-bf26v26/` | 6493 |
+  | 3 | `BF26 V27 -> codigo (variantes e ID WP 6558)` | `/pc-lpm-bf26v27/` | 6558 |
+  | 4 | `v80 -> codigo (variantes e ID WP 4553)` | `/pc-le-cdf-v80/` | 4553 |
+  | 5 | `v111 -> codigo (variantes e ID WP 5651)` | `/pc-le-cdf-v111/` | 5651 |
+
+  Expressão (modelo da V25; as outras trocam slug e ID):
+  ```
+  (lower(url_decode(http.request.uri.path)) in {"/pc-lpm-bf26v25" "/pc-lpm-bf26v25/" "//pc-lpm-bf26v25" "//pc-lpm-bf26v25/" "/index.php/pc-lpm-bf26v25" "/index.php/pc-lpm-bf26v25/"}
+     and not raw.http.request.uri.path in {"/pc-lpm-bf26v25" "/pc-lpm-bf26v25/"})
+  or (http.request.uri.path in {"/" "/index.php"} and (any(http.request.uri.args["page_id"][*] eq "6458")
+     or any(http.request.uri.args["p"][*] eq "6458") or any(lower(http.request.uri.args["pagename"][*])[*] in {"pc-lpm-bf26v25" "pc-lpm-bf26v25/"})))
+  ```
+  - Use `raw.http.request.uri.path` na exclusão: a normalização de URL da zona já decodifica `%2D` em
+    `http.request.uri.path`, mas a rota do Worker compara o caminho cru. Com o campo normalizado, `/pc%2Dlpm-…`
+    caía no WordPress.
+  - Página nova servida por Worker = rota + uma regra destas. As `-off` não são redirecionadas (de propósito).
+  - As outras BF26 do `bf26-v14-router` NÃO têm regra: `/PC-LPM-BF26V4/` ainda cai no WordPress (301 para a `-off`).
+- **Always Use HTTPS** ligado em 16/11/2026 (SSL/TLS → Certificados de borda): http → 301 https em 1 salto, com a
+  query string. Testado sem loop no WordPress, nas BF26, v80/v111/v128–v137 e na `/confirmacao-bf26v1/`.
+- **`www.cronogramadosfluentes.com.br` não tem DNS** (NXDOMAIN), de propósito por enquanto: não abre nada.
+- **Workers: plano Paid** (deduzido: a conta passa de 100 mil requisições/dia sem erros de limite; confirmar em
+  Workers & Pages → Plans). Sem limite diário; excedente US$ 0,30 por milhão acima de 10 milhões/mês. Todas as
+  rotas estão em fail closed (`request_limit_fail_open=false`), o que só importaria num plano Free (erro 1027).
+  Requisições ao Worker por visita: V25 18, V26 9, V27 10, v80 24, v111 10 (HTML + imagens + fontes).
 - **Redirecionamento da slug antiga no WordPress (mantido de propósito).** Ao trocar a slug para `-off`, o
   WordPress gravou `_wp_old_slug` = `pc-le-cdf-v80` (página 4553) e `pc-le-cdf-v111` (página 5651). Por isso, se
   um pedido para `/pc-le-cdf-v80/` ou `/pc-le-cdf-v111/` chegar ao WordPress, ele responde **301 para a `-off`**.
