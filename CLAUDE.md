@@ -1,8 +1,9 @@
 # CLAUDE.md
 
 Landing pages da Aloud servidas pelo Cloudflare Pages (projeto `paginabfnds-v1`, deploy via Git no `main`).
-Cada pasta `vNN/` é uma página. O mapeamento das URLs do domínio (ex.: `/pc-le-cdf-v80/` → `/v80/`) é feito
-por Workers roteadores da Cloudflare (ver "Roteador do domínio"). Arquivos internos (`CLAUDE.md`, `workers/`)
+Cada pasta `vNN/` é uma página do cronogramadosfluentes.com.br; as pastas `dsi-pv-vNN/` são páginas do
+mathwerner.com.br (ver a seção "Domínio mathwerner.com.br"). O mapeamento das URLs do domínio (ex.:
+`/pc-le-cdf-v80/` → `/v80/`) é feito por Workers roteadores da Cloudflare (ver "Roteador do domínio"). Arquivos internos (`CLAUDE.md`, `workers/`)
 não são servidos pelo site: o `functions/_middleware.js` devolve 404 para eles.
 
 ## Formulários (padrão v136/v137)
@@ -70,7 +71,7 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
   Se o Worker falhar, o WordPress serve a página antiga no mesmo endereço (sem 301).
   Rollback de uma página: `DELETE /zones/<zona>/workers/routes/<id>` (ou apagar a rota no painel), tirá-la do
   `wrangler.jsonc` e desligar a Redirect Rule dela.
-- **Redirect Rules da zona (Regras → Regras de redirecionamento), criadas em 16/11/2026.** Rodam antes dos
+- **Redirect Rules da zona cronogramadosfluentes.com.br (Regras → Regras de redirecionamento), criadas em 16/11/2026.** Rodam antes dos
   Workers e cobrem o que a rota do Worker não pega (a rota diferencia maiúsculas e não decodifica `%2D`; o
   WordPress aceita essas variações e os acessos por ID). Uma regra por página, 301 estático para o endereço
   canônico, **preservando a query string** (UTMs, fbclid, gclid). Plano Free: 5 de 10 regras em uso.
@@ -123,8 +124,48 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
   de geolocalização das BF26 V4/V8/V11/V22–V24, que não estão no ar). Editar e salvar a partir do painel
   publicaria a `c7a57e20` de volta em todas as páginas BF26. Resolver antes de qualquer mudança nesse Worker.
 
+## Domínio mathwerner.com.br (DSI PV V11–V13)
+
+Zona `mathwerner.com.br` na mesma conta da Cloudflare (plano Free, proxy ligado). É **outro WordPress**
+("Matheus Werner Jerke", Elementor 4.4, plugins gtm4wp, HandL UTM Grabber e Redirection); o wp-admin tem login próprio.
+Outros nomes da zona: `dsi.mathwerner.com.br` → projeto Pages `pagina-dsi-captura-v4` (outro repositório, padrão de
+tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel (fora desta conta);
+`servidor.mathwerner.com.br` → Stape. O `www` existe e o WordPress redireciona para o domínio sem www.
+
+- **Páginas** (pastas com o mesmo nome do caminho, então os assets `/dsi-pv-vNN/img/...` funcionam no domínio, no
+  pages.dev e no preview sem `_redirects`):
+
+  | Página | WP id | Rota (id) | No ar desde | Formulários |
+  |---|---|---|---|---|
+  | `/dsi-pv-v11/` | 1749 | `mathwerner.com.br/dsi-pv-v11*` (`832b6f1c`) | 16/11/2026 20:52 UTC | 2 (AC 108), 5 vídeos YouTube, 5 botões → `#form` |
+  | `/dsi-pv-v12/` | 1754 | `mathwerner.com.br/dsi-pv-v12*` (`558f5934`) | 16/11/2026 20:54 UTC | 1 (AC 108) |
+  | `/dsi-pv-v13/` | 1759 | `mathwerner.com.br/dsi-pv-v13*` (`cd4960a6`) | 16/11/2026 20:56 UTC | 1 (AC 108) |
+
+  São páginas de lead (pré-matrícula), sem checkout. Form AC `u/f=108`, campos 41–43 e UTMs 281–285 + 293 (scripts
+  da BF26 V4). Depois do envio o AC redireciona para `https://mathwerner.com.br/confirmacao-dsi/` (WordPress) com
+  `campaign_id=lcto-dsi-abr26`.
+- **Tracking = o do WordPress do mathwerner, não o das BF26.** No `<head>`, antes de qualquer CSS: dataLayer do
+  gtm4wp (`pagePostType`, `pagePostType2`, `pagePostAuthor:"kauele"`), **GTM-TGS4NZX5** (GA4 G-CNBLEJEEQX via sGTM
+  `servidor.mathjerke.com.br`, Google Ads 311446904, Meta 463718029855153, visitorapi, witly), Clarity **vx9rdk9acv**
+  (única mudança: carrega depois do `load`) e o HandL UTM Grabber no navegador (js-cookie 2.1.0 + a lógica do plugin
+  sem jQuery). Sem `page_version`, sem GTM-P9ZJRS9R, sem TikTok. Conferido no domínio: mesmas tags e dataLayer do WordPress.
+- **Worker `mathwerner-dsi-pv-router`** (`workers/mathwerner-dsi-pv-router/`, teste `node test.mjs`): mesmo modelo dos
+  outros roteadores (`/dsi-pv-vNN[/|/index.html]` → `paginabfnds-v1.pages.dev/dsi-pv-vNN/`, `img/`/`fonts/`, query
+  string mantida, outros subcaminhos 404, prefixos como `/dsi-pv-v110` → origem). **Além disso grava, só no HTML, os
+  cookies que o HandL do WordPress grava pelo servidor**: `utm_*`, `gclid`, `email`, `username` (gravados se vierem
+  na URL, apagados se não), `handl_ref`, `handl_original_ref`, `handl_landing_page`, `handl_url`, `handl_ip`, com os
+  mesmos atributos (30 dias, `domain=.mathwerner.com.br`, `secure`, `SameSite=Lax`). Conferido lado a lado com o
+  WordPress: 13 cookies idênticos. Publicado sem rotas (versão `fe539448`); rotas criadas pela API, uma por vez.
+- **Redirect Rules da zona mathwerner** (3 de 10): `DSI PV V11/V12/V13 -> codigo (variantes e ID WP 17xx)`, mesma
+  expressão das regras do cronogramadosfluentes (slug `dsi-pv-vNN`, IDs 1749/1754/1759), 301 com a query string.
+  Matriz de acesso: 66 de 66 casos no código (maiúsculas, `%2D`, `?page_id`, `?p`, `?pagename`, `//`, `/index.php/`,
+  www, http, UTMs/fbclid/gclid).
+- **Always Use HTTPS** ligado na zona em 16/11/2026: testado sem loop no WordPress, `dsi.` e `/confirmacao-dsi/`.
+- **Slug mantida** (sem `-off`). Pendente: "[EM CÓDIGO] " no título das páginas 1749, 1754 e 1759 (precisa de login
+  no wp-admin do mathwerner). Rollback: apagar a rota pela API ou painel e desligar a Redirect Rule da página.
+
 ## Preview
 
 Branches que não são o `main` geram `https://<branch>.paginabfnds-v1.pages.dev`. Os assets usam caminhos
 absolutos do domínio (`/pc-le-cdf-vNN/img/...`, `/pc-lpm-bf26vNN/img/...`), por isso o `_redirects` reescreve
-esses caminhos no preview (hoje v80, v111 e BF26 V25–V27).
+esses caminhos no preview (hoje v80, v111 e BF26 V25–V27). As `dsi-pv-vNN` não precisam (pasta = caminho).
