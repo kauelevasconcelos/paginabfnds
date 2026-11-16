@@ -161,8 +161,8 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
   Matriz de acesso: 66 de 66 casos no código (maiúsculas, `%2D`, `?page_id`, `?p`, `?pagename`, `//`, `/index.php/`,
   www, http, UTMs/fbclid/gclid).
 - **Always Use HTTPS** ligado na zona em 16/11/2026: testado sem loop no WordPress, `dsi.` e `/confirmacao-dsi/`.
-- **Slug mantida** (sem `-off`). Pendente: "[EM CÓDIGO] " no título das páginas 1749, 1754 e 1759 (precisa de login
-  no wp-admin do mathwerner). Rollback: apagar a rota pela API ou painel e desligar a Redirect Rule da página.
+- **Slug mantida** (sem `-off`). Título das páginas 1749, 1754 e 1759 prefixado por "[EM CÓDIGO] " em 16/11/2026
+  (Edição rápida: slug, status e conteúdo intactos). Rollback: apagar a rota pela API ou painel e desligar a Redirect Rule da página.
 
 ## Preview
 
