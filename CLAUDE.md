@@ -18,6 +18,12 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | v80 | popup "Ei, espera!" (`#113`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
 | v136, v137 | 2 / 1 | 113 / 113 |
+| BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
+
+As BF26 (V4, V8, V11, V22–V24, V25–V27) usam o padrão próprio das BF26 (scripts da V4: campos 41–43 e UTMs
+281–285 + 293, sem os campos 357–370) e o mesmo form AC 116 das páginas no WordPress. Depois do envio, o
+próprio AC (configuração do form 116) redireciona para `/confirmacao-bf26v1/`, que é uma página do WordPress.
+O lead não depende dela (o AC já gravou), mas a página de obrigado sim.
 
 Até nov/2026 os formulários principais da v80 enviavam pelo WordPress (página 4553, Elementor
 `7a14b0e`/`3de2f0f` → webhook `aloud-etl` com `campaign_id=ppt-lpm-cdf` e `conversion_type_id=1`).
@@ -26,7 +32,8 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 ## Roteador do domínio (Workers da Cloudflare)
 
 - **`bf26-v14-router`**: rotas `cronogramadosfluentes.com.br/pc-lpm-bf26vNN*` e `/pc-le-cdf-v128*` … `v137*`
-  (uma rota por página) → pastas do Pages `paginabfnds-v1`.
+  (uma rota por página, sem padrão genérico: hoje bf26v4, v8, v11, v14–v24, v28–v30) → pastas do Pages
+  `paginabfnds-v1`. Não cobre a V25–V27.
 - **`pc-le-cdf-v80-v111-router`** (código em `workers/pc-le-cdf-v80-v111-router/`, publicado com
   `npx wrangler@4 deploy` a partir dessa pasta; a pasta não é servida pelo Pages — bloqueada no
   `functions/_middleware.js`). Worker separado, só para v80 e v111:
@@ -44,6 +51,25 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
   em Rotas de Workers) e voltar a slug original da página no WordPress. Observação: `wrangler deploy` recria as
   rotas do Worker (a rota da v80 trocou de ID ao publicar a da v111), o que pode deixar a página alguns segundos
   sem o Worker — nesse intervalo o WordPress redireciona a slug antiga para a `-off`.
+- **`pc-lpm-bf26-v25-v27-router`** (código em `workers/pc-lpm-bf26-v25-v27-router/`, mesmo modelo e mesmas regras
+  do Worker da v80/v111 com o prefixo `/pc-lpm-bf26vNN`; teste: `node test.mjs`). Worker separado, só para
+  as BF26 V25, V26 e V27 (pastas `v25/`, `v26/`, `v27/`).
+  - Publicado em 16/11/2026 **sem rotas** (versão `b36427a9`). As rotas foram criadas uma a uma pela API
+    (`POST /zones/<zona>/workers/routes`), o que não recria as rotas já no ar. O `wrangler.jsonc` lista as 3 rotas
+    como registro do estado. Um `wrangler deploy` a partir dele recria as 3, então só em horário de pouco tráfego.
+
+  | Página | Rota (id) | No ar desde | WordPress (página antiga) |
+  |---|---|---|---|
+  | V25 | `…/pc-lpm-bf26v25*` (`a5022431`) | 16/11/2026 17:33 UTC | id 6458, slug `pc-lpm-bf26v25` — **`-off` pendente** |
+  | V26 | `…/pc-lpm-bf26v26*` (`32252a1b`) | 16/11/2026 17:35 UTC | id 6493, slug `pc-lpm-bf26v26` — **`-off` pendente** |
+  | V27 | `…/pc-lpm-bf26v27*` (`b0c22e65`) | 16/11/2026 17:36 UTC | id 6558, slug `pc-lpm-bf26v27` — **`-off` pendente** |
+
+  Pendente (precisa de login no wp-admin): trocar a slug das 3 páginas para `-off` sem despublicar, limpar o
+  LiteSpeed dessas URLs e testar de novo, incluindo as `-off`. Enquanto a slug não muda, uma falha do Worker
+  faz o WordPress servir a página antiga no mesmo endereço, sem o 301. Depois da troca, vale a mesma observação
+  sobre `_wp_old_slug` do item abaixo (ids 6458/6493/6558).
+  Rollback de uma página: `DELETE /zones/<zona>/workers/routes/<id>` (ou apagar a rota no painel), tirá-la do
+  `wrangler.jsonc` e, se a slug já tiver sido trocada, voltar a slug original no WordPress.
 - **Redirecionamento da slug antiga no WordPress (mantido de propósito).** Ao trocar a slug para `-off`, o
   WordPress gravou `_wp_old_slug` = `pc-le-cdf-v80` (página 4553) e `pc-le-cdf-v111` (página 5651). Por isso, se
   um pedido para `/pc-le-cdf-v80/` ou `/pc-le-cdf-v111/` chegar ao WordPress, ele responde **301 para a `-off`**.
@@ -68,4 +94,5 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 ## Preview
 
 Branches que não são o `main` geram `https://<branch>.paginabfnds-v1.pages.dev`. Os assets usam caminhos
-absolutos do domínio (`/pc-le-cdf-vNN/img/...`), por isso o `_redirects` reescreve esses caminhos no preview.
+absolutos do domínio (`/pc-le-cdf-vNN/img/...`, `/pc-lpm-bf26vNN/img/...`), por isso o `_redirects` reescreve
+esses caminhos no preview (hoje v80, v111 e BF26 V25–V27).

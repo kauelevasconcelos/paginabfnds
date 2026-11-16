@@ -5,8 +5,15 @@
   "compatibility_date": "2026-10-01",
   // conta da zona cronogramadosfluentes.com.br (Admin@matheuswerner.com.br's Account)
   "account_id": "1674537158620e3e2821c20c2f1dd48a",
-  // rotas: nenhuma por enquanto (o Worker foi publicado sem rotas; cada rota é criada pela API, uma página por vez)
-  "routes": [],
+  // rotas: uma por página (com * para atender com e sem barra, img/ e fonts/).
+  // O Worker foi publicado em 16/11/2026 SEM rotas, e cada rota foi criada pela API (POST zones/:zone/workers/routes),
+  // uma página por vez, para não recriar rotas já no ar. Esta lista é o estado atual. Um `wrangler deploy`
+  // com ela recria as 3 rotas (alguns segundos sem Worker → WordPress), então só em horário de pouco tráfego.
+  "routes": [
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v25*", "zone_name": "cronogramadosfluentes.com.br" },
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v26*", "zone_name": "cronogramadosfluentes.com.br" },
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v27*", "zone_name": "cronogramadosfluentes.com.br" }
+  ],
   // workers.dev desligado
   "workers_dev": false,
   "preview_urls": false,
