@@ -164,6 +164,22 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
 - **Slug mantida** (sem `-off`). Título das páginas 1749, 1754 e 1759 prefixado por "[EM CÓDIGO] " em 16/11/2026
   (Edição rápida: slug, status e conteúdo intactos). Rollback: apagar a rota pela API ou painel e desligar a Redirect Rule da página.
 
+## Cache e otimização (16/11/2026)
+
+- **`_headers`**: `Cache-Control: public, max-age=31536000, immutable` para `img/*` e `fonts/*` de v80, v111, v25–v27 e
+  dsi-pv-v11–v13. O HTML segue o padrão do Pages (`max-age=0, must-revalidate`), então publicar o `index.html`
+  atualiza a página na hora. As outras pastas (v4, v15–v24 etc.) não foram incluídas.
+- **Regra de nomes:** todo arquivo nessas pastas tem hash de conteúdo no nome (`nome-<8 hex do md5>.ext`). Para
+  trocar uma imagem/fonte, crie um arquivo novo com outro hash e atualize o `index.html`; **nunca** substitua o
+  conteúdo mantendo o mesmo nome (o navegador e a borda guardariam a versão antiga por 1 ano). Página nova que
+  entrar nesse regime: hashes nos nomes + linhas no `_headers`.
+- v25/v27: imagens de cards com variantes `-400w/-600w` (v27: `-320w/-560w`) em `srcset`/`sizes` medidos por
+  breakpoint, com `style="aspect-ratio:W/H;object-fit:cover"` para a altura não mudar conforme a variante.
+- v80: o fundo da seção `.bio` só carrega quando ela chega a ~1000px da tela (classe `js` no `<html>` +
+  IntersectionObserver; sem JavaScript o fundo carrega normalmente).
+- Não mexer no carregamento do GTM nem das tags (render-blocking restante: CSS do intl-tel-input no cdnjs e Google
+  Fonts — candidatos a otimizar só com teste visual do campo de telefone).
+
 ## Preview
 
 Branches que não são o `main` geram `https://<branch>.paginabfnds-v1.pages.dev`. Os assets usam caminhos
