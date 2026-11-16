@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ===== TRACKING (idêntico ao WordPress do mathwerner; só o Clarity foi para depois do load) ===== -->
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<script data-cfasync="false" data-pagespeed-no-defer>
+	var gtm4wp_datalayer_name = "dataLayer";
+	var dataLayer = dataLayer || [];
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com -->
+<link rel="dns-prefetch" href="//connect.facebook.net">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link rel="dns-prefetch" href="//servidor.matheusjerke.com.br">
+<link rel="preconnect" href="https://connect.facebook.net">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://servidor.matheusjerke.com.br">
+<link href="https://www.googletagmanager.com/gtm.js?id=GTM-TGS4NZX5" rel="preload" as="script" importance="high">
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<!-- GTM Container placement set to automatic -->
+<script data-cfasync="false" data-pagespeed-no-defer>
+	var dataLayer_content = {"pagePostType":"page","pagePostType2":"single-page","pagePostAuthor":"kauele"};
+	dataLayer.push( dataLayer_content );
+</script>
+<script data-cfasync="false" data-pagespeed-no-defer>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TGS4NZX5');
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com -->
+<!-- Microsoft Clarity (vx9rdk9acv) — única mudança em relação ao WordPress: carrega depois do evento load -->
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};function s(){t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)}if(l.readyState==="complete")s();else c.addEventListener("load",s)})(window,document,"clarity","script","vx9rdk9acv");</script>
+<!-- HandL UTM Grabber (plugin do WordPress): js-cookie v2.1.0 original + a mesma lógica do handl-utm-grabber.js sem jQuery.
+     Grava cookies de 30 dias (path /) para utm_source/medium/term/content/campaign, gclid, email e username vindos
+     na URL e preenche inputs com esses nomes, no DOMContentLoaded, como o jQuery(function) do plugin. -->
+<script id="js.cookie-js">
+/*!
+ * JavaScript Cookie v2.1.0
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		var _OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = _OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				if (!converter.write) {
+					value = encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+				} else {
+					value = converter.write(value, key);
+				}
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				return (document.cookie = [
+					key, '=', value,
+					attributes.expires && '; expires=' + attributes.expires.toUTCString(), // use expires attribute, max-age is not supported by IE
+					attributes.path    && '; path=' + attributes.path,
+					attributes.domain  && '; domain=' + attributes.domain,
+					attributes.secure ? '; secure' : ''
+				].join(''));
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var name = parts[0].replace(rdecode, decodeURIComponent);
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					cookie = converter.read ?
+						converter.read(cookie, name) : converter(cookie, name) ||
+						cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.get = api.set = api;
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
+</script>
+<script id="handl-utm-grabber-js-extra">
+var handl_utm = [];
+</script>
+<script id="handl-utm-grabber-js">
+(function () {
+    function getUrlVars() {
+        var vars = {};
+        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) { vars[key] = value; });
+        return vars;
+    }
+    function run() {
+        var qvars = getUrlVars();
+        ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign', 'gclid', 'email', 'username'].forEach(function (v) {
+            var cookie_field = qvars[v] != undefined ? qvars[v] : '';
+            if (cookie_field != '') Cookies.set(v, cookie_field, { expires: 30 });
+            var curval = Cookies.get(v);
+            if (curval != undefined) {
+                curval = decodeURIComponent(curval).replace(/[%]/g, ' ');
+                if (v == 'username') curval = curval.replace(/\+/g, ' ');
+                document.querySelectorAll('input[name="' + v + '"], input#' + v + ', input.' + v).forEach(function (el) { el.value = curval; });
+            }
+        });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+})();
+</script>
+<!-- ===== FIM TRACKING ===== -->
+<title>DSI – PV V12 – Matheus Werner Jerke</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="canonical" href="https://mathwerner.com.br/dsi-pv-v12/">
+<link rel="icon" type="image/png" href="/dsi-pv-v12/img/favicon-beaf639f.png">
+<link rel="preload" href="/dsi-pv-v12/img/novahead-dsi-8d01fe3d.webp" as="image" media="(min-width:768px)" fetchpriority="high">
+<link rel="preload" href="/dsi-pv-v12/img/mobilecorreto-dsi-709dd5f3.webp" as="image" media="(max-width:767px)" fetchpriority="high">
+<link rel="preload" href="/dsi-pv-v12/fonts/inter-latin-var-260c81a4.woff2" as="font" type="font/woff2" crossorigin>
+<!-- como no WordPress: sem clique direito, sem Ctrl+C/V/U/F6, sem seleção de texto e sem arrastar -->
+<script>
+    // Desabilitar clique do botão direito
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    }, false);
+    // Desabilitar seleção de texto
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 85 || e.keyCode === 117)) {
+            e.preventDefault();
+        }
+    }, false);
+    document.onselectstart = function() {
+        return false;
+    };
+    document.onmousedown = function(e) {
+        if (e.button === 2) {
+            return false;
+        }
+    };
+    window.oncontextmenu = function () {
+        return false;
+    };
+    window.ondragstart = function() { return false; };
+</script>
+<!-- intl-tel-input CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(/dsi-pv-v12/fonts/inter-latin-var-260c81a4.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+*,*::before,*::after{box-sizing:border-box}
+html{line-height:1.15;-webkit-text-size-adjust:100%}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:#fff;color:#333;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-size:1rem;font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img{border-style:none;height:auto;max-width:100%}
+a{background-color:transparent;text-decoration:none}
+b,strong{font-weight:bolder}
+.screen-reader-text{clip:rect(1px,1px,1px,1px);height:1px;overflow:hidden;position:absolute!important;width:1px;word-wrap:normal!important}
+.screen-reader-text:focus{background-color:#eee;clip:auto!important;clip-path:none;color:#333;display:block;font-size:1rem;height:auto;left:5px;line-height:normal;padding:12px 24px;text-decoration:none;top:5px;width:auto;z-index:100000}
+
+/* ===== DOBRA ÚNICA ===== */
+.hero{display:flex;flex-direction:column;min-height:850px;padding:60px 0;border-bottom:4px solid #64BA52;background:#fff url(/dsi-pv-v12/img/novahead-dsi-8d01fe3d.webp) top center/cover}
+.hero>.in{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:20px;flex-grow:1;width:100%;max-width:min(100%,1140px);margin:0 auto}
+.hero .head{align-self:flex-start;width:515px;max-width:515px;margin:-5px 0 -10px}
+.hero .logo{display:inline-block;width:120px;margin:0 0 18px}
+.hero .logo img{display:block;width:100%;height:auto}
+.hero h1{margin:.5rem 0 19px;font-family:"Inter",Sans-serif;font-size:38px;font-weight:700;line-height:1.1em;letter-spacing:-1px;word-spacing:0;color:#fff}
+.ne2{font-family:"NewElegance",serif;font-style:italic;font-size:1.2em;line-height:.75;letter-spacing:-1.2px;color:#8AE976}
+.li{align-self:flex-start;margin:0;padding:0;list-style:none}
+.li li{display:flex;align-items:flex-start;position:relative;margin:0;padding:0}
+.li li:not(:last-child){padding-bottom:2.5px}
+.li li:not(:first-child){margin-top:2.5px}
+.li .ic{display:flex;position:relative;top:-1px}
+.li svg{width:22px;height:22px;margin:0 2.75px}
+.li .tx{align-self:center;padding-left:5px;font-family:"Inter",Sans-serif;font-size:17px;font-weight:500;line-height:1.3em;color:#fff}
+.pill{align-self:flex-start;width:431px;max-width:431px;margin:10px 50px -14px 0;padding:6px 30px;background-image:linear-gradient(205deg,#6FBC5E57 0%,#6FBC5E1F 100%);border-radius:200px;text-align:center}
+.pill p{margin:0;font-family:"Inter",Sans-serif;font-size:14px;font-weight:600;line-height:1.3em;color:#fff}
+.fw{align-self:flex-start;width:429px;max-width:429px}
+
+/* ===== FORMULÁRIO (CSS do próprio formulário no WordPress; type=tel incluído junto com text/email) ===== */
+form *{box-sizing:border-box}
+.active-form{padding:0;width:100% !important}
+.active-form input[type='text'],.active-form input[type='email'],.active-form input[type='tel'],.active-form select{margin:10px 0;background:white;font-size:16px;color:#757575;font-weight:400;width:100%;border:2px solid rgba(0,0,0,.2);font-family:Montserrat,Sans-serif;padding:8px 18px;vertical-align:middle;line-height:1.4;min-height:40px;border-radius:5px;outline-offset:0}
+.active-form input::placeholder{color:#757575;background-color:white;font-family:Manrope,Sans-serif;font-size:14px;font-weight:400}
+@media (min-width:1024px){
+.active-form input[type='text'],.active-form input[type='email'],.active-form input[type='tel'],.active-form select{margin:4px 0;background:white;color:#183F18;width:100%;border:1px solid #183F18;font-family:Manrope,Sans-serif;font-weight:500;font-size:12px;padding:15px 22px;vertical-align:middle;line-height:1.4;min-height:40px;border-radius:3px}
+.active-form input::placeholder{color:#183F18;background-color:white;font-family:Manrope,Sans-serif;font-size:12px;font-weight:500}
+}
+@media (max-width:767px){
+.active-form input[type='text'],.active-form input[type='email'],.active-form input[type='tel'],.active-form select{margin:4px 0;background:#FFFFFF;color:#183F18;width:100%;border:1px solid #183F18;font-family:Manrope,Sans-serif;font-weight:500;font-size:11px;padding:15px 12px;vertical-align:middle;line-height:1.4;min-height:40px;border-radius:3px}
+.active-form input::placeholder{color:#183F18;background-color:white;font-family:Manrope,Sans-serif;font-size:11px;font-weight:500}
+}
+.form-block button{-webkit-appearance:button;background:linear-gradient(90deg,#254836 0%,#109A53 100%) !important;border:0 solid #fff;border-radius:3px;color:#fff;margin:10px auto;display:block;padding:22px 0;text-transform:uppercase;width:100%;font-family:Manrope,Sans-serif;font-weight:bolder;font-size:18px;line-height:1.3em;text-align:center;white-space:nowrap;-webkit-user-select:none;user-select:none;cursor:pointer;transition:all .3s}
+@media (max-width:768px){.form-block button{font-size:14px}}
+.iti--allow-dropdown{width:100% !important}
+/* intl-tel-input: cores do WordPress */
+.iti,.iti--allow-dropdown{width:100% !important;z-index:9999 !important}
+.iti__country-list,.iti__country-name,.iti__dial-code{color:#FFFFFF !important}
+.iti__country-list{background-color:#0D260C !important;border-color:#0D260C !important}
+.iti__arrow{border-top-color:#FFFFFF !important}
+.iti__country.iti__highlight,.iti__country.iti__active{background-color:#162B15 !important;color:#FFFFFF !important}
+.iti__selected-dial-code{color:#FFFFFF !important}
+.iti__selected-flag{background-color:#0D260C !important}
+/* bandeiras servidas pela própria página */
+.iti__flag{background-image:url(/dsi-pv-v12/img/iti-flags-67a4061d.webp)}
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){.iti__flag{background-image:url(/dsi-pv-v12/img/iti-flags-2x-1b92d23c.webp)}}
+.iti__selected-flag .iti__flag.iti__br{background-image:url(/dsi-pv-v12/img/iti-flag-br-25231fa4.webp);background-position:0 0}
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){.iti__selected-flag .iti__flag.iti__br{background-image:url(/dsi-pv-v12/img/iti-flag-br-2x-e320899c.webp);background-size:20px 15px;background-position:0 0}}
+
+/* ===== RODAPÉ ===== */
+.foot{display:flex;flex-direction:column;justify-content:center;gap:10px;min-height:186px;background:#1C2F47}
+.foot>*{width:100%;max-width:min(100%,1140px);margin-left:auto;margin-right:auto}
+.foot .txt{margin-top:-5px;text-align:center;font-family:"Inter",Sans-serif;font-size:12px;font-weight:400;line-height:1.4em;color:#fff}
+.foot p{margin:0 0 .9rem}
+.foot p:last-child{margin-bottom:0}
+.foot a,.foot a:hover,.foot a:active{color:#fff}
+.foot h2{width:auto;align-self:center;margin:0 auto 10px;text-align:end;font-family:"Inter",Sans-serif;font-size:11px;font-weight:700;line-height:1.3em;text-transform:uppercase;letter-spacing:.8px;color:#fff}
+
+/* ===== ATÉ 1366px ===== */
+@media (max-width:1366px){
+.hero{min-height:0;padding:68px 40px 76px}
+.hero .head{width:100%;max-width:100%}
+.li .tx{font-size:16px}
+.pill{width:71%;max-width:71%}
+}
+/* ===== TABLET (até 1024px) ===== */
+@media (max-width:1024px){
+.hero>.in,.foot>*{max-width:100%}
+.hero .head{width:57%;max-width:57%}
+.pill{width:57%;max-width:57%}
+}
+/* ===== MOBILE (até 767px) ===== */
+@media (max-width:767px){
+.hero{min-height:1137px;padding:9vw 8vw 78vw;background-image:url(/dsi-pv-v12/img/mobilecorreto-dsi-709dd5f3.webp)}
+.hero>.in{max-width:min(100%,360px);justify-content:flex-start}
+.hero .head{align-self:center;width:100%;max-width:100%;margin:0 0 -19px;padding:0 10px;text-align:center}
+.hero .logo{width:98px;margin:0 auto 12px}
+.hero h1{margin-bottom:12px;font-size:24px}
+.li{align-self:center;width:100%;padding-left:15px}
+.li li:not(:last-child){padding-bottom:3.5px}
+.li li:not(:first-child){margin-top:3.5px}
+.li svg{width:17px;height:17px;margin:0 2.125px}
+.li .tx{font-size:15px;line-height:1.2em}
+.pill{width:100%;max-width:100%;margin:5px 0 -5px;padding:5px}
+.pill p{font-size:13px}
+.fw{align-self:center;width:100%;max-width:100%}
+.foot .txt{line-height:1.6em}
+.foot h2{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+<!-- GTM Container placement set to automatic -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TGS4NZX5" height="0" width="0" style="display:none;visibility:hidden" aria-hidden="true"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link screen-reader-text" href="#content">Ir para o conteúdo</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ck" viewBox="0 0 56 57"><path d="M55.6467 23.3742L54.3205 26.6547C53.9017 27.7714 53.9017 28.958 54.3205 30.0748L55.6467 33.3553C56.4145 35.3097 55.7863 37.5432 54.0413 38.7996L51.1098 40.8237C50.1326 41.5217 49.5044 42.5687 49.2252 43.6855L48.597 47.1754C48.1783 49.2693 46.4333 50.8049 44.3394 50.8747L40.7796 51.0143C39.5931 51.0841 38.4763 51.5727 37.6387 52.4102L35.1958 54.9928C33.73 56.5283 31.4267 56.8773 29.6119 55.8304L26.5408 54.0156C25.4938 53.3874 24.3072 53.2478 23.1207 53.527L19.6308 54.3646C17.6066 54.8532 15.4429 53.876 14.4657 51.9914L12.8603 48.7807C12.3019 47.7337 11.3946 46.8962 10.2778 46.5472L6.92748 45.4304C4.90333 44.7324 3.64696 42.7781 3.85635 40.6841L4.20535 37.1244C4.34494 35.9378 3.99595 34.7513 3.22817 33.8439L0.994625 31.052C-0.331542 29.3768 -0.331542 27.0735 0.994625 25.3983L3.22817 22.6064C3.99595 21.699 4.34494 20.5124 4.20535 19.3259L3.85635 15.7661C3.64696 13.6722 4.90333 11.7178 6.92748 11.0199L10.2778 9.90309C11.3946 9.5541 12.3019 8.71652 12.8603 7.66954L14.4657 4.45882C15.4429 2.57427 17.5368 1.59709 19.6308 2.08568L23.1207 2.92326C24.2375 3.20245 25.4938 3.06286 26.5408 2.43467L29.6119 0.619919C31.4267 -0.427055 33.73 -0.147863 35.1958 1.4575L37.6387 4.04003C38.4763 4.87761 39.5931 5.436 40.7796 5.436L44.3394 5.5756C46.4333 5.64539 48.2481 7.18095 48.597 9.2749L49.2252 12.7648C49.4346 13.9514 50.1326 14.9984 51.1098 15.6265L54.0413 17.6507C55.7863 19.1863 56.4843 21.4198 55.6467 23.3742Z" fill="#6FBC5E"/><g opacity="0.15"><path d="M16.4898 51.7821L14.8845 48.5714C14.3261 47.5245 13.4187 46.6869 12.3019 46.3379L8.95163 45.2211C6.92748 44.5231 5.67111 42.5688 5.8805 40.4748L6.2295 36.9151C6.36909 35.7285 6.0201 34.542 5.25232 33.6346L3.01878 30.8427C1.69261 29.1675 1.69261 26.8642 3.01878 25.189L5.25232 22.3971C6.0201 21.4897 6.36909 20.3031 6.2295 19.1166L5.8805 15.5568C5.67111 13.4629 6.92748 11.5085 8.95163 10.8106L12.3019 9.69379C13.4187 9.34479 14.3261 8.50721 14.8845 7.46024L16.4898 4.24952C17.0482 3.13275 18.0254 2.36497 19.0724 2.01598C17.1878 1.73678 15.3033 2.71396 14.4657 4.45891L12.8603 7.66963C12.3019 8.71661 11.3946 9.55419 10.2778 9.90318L6.92748 11.02C4.90333 11.7179 3.64696 13.6723 3.85635 15.7662L4.20535 19.3259C4.34494 20.5125 3.99595 21.6991 3.22817 22.6065L0.994625 25.3984C-0.331542 27.0736 -0.331542 29.3769 0.994625 31.0521L3.22817 33.844C3.99595 34.7514 4.34494 35.9379 4.20535 37.1245L3.85635 40.6842C3.64696 42.7782 4.90333 44.7325 6.92748 45.4305L10.2778 46.5473C11.3946 46.8963 12.3019 47.7338 12.8603 48.7808L14.4657 51.9915C15.4429 53.8761 17.5368 54.8533 19.6308 54.3647L20.0496 54.2949C18.514 54.0157 17.1878 53.1781 16.4898 51.7821Z" fill="black"/><path d="M28.4951 2.22561L31.5662 0.410855C31.8454 0.271259 32.1246 0.131662 32.4038 0.0618639C31.4266 -0.0777326 30.3796 0.131663 29.5421 0.620251L26.4709 2.435C26.1917 2.5746 25.9126 2.7142 25.6334 2.784C26.6105 2.92359 27.5877 2.784 28.4951 2.22561Z" fill="black"/><path d="M42.7341 50.7353C42.3851 50.7353 42.0361 50.8051 41.7569 50.8749L44.2696 50.7353C44.6186 50.7353 44.8978 50.6655 45.2468 50.5957L42.7341 50.7353Z" fill="black"/><path d="M31.5662 55.5513L28.495 53.7365C27.4481 53.1084 26.2615 52.9688 25.0749 53.248L24.6561 53.3177C25.2843 53.3875 25.8427 53.5969 26.4011 53.8761L29.4722 55.6909C30.6588 56.3889 31.9849 56.4587 33.2413 56.0399C32.6829 56.0399 32.1245 55.9003 31.5662 55.5513Z" fill="black"/></g><path d="M16.9086 23.9329L25.6334 33.9141L43.5018 19.5356" fill="#6FBC5E"/><path d="M23.5397 39.0793C22.5625 39.0793 21.5853 38.6605 20.8873 37.8927L12.1626 27.9116C10.9062 26.4458 11.0458 24.282 12.4417 22.9559C13.9075 21.6995 16.0713 21.8391 17.3974 23.2351L23.9585 30.7035L39.2443 18.419C40.71 17.2324 42.9436 17.4418 44.1302 18.9774C45.3167 20.5129 45.1073 22.6767 43.5718 23.8633L25.7034 38.3115C25.0752 38.8001 24.3074 39.0793 23.5397 39.0793Z" fill="white"/></symbol>
+</svg>
+
+<main id="content">
+<!-- ===== DOBRA ÚNICA: título, benefícios e formulário ===== -->
+<section class="hero">
+  <div class="in">
+    <div class="head">
+      <figure class="logo"><img src="/dsi-pv-v12/img/camada-1-0dca5e28.svg" width="426" height="131" alt="" decoding="async" fetchpriority="high"></figure>
+      <h1>Sua  <span class="ne2">fluência</span> garantida  em contrato — ou você <span class="ne2">fala inglês</span> em 2026, ou seu dinheiro de volta.</h1>
+    </div>
+    <ul class="li">
+      <li><span class="ic"><svg viewBox="0 0 56 57" aria-hidden="true"><use href="#ck"/></svg></span><span class="tx">1 ano de aulas de conversação ao vivo ilimitadas</span></li>
+      <li><span class="ic"><svg viewBox="0 0 56 57" aria-hidden="true"><use href="#ck"/></svg></span><span class="tx">12 meses de acesso ao Curso de Inglês </span></li>
+      <li><span class="ic"><svg viewBox="0 0 56 57" aria-hidden="true"><use href="#ck"/></svg></span><span class="tx">IA de pronúncia e escrita</span></li>
+      <li><span class="ic"><svg viewBox="0 0 56 57" aria-hidden="true"><use href="#ck"/></svg></span><span class="tx">Apostilas físicas </span></li>
+      <li><span class="ic"><svg viewBox="0 0 56 57" aria-hidden="true"><use href="#ck"/></svg></span><span class="tx">1 acesso extra aos cursos para presentear</span></li>
+      <li><span class="ic"><svg viewBox="0 0 56 57" aria-hidden="true"><use href="#ck"/></svg></span><span class="tx">Desconto exclusivo da oferta.</span></li>
+    </ul>
+    <div class="pill"><p>Preencha abaixo para conferir a oferta:</p></div>
+    <div class="fw">
+      <form method="POST" action="https://aloud.activehosted.com/proc.php" id="108" class="active-form">
+        <input type="hidden" name="u" value="108" />
+        <input type="hidden" name="f" value="108" />
+        <input type="hidden" name="s" />
+        <input type="hidden" name="c" value="0" />
+        <input type="hidden" name="m" value="0" />
+        <input type="hidden" name="act" value="sub" />
+        <input type="hidden" name="v" value="2" />
+        <div class="active-form">
+          <div class="form-block">
+            <input type="text" name="fullname" id="form-field-nome" data-name="fullname" placeholder="Digite seu primeiro nome" required>
+          </div>
+          <div class="form-block">
+            <input type="email" name="email" id="form-field-email" data-name="email" placeholder="Digite seu melhor e-mail" required>
+          </div>
+          <div class="form-block">
+            <input type="tel" class="js-phone" id="form-field-telefone" name="phone" placeholder="Digite seu telefone" required />
+          </div>
+          <div class="form-block">
+            <button>CONFERIR OFERTA</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== RODAPÉ ===== -->
+<footer class="foot">
+  <div class="txt">
+    <p><strong><a href="https://matheuswerner.com.br/termos-de-uso/">Termos de uso</a> e <a href="https://matheuswerner.com.br/politicas-de-privacidade/" target="_blank" rel="noopener">políticas de privacidade</a></strong></p>
+    <p>Aloud Idiomas LTDA&nbsp; | © Copyright 2025</p>
+    <p><strong>CNPJ:</strong> 53.424.357/0001-63 | | <strong>Whatsapp:</strong> (41) 3797-1035 &nbsp;| <a href="mailto:suporte@aloud.com.br">suporte@aloud.com.br</a></p>
+  </div>
+  <h2> Desenvolvido por Aloud</h2>
+</footer>
+
+<!-- intl-tel-input JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<!-- Utils para formatar E.164 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
+<script>
+// Telefone dos dois formulários: DDI, máscara por país e validação (mesmas regras das V22–V24).
+(function () {
+    var maskMap = {
+        'br': '(00) 00000-0000', 'us': '(000) 000-0000', 'pt': '000 000 000', 'gb': '00000 000000',
+        'ie': '000 000 0000', 'ca': '(000) 000-0000', 'es': '000 000 000', 'jp': '000-0000-0000',
+        'au': '0000 000 000', 'it': '000 000 0000', 'de': '0000 0000000', 'vi': '(000) 000-0000',
+        'be': '000 00 00 00', 'nl': '000 000 0000', 'fr': '00 00 00 00 00', 'ar': '00 0000-0000',
+        'ae': '000 000 0000', 'af': '000 000 0000'
+    };
+    var placeholderMap = {
+        br: '(11) 98765-4321', us: '(202) 555-0199', pt: '912 345 678', gb: '07123 456789',
+        ie: '085 123 4567', ca: '(416) 555-0133', es: '612 345 678', jp: '090-1234-5678',
+        au: '0412 345 678', it: '347 123 4567', de: '1512 3456789', vi: '(340) 555-0123',
+        be: '470 12 34 56', nl: '061 234 5678', fr: '06 12 34 56 78', ar: '11 2345-6789',
+        ae: '050 123 4567', af: '070 123 4567'
+    };
+
+    // IDs dos campos extras no ActiveCampaign
+    var FIELD_PHONE_COUNTRY_FLAG = 42;
+    var FIELD_PHONE_DDI = 43;
+    var FIELD_RAW_PHONE = 41;
+
+    function ensureHiddenField(form, fieldId) {
+        var el = form.querySelector('input[name="field[' + fieldId + ']"]');
+        if (!el) {
+            el = document.createElement("input");
+            el.type = "hidden";
+            el.name = 'field[' + fieldId + ']';
+            form.appendChild(el);
+        }
+        return el;
+    }
+
+    function maskNumber(val, mask) {
+        var clean = val.replace(/\D/g, '');
+        var newVal = '';
+        var maskIdx = 0, cleanIdx = 0;
+        while (maskIdx < mask.length && cleanIdx < clean.length) {
+            if (mask[maskIdx] === '0') {
+                newVal += clean[cleanIdx++];
+            } else {
+                newVal += mask[maskIdx];
+            }
+            maskIdx++;
+        }
+        return newVal;
+    }
+
+    function initPhoneFields(context) {
+        context.querySelectorAll('.js-phone').forEach(function (input) {
+            if (input.dataset.itiInitialized === "true") return;
+
+            var iti = window.intlTelInput(input, {
+                separateDialCode: true,
+                preferredCountries: ["br", "us", "pt", "gb", "ie", "ca", "es", "jp", "au", "it", "de"],
+                initialCountry: "br",
+                utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            input.dataset.itiInitialized = "true";
+
+            function updatePlaceholder() {
+                input.placeholder = placeholderMap[iti.getSelectedCountryData().iso2] || '';
+            }
+            updatePlaceholder();
+
+            // máscara dinâmica
+            input.addEventListener('input', function () {
+                var mask = maskMap[iti.getSelectedCountryData().iso2];
+                input.value = mask ? maskNumber(input.value, mask) : input.value.replace(/\D/g, '');
+            });
+
+            // troca de país → reseta
+            input.addEventListener('countrychange', function () {
+                setTimeout(function () { input.value = ''; updatePlaceholder(); }, 30);
+            });
+
+            // se o envio falhou e o campo ficou em E.164, volta ao formato nacional
+            input.addEventListener('focus', function () {
+                if (input.value.charAt(0) === '+') {
+                    iti.setNumber(input.value);
+                    var mask = maskMap[iti.getSelectedCountryData().iso2];
+                    input.value = mask ? maskNumber(input.value, mask) : input.value.replace(/\D/g, '');
+                }
+            });
+
+            // validação no submit
+            input.closest("form").addEventListener("submit", function (e) {
+                if (input.value.charAt(0) === '+') iti.setNumber(input.value);
+                var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+                var isValid = iti.isValidNumberPrecise ? iti.isValidNumberPrecise() : iti.isValidNumber();
+                var errorCode = iti.getValidationError();
+
+                console.log("[submit] raw:", input.value, "full:", fullNumber, "isValid:", isValid, "errorCode:", errorCode);
+
+                if (!isValid || errorCode !== 0) {
+                    e.preventDefault();
+                    alert("Número inválido.");
+                    return false;
+                }
+
+                // regra extra BR
+                if (iti.getSelectedCountryData().iso2 === "br") {
+                    var digitsBR = fullNumber.replace(/\D/g, '').replace(/^55/, '');
+                    if (digitsBR.length < 10) {
+                        e.preventDefault();
+                        alert("Número de telefone muito curto para o Brasil.");
+                        return false;
+                    }
+                }
+
+                // força E.164
+                input.value = fullNumber;
+
+                // hidden fields
+                var form = input.closest("form");
+                var sel = iti.getSelectedCountryData();
+                var iso2 = (sel && sel.iso2) || '';
+                var ddi = (sel && sel.dialCode) || '';
+                var numeroDigits = fullNumber.replace(/\D/g, '');
+                var numeroSemDdi = numeroDigits.indexOf(ddi) === 0 ? numeroDigits.substring(ddi.length) : numeroDigits;
+
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = numeroSemDdi;
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initPhoneFields(document);
+    });
+})();
+</script>
+
+<script>
+(function() {
+    const utms = {
+        'source': 281,
+        'medium': 283,
+        'campaign': 282,
+        'content': 285,
+        'term': 284,
+        'paginaCaptura': 293
+    };
+
+    const prefixo = "utm_"; // Prefixo customizado para os parâmetros UTM
+
+    function criarCampos() {
+        const form = document.querySelectorAll('form');
+        const urlParamsCapt = new URLSearchParams(window.location.search);
+        const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+
+        form.forEach(el => {
+            for (let utm in utms) {
+                const paramName = prefixo + utm;
+                console.log(`Processando UTM: ${paramName}`);
+
+                // campo já existente (ex.: valores fixos do 2º formulário) é atualizado em vez de ignorado
+                let x = el.querySelector(`input[name="field[${utms[utm]}]"]`);
+                if (!x) {
+                    x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", `field[${utms[utm]}]`);
+                    el.appendChild(x);
+                }
+
+                let utmValue;
+                if (utm === "source") {
+                    utmValue = urlParamsCapt.get(paramName)
+                        ? urlParamsCapt.get(paramName)
+                        : (document.referrer ? (urlParamsCaptReferrer.get(paramName) || new URL(document.referrer).hostname) : "direto");
+                } else if (utm === "paginaCaptura") {
+                    utmValue = window.location.pathname.replace('/', '');
+                } else {
+                    utmValue = urlParamsCapt.get(paramName) || urlParamsCaptReferrer.get(paramName) || "";
+                }
+
+                console.log(`Campo: ${paramName}, Valor: ${utmValue}`);
+                x.setAttribute("value", utmValue);
+                x.value = utmValue;
+            }
+        });
+    }
+
+    criarCampos();
+    window.onload = criarCampos;
+    document.getElementById("form-field-email").onchange = function () {
+        criarCampos();
+        console.log("Campos UTM recriados após alteração no campo de e-mail.");
+    }
+})();
+</script>
+</body>
+</html>

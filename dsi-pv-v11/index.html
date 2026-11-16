@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ===== TRACKING (idêntico ao WordPress do mathwerner; só o Clarity foi para depois do load) ===== -->
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<script data-cfasync="false" data-pagespeed-no-defer>
+	var gtm4wp_datalayer_name = "dataLayer";
+	var dataLayer = dataLayer || [];
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com -->
+<link rel="dns-prefetch" href="//connect.facebook.net">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link rel="dns-prefetch" href="//servidor.matheusjerke.com.br">
+<link rel="preconnect" href="https://connect.facebook.net">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://servidor.matheusjerke.com.br">
+<link href="https://www.googletagmanager.com/gtm.js?id=GTM-TGS4NZX5" rel="preload" as="script" importance="high">
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<!-- GTM Container placement set to automatic -->
+<script data-cfasync="false" data-pagespeed-no-defer>
+	var dataLayer_content = {"pagePostType":"page","pagePostType2":"single-page","pagePostAuthor":"kauele"};
+	dataLayer.push( dataLayer_content );
+</script>
+<script data-cfasync="false" data-pagespeed-no-defer>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TGS4NZX5');
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com -->
+<!-- Microsoft Clarity (vx9rdk9acv) — única mudança em relação ao WordPress: carrega depois do evento load -->
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};function s(){t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)}if(l.readyState==="complete")s();else c.addEventListener("load",s)})(window,document,"clarity","script","vx9rdk9acv");</script>
+<!-- HandL UTM Grabber (plugin do WordPress): js-cookie v2.1.0 original + a mesma lógica do handl-utm-grabber.js sem jQuery.
+     Grava cookies de 30 dias (path /) para utm_source/medium/term/content/campaign, gclid, email e username vindos
+     na URL e preenche inputs com esses nomes, no DOMContentLoaded, como o jQuery(function) do plugin. -->
+<script id="js.cookie-js">
+/*!
+ * JavaScript Cookie v2.1.0
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		var _OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = _OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				if (!converter.write) {
+					value = encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+				} else {
+					value = converter.write(value, key);
+				}
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				return (document.cookie = [
+					key, '=', value,
+					attributes.expires && '; expires=' + attributes.expires.toUTCString(), // use expires attribute, max-age is not supported by IE
+					attributes.path    && '; path=' + attributes.path,
+					attributes.domain  && '; domain=' + attributes.domain,
+					attributes.secure ? '; secure' : ''
+				].join(''));
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var name = parts[0].replace(rdecode, decodeURIComponent);
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					cookie = converter.read ?
+						converter.read(cookie, name) : converter(cookie, name) ||
+						cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.get = api.set = api;
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
+</script>
+<script id="handl-utm-grabber-js-extra">
+var handl_utm = [];
+</script>
+<script id="handl-utm-grabber-js">
+(function () {
+    function getUrlVars() {
+        var vars = {};
+        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) { vars[key] = value; });
+        return vars;
+    }
+    function run() {
+        var qvars = getUrlVars();
+        ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign', 'gclid', 'email', 'username'].forEach(function (v) {
+            var cookie_field = qvars[v] != undefined ? qvars[v] : '';
+            if (cookie_field != '') Cookies.set(v, cookie_field, { expires: 30 });
+            var curval = Cookies.get(v);
+            if (curval != undefined) {
+                curval = decodeURIComponent(curval).replace(/[%]/g, ' ');
+                if (v == 'username') curval = curval.replace(/\+/g, ' ');
+                document.querySelectorAll('input[name="' + v + '"], input#' + v + ', input.' + v).forEach(function (el) { el.value = curval; });
+            }
+        });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+})();
+</script>
+<!-- ===== FIM TRACKING ===== -->
+<title>DSI – PV V11 – Matheus Werner Jerke</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="canonical" href="https://mathwerner.com.br/dsi-pv-v11/">
+<link rel="icon" type="image/png" href="/dsi-pv-v11/img/favicon-beaf639f.png">
+<link rel="preload" href="/dsi-pv-v11/img/novahead-dsi-8d01fe3d.webp" as="image" media="(min-width:768px)" fetchpriority="high">
+<link rel="preload" href="/dsi-pv-v11/img/mobilecorreto-dsi-709dd5f3.webp" as="image" media="(max-width:767px)" fetchpriority="high">
+<link rel="preload" href="/dsi-pv-v11/fonts/inter-260c81a4.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/dsi-pv-v11/fonts/manrope-938c6e80.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.className+=' js';</script>
+<script>
+    // Desabilitar clique do botão direito
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    }, false);
+
+    // Desabilitar seleção de texto
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 85 || e.keyCode === 117)) {
+            e.preventDefault();
+        }
+    }, false);
+
+    document.onselectstart = function() {
+        return false;
+    };
+
+    document.onmousedown = function(e) {
+        if (e.button === 2) {
+            return false;
+        }
+    };
+    window.oncontextmenu = function () {
+        return false;
+    };
+    window.ondragstart = function() { return false; };
+</script>
+<!-- intl-tel-input CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+<style>
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url(/dsi-pv-v11/fonts/inter-260c81a4.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Manrope;font-style:normal;font-weight:200 800;font-display:swap;src:url(/dsi-pv-v11/fonts/manrope-938c6e80.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+html{line-height:1.15;-webkit-text-size-adjust:100%}
+*,:after,:before{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:#fff;color:#333;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-size:1rem;font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img{border-style:none;height:auto;max-width:100%}
+a{background-color:transparent;text-decoration:none}
+b,strong{font-weight:bolder}
+h1,h2,h3{color:inherit;font-weight:500;line-height:1.2;margin-block:.5rem 1rem}
+p{margin-block-start:0;margin-block-end:.9rem}
+p:last-child{margin-bottom:0}
+figure{margin:0}
+
+/* ===== estrutura (mesmo modelo de containers flex do Elementor) ===== */
+.c{position:relative;display:flex;flex-direction:column;gap:20px;min-width:0;flex:0 1 auto;width:100%}
+.c>.in{display:flex;flex-direction:column;gap:20px;width:100%;max-width:min(100%,1140px);margin:0 auto;flex-grow:1}
+.w{position:relative;min-width:0;max-width:100%}
+.ib{text-align:center}
+.ib figure{display:inline-block}
+.ib figure img{display:block;line-height:0}
+.ib .ct{width:100%}
+.ib h1,.ib h2,.ib h3{font-family:Inter,Sans-serif;line-height:1.1em}
+.ib .d{margin:0;font-family:Inter,Sans-serif;font-size:16px;font-weight:400;line-height:1.3em}
+.ne{font-family:"NewElegance",serif!important;font-style:italic!important;font-size:1.2em;line-height:.75;letter-spacing:-1.2px;color:#6FBC5E}
+.ne2{font-family:"NewElegance",serif!important;font-style:italic!important;font-size:1.2em;line-height:.75;letter-spacing:-1.2px;color:#8AE976}
+.ne3{color:#6FBC5E}
+.lvl{color:#83CC72}
+.il{list-style:none;margin:0;padding:0}
+.il li{display:flex;align-items:var(--iva,center);position:relative;font-size:inherit}
+.il .ic{display:flex;position:relative;top:var(--ivo,0)}
+.il .ic svg{width:var(--is,1em);height:var(--is,1em);margin:0 calc(var(--is) * .25) 0 0}
+.il .ic+span{align-self:center;padding-inline-start:5px}
+.il span:not(.ic){font-family:Inter,Sans-serif}
+
+/* botões */
+.bt{flex:0 0 auto;border-radius:1px}
+.bt a{display:block;width:100%;padding:25px;border-radius:12px;background:linear-gradient(90deg,#0EB47E 0%,#05986B 86.45%);box-shadow:0 4px 0 0 #074B36;color:#fff;fill:#fff;font-family:Manrope,Sans-serif;font-size:18px;font-weight:700;line-height:1.3em;text-transform:uppercase;text-align:center;transition-duration:.3s;transition-property:transform}
+.bt a:hover,.bt a:focus,.bt a:active{transform:scale(1.1);color:#fff}
+.bt a>span{display:flex;flex-direction:row-reverse;justify-content:center;gap:18px}
+.bt a>span>span:first-child{display:flex;align-items:center}
+.bt svg{width:1em;height:1em}
+
+/* ===== 1. TOPO + FORMULÁRIO (id="form", como no WordPress) ===== */
+.hero{min-height:850px;padding:0;background:#fff url(/dsi-pv-v11/img/novahead-dsi-8d01fe3d.webp) top center/cover;border-bottom:4px solid #64BA52}
+.hero>.in{justify-content:center;align-items:flex-start;padding:60px 0}
+.hero .col{width:549px;padding:0;gap:20px}
+.tt{align-self:flex-start;width:645px;margin:-5px 0 -10px}
+.tt .ib{text-align:start}
+.tt figure{margin-bottom:18px}
+.tt figure img{width:140px}
+.tt h1{margin:.5rem 0 19px;font-size:38px;font-weight:700;letter-spacing:-1px;word-spacing:0;color:#fff}
+.hl{align-self:flex-start;--is:24px;--ivo:-1px}
+.hl .ic svg{margin:0 3px}
+.hl li:not(:last-child){padding-block-end:4px}
+.hl li:not(:first-child){margin-block-start:4px}
+.hl span:not(.ic){font-size:16px;font-weight:500;line-height:1.1em;color:#fff}
+.pill{align-self:flex-start;width:438px;margin:10px 50px -14px 0;padding:6px 20px;background-image:linear-gradient(205deg,#6FBC5E57 0%,#6FBC5E1F 100%);border-radius:200px}
+.pill .d{font-size:13px;font-weight:600;color:#fff}
+.fw{align-self:flex-start;width:438px}
+
+/* ===== FORMULÁRIOS (estilos do WordPress) ===== */
+form *{box-sizing:border-box}
+.active-form{padding:0;width:100%!important}
+.active-form input[type=text],.active-form input[type=email],.active-form input[type=tel]{display:inline-block;margin:10px 0;background:#fff;font-size:16px;color:#757575;font-weight:400;width:100%;border:2px solid rgba(0,0,0,.2);font-family:Montserrat,Sans-serif;padding:8px 18px;vertical-align:middle;line-height:1.4;min-height:40px;border-radius:5px;transition:all .3s}
+.active-form input::placeholder{color:#757575;background-color:#fff;font-family:Manrope,Sans-serif;font-size:14px;font-weight:400}
+@media (min-width:1024px){
+.active-form input[type=text],.active-form input[type=email],.active-form input[type=tel]{margin:4px 0;color:#183F18;border:1px solid #183F18;font-family:Manrope,Sans-serif;font-weight:500;font-size:12px;padding:15px 22px;border-radius:3px}
+.active-form input::placeholder{color:#183F18;font-size:12px;font-weight:500}
+}
+@media (max-width:767px){
+.active-form input[type=text],.active-form input[type=email],.active-form input[type=tel]{margin:4px 0;color:#183F18;border:1px solid #183F18;font-family:Manrope,Sans-serif;font-weight:500;font-size:11px;padding:15px 12px;border-radius:3px}
+.active-form input::placeholder{color:#183F18;font-size:11px;font-weight:500}
+}
+.active-form input:focus{outline:none}
+.form-block button{-webkit-appearance:button;background:linear-gradient(90deg,#254836 0%,#109A53 100%)!important;border:0 solid #fff;border-radius:3px;color:#fff;margin:10px auto;display:block;padding:22px 0;text-transform:uppercase;width:100%;font-family:Manrope,Sans-serif;font-weight:bolder;font-size:18px;line-height:1.3em;text-align:center;white-space:nowrap;cursor:pointer;-webkit-user-select:none;user-select:none;transition:all .3s}
+@media (max-width:768px){.form-block button{font-size:14px}}
+.iti,.iti--allow-dropdown{width:100%!important;z-index:9999!important}
+.iti__country-list{color:#F9F9F9!important;background-color:#1A1A1A!important;border-color:#1A1A1A!important}
+.iti__country-list,.iti__country-name,.iti__dial-code{color:#FFFFFF!important}
+.iti__country-list{background-color:#0D260C!important;border-color:#0D260C!important}
+.iti__arrow{border-top-color:#FFFFFF!important}
+.iti__country.iti__highlight,.iti__country.iti__active{background-color:#162B15!important;color:#FFFFFF!important}
+.iti__selected-dial-code{color:#FFFFFF!important}
+.iti__selected-flag{background-color:#0D260C!important}
+.iti__flag{background-image:url(/dsi-pv-v11/img/iti-flags-67a4061d.webp)}
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){.iti__flag{background-image:url(/dsi-pv-v11/img/iti-flags-2x-1b92d23c.webp)}}
+.iti__selected-flag .iti__flag.iti__br{background-image:url(/dsi-pv-v11/img/iti-flag-br-25231fa4.webp);background-position:0 0}
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){.iti__selected-flag .iti__flag.iti__br{background-image:url(/dsi-pv-v11/img/iti-flag-br-2x-e320899c.webp);background-size:20px 15px;background-position:0 0}}
+
+/* ===== 2. RESULTADOS (vídeos) ===== */
+.res{justify-content:center;align-items:center;padding:70px 0;background:#FFFFFE;z-index:5}
+.rh{padding:0 300px;margin-bottom:-5px}
+.rh figure{width:206.25px;margin-bottom:7px}
+.rh h2{margin:.5rem 0 0;font-size:42px;font-weight:700;word-spacing:0;color:#1C2F47}
+.vids{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;width:1280px;margin:30px 0;padding:0}
+.vid{width:397px;flex:0 0 auto;border-radius:5px;overflow:hidden;transform:translateZ(0);aspect-ratio:1.77777}
+.vid button{position:absolute;inset:0;display:block;width:100%;height:100%;margin:0;padding:0;border:0;background:#000;cursor:pointer}
+.vid button img{width:100%;height:100%;object-fit:cover}
+.vid svg{position:absolute;top:50%;left:50%;transform:translate(-50%,calc(-50% - 3px));width:100px;height:100px;fill:#fff;opacity:.8;filter:drop-shadow(1px 0 6px rgba(0,0,0,.3));transition:all .5s}
+.vid button:hover svg{opacity:1}
+.vid iframe{display:flex;width:100%;height:100%;border:none;background:#000}
+.sg{width:524px;margin-bottom:-7px}
+.sg h2{margin:.5rem 0 38px;padding:10px;border-radius:7px;background:linear-gradient(90deg,#EAF5E7 0%,#D0E9CA 100%);font-size:17px;font-weight:700;word-spacing:0;color:#2E6023}
+.sg .d,.tq .d,.tq2 .d,.tq3 .d{font-weight:600;color:#1C2F47}
+.b1{width:357px}
+
+/* ===== 3. NÍVEIS ===== */
+.flu{padding:0;background:#17263A url(/dsi-pv-v11/img/dsipv003-78f9a691.webp) top center/cover no-repeat;overflow:hidden}
+.flu::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at center,rgba(111,188,94,.15),rgba(111,188,94,0) 80%);pointer-events:none}
+.flu>.in{justify-content:center;align-items:center;padding:40px 0 80px}
+.box{width:900px;justify-content:center;align-items:center;padding:70px 60px;border:1px solid rgba(255,255,255,.1);border-radius:15px;background:rgba(48,70,99,.12);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+.fh{width:761px;margin-top:-10px}
+.fh h2{margin:.5rem 0 19px;font-size:37px;font-weight:700;letter-spacing:-.7px;word-spacing:0;color:#fff}
+.fh .d{font-size:17px;color:#fff}
+.sw{width:403px;margin:20px 0 -13px;padding:20px 40px;border:1px solid #A7A7A71A;border-radius:5px;background:rgba(10,10,10,.3);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.sw .ib{text-align:start}
+.sw figure{width:48px;margin-right:20px}
+.sw .d{font-size:18px;line-height:1.1em;color:#F1F1F1}
+.tl{flex-direction:row;justify-content:center;align-items:flex-start;width:80%;margin-top:40px;padding:0}
+.tlc{width:33%;align-self:flex-start;justify-content:flex-start;align-items:center;padding:10px}
+.tlw{align-self:flex-end;margin-top:-17px}
+.timeline{position:relative;display:flex;flex-direction:column;align-items:center}
+.timeline-line{position:absolute;width:3px;background:rgba(255,255,255,.25);border-radius:10px;z-index:1}
+.timeline-progress{position:absolute;width:3px;height:0;background:linear-gradient(180deg,#75D061,#54A443);border-radius:10px;z-index:2;transition:height 1.2s ease}
+.timeline-step{width:42px;height:42px;border-radius:50%;background:#e6e6e6;margin:68px 0;display:flex;align-items:center;justify-content:center;font-weight:700;color:#333;position:relative;z-index:5;transform:translateY(-14px)}
+.timeline-step::after{content:attr(data-step);font-size:16px}
+.timeline-step.active{background:linear-gradient(180deg,#75D061,#54A443);color:#fff}
+.lvs{gap:20px 0;padding:0}
+.lv{align-self:flex-start;width:370px}
+.lv .ib,.tp .ib{text-align:start}
+.lv h3{margin:.5rem 0 8px;font-size:32px;font-weight:600;letter-spacing:-.6px;color:#fff}
+.lv .d{font-size:18px;line-height:1.4em;color:#EBEBEB}
+.tp{align-self:flex-start;margin:-12px 0 10px;padding:11px;border:1px solid #A7A7A71A;border-radius:5px;background:rgba(44,44,44,.4);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.tp .d{font-size:14px;line-height:1.1em;color:#F1F1F1}
+.dv{width:100%;margin:10px 0 -11px;padding:8px 0;display:flex}
+.dv span{display:flex;width:200px;margin:0 auto;border-top:1px solid #fff}
+.ap{width:608px}
+.ap h2{margin:.5rem 0 34px;font-size:22px;font-weight:600;letter-spacing:-.6px;word-spacing:0;color:#fff}
+.ap .d{color:#fff}
+.b2{width:357px;margin-bottom:20px}
+
+/* ===== 4. OFERTA (cards) ===== */
+.of{padding:0;z-index:100}
+.of::before{content:"";position:absolute;inset:0;background:#fff url(/dsi-pv-v11/img/key-visual-dsi26-2-1-bb2447f0.webp);background-size:51% auto;opacity:.02}
+.of>.in{padding:0 0 80px}
+.oh{align-self:center;width:611px;margin:-27px 0 -5px}
+.oh figure{width:35px;margin-bottom:33px}
+.oh figure img{animation:bounce .8s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.oh h2,.fq h2{margin:.5rem 0 19px;font-size:48px;font-weight:700;word-spacing:0;color:#1C2F47}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);grid-auto-flow:row;justify-items:center;align-items:stretch;gap:20px;padding:0}
+.card{min-height:480px;justify-content:flex-start;align-items:center;gap:10px;padding:30px;border-style:solid;border-width:0 0 8px;border-color:#54A443;border-radius:10px;background:#F1F8F4;grid-column:span 1;grid-row:span 1;transition:.5s all}
+.card.bx{padding:0 30px;align-items:normal;justify-content:normal}
+.card.bx>.in{justify-content:flex-start;align-items:center;gap:10px;padding:30px 0;max-width:min(100%,1140px)}
+.card:hover{box-shadow:0 10px 50px -20px #00000050;transform:translatey(-5px)}
+.c1{width:82%}
+.c4{width:385px;min-height:490px}
+.cd{align-self:flex-start;width:100%}
+.cd .ib{text-align:start}
+.cd figure{width:100%;margin-bottom:17px}
+.cd figure img{border-radius:5px}
+.cd figure img[srcset]{width:100%}
+.cd h3{margin:.5rem 0 10px;font-size:21px;font-weight:700;line-height:1.3em;letter-spacing:-.7px;text-transform:uppercase;color:#1C2F47}
+.cd .d{line-height:1.3em;letter-spacing:-.2px;color:#313F52}
+.cl{align-self:flex-start;margin-bottom:20px;--is:17px;--iva:flex-start;--ivo:5px}
+.cl li:not(:last-child){padding-block-end:3.5px}
+.cl li:not(:first-child){margin-block-start:3.5px}
+.cl span:not(.ic){font-size:16px;line-height:1.3em;letter-spacing:-.6px;color:#313F52}
+.cl.nm{margin-bottom:0}
+.js .inv{visibility:hidden}
+.inv.go{visibility:visible;animation:fadeInLeft 2s 15ms both}
+@keyframes fadeInLeft{from{opacity:0;transform:translate3d(-100%,0,0)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.tq{align-self:center;width:278px;margin:30px 0 -7px;border-radius:200px}
+.b3{align-self:center;width:357px}
+
+/* ===== 5. COMPARAÇÃO + 2º FORMULÁRIO ===== */
+.cmp{padding:0 5vw;background:#17263A url(/dsi-pv-v11/img/dsipv011-6c877bb5.webp) top center/cover;z-index:11}
+.cmp>.in{flex-direction:row;justify-content:center;align-items:stretch;gap:30px;padding:4vw 0;max-width:min(100%,1130px)}
+.wb{width:500px;min-height:634px;justify-content:center;padding:30px;border-radius:10px;background:#fff}
+.ch{align-self:center;width:405px;margin-bottom:-28px}
+.ch h3{margin:.5rem 0 15px;font-size:21px;font-weight:600;letter-spacing:-1.6px;color:#0F1C12}
+.xl{align-self:center;width:413px;margin:20px 0 14px;--is:21px;--iva:flex-start}
+.xl li:not(:last-child){padding-block-end:8.5px}
+.xl li:not(:first-child){margin-block-start:8.5px}
+.xl span:not(.ic){font-size:17px;line-height:1.3em;letter-spacing:-.4px;color:#313F52}
+.fb{width:470px;min-height:634px;align-self:stretch;justify-content:center;align-items:center;padding:20px 0 0;border:1px solid #4848486B;border-radius:15px;background:rgba(99,99,99,.1);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);z-index:999}
+.fh2{align-self:center;width:400px}
+.fh2 figure{width:92px;margin-bottom:27px}
+.fh2 h2{margin:.5rem 0 12px;font-size:33px;font-weight:700;letter-spacing:-.5px;color:#fff}
+.fh2 .d{font-size:18px;font-weight:500;letter-spacing:-.3px;color:#F3F3F3}
+.fw2{align-self:center;width:376px}
+
+/* ===== 6. BIO ===== */
+.bio{min-height:789px;padding:0;background:#FFFFFE url(/dsi-pv-v11/img/dsipv012-199ac70f.webp) top center/cover no-repeat}
+.bio>.in{justify-content:center;align-items:center;padding:0}
+.bh{align-self:flex-start;width:430px;margin:-10px 0 -5px}
+.bh .ib{text-align:start}
+.bh h2{margin:.5rem 0 19px;font-size:42px;font-weight:700;word-spacing:0;color:#1C2F47}
+.bh .d{font-size:18px;color:#2D3F55}
+.tq2{align-self:flex-start;width:379px;margin:20px 0 -7px;border-radius:200px}
+.b4{align-self:flex-start;width:379px}
+
+/* ===== 7. FAQ ===== */
+.fq{padding:0;background:#F6FFFA}
+.fq>.in{gap:30px 0;padding:50px 0 100px}
+.fqh{align-self:center;width:611px;margin-bottom:-5px}
+.fq h2{font-size:42px}
+.tgs{flex-direction:row;justify-content:center;align-items:flex-start;padding:0}
+.tg{align-self:flex-start;width:44%;border-radius:7px;overflow:hidden;text-align:start}
+.tg .it{border-radius:7px;overflow:hidden;margin-bottom:10px;border:1px solid rgba(255,255,255,.1)}
+.tg .it:not(:last-child){margin-block-end:8px}
+.tg .th{margin:0;padding:22px;border-radius:7px;background:#17263A;cursor:pointer;font-weight:700;line-height:1;outline:none;transition:all .3s}
+.tg .it.op .th{border-bottom-left-radius:0;border-bottom-right-radius:0}
+.tg .ti{display:inline-block;width:1em;float:left;text-align:left;color:#fff}
+.tg .ti svg{width:1em;height:1em;margin-inline-start:-5px;fill:#70C85C}
+.tg .ti span{display:block}
+.tg .ti span+span{display:none}
+.tg .th.on .ti span{display:none}
+.tg .th.on .ti span+span{display:block}
+.tg .th.on .ti svg{fill:#fff}
+.tg .tq-t{font-family:Inter,Sans-serif;font-size:16px;font-weight:400;line-height:1.2em;letter-spacing:-.5px;color:#fff}
+.tg .th.on .tq-t{color:#DBFAD4}
+.tg .tc{display:none;padding:20px 40px;border-bottom-left-radius:12px;border-bottom-right-radius:12px;overflow:hidden;color:#363636;font-family:Inter,Sans-serif;font-size:16px;font-weight:400;line-height:1.4em;letter-spacing:-.4px}
+.tg .it.op .tc{display:block}
+.tq3{align-self:center;width:379px;margin:20px 0 -7px;border-radius:200px}
+.b5{align-self:center;width:379px;margin-bottom:30px}
+
+/* ===== RODAPÉ ===== */
+.ft{display:flex;flex-direction:column;justify-content:center;gap:10px;min-height:186px;padding-bottom:10px;background:#1C2F47;color:#fff;font-family:Inter,Sans-serif}
+.ft .tx{width:100%;max-width:1140px;margin:-5px auto 0;text-align:center;font-size:12px;font-weight:400;line-height:1.4em}
+.ft a{color:#fff}
+.ft h2{align-self:center;margin:0;font-family:Inter,Sans-serif;font-size:11px;font-weight:700;line-height:1.3em;text-transform:uppercase;letter-spacing:.8px;color:#fff;text-align:end}
+
+/* fundos abaixo da dobra carregam perto da tela (como o lazy load do Elementor) */
+.js .lz:not(.on),.js .lz:not(.on)::before{background-image:none!important}
+
+@media (min-width:768px){
+.ib.l{display:flex;flex-direction:row;text-align:start}
+.ib.m{align-items:center}
+.ib.tp-v{align-items:flex-start}
+}
+/* laptop (≤1366) */
+@media (max-width:1366px){
+.hero{min-height:0;padding:0 40px}
+.hero>.in{padding:68px 0 76px}
+.tt{width:100%}
+.hl span:not(.ic){line-height:1.3em}
+.pill{width:100%}
+.rh{padding:0 120px}
+.sg,.fh,.ap,.oh,.tq,.bh,.tq2,.fqh,.tq3{width:51%}
+.b1,.b2,.b3,.b4,.b5{width:39%}
+.flu{background-position:bottom center}
+.card{grid-row:span 2}
+.c1,.c4{width:100%}
+.fh2{width:43%}
+.fh2 h2{margin-bottom:39px}
+.fq>.in{padding:40px 0 100px}
+}
+@media (min-width:1024px){
+.fh h2{padding-left:70px;padding-right:70px}
+.ch .d{padding:0 80px}
+.card{border-radius:10px!important;border-bottom:5px solid #70C85C!important;border-left:5px solid #70C85C!important;background:#F1F8F4!important}
+}
+/* tablet (≤1024) */
+@media (max-width:1024px){
+.c>.in,.card.bx>.in{max-width:100%}
+.tt,.pill,.sg,.fh,.ap,.oh,.tq,.bh,.tq2,.fqh,.tq3{width:57%}
+.b1,.b2,.b3,.b4,.b5{width:54%}
+.card{grid-column:span 3}
+.cmp>.in{flex-direction:column}
+}
+/* mobile (≤767) */
+@media (max-width:767px){
+.w{width:100%!important}
+.c .w{width:100%!important}
+.hero{min-height:1022px;padding:0 8vw;background-image:url(/dsi-pv-v11/img/mobilecorreto-dsi-709dd5f3.webp)}
+.hero>.in{max-width:min(100%,360px);justify-content:flex-start;padding:9vw 0 78vw}
+.hero .col{width:100%}
+.tt{align-self:center;margin:0 0 -19px;padding:0 10px}
+.tt .ib{text-align:center}
+.tt figure{margin-bottom:12px}
+.tt figure img{width:98px}
+.tt h1{margin-bottom:12px;font-size:24px}
+.hl{align-self:center;--is:17px;--iva:flex-start}
+.hl .ic svg{margin:0 2.125px}
+.hl li:not(:last-child){padding-block-end:3.5px}
+.hl li:not(:first-child){margin-block-start:3.5px}
+.hl span:not(.ic){font-size:14px;line-height:1.2em}
+.pill{margin:5px 0 -5px;padding:5px}
+.pill .d{font-size:13px}
+.fw{align-self:center}
+.res{min-height:0;padding:11vw 8vw}
+.rh{margin:0;padding:0}
+.rh figure{width:60%;margin-bottom:4px}
+.rh h2{margin-bottom:4px;font-size:25px}
+.vids{width:100%;gap:10px;margin:0 0 10px}
+.vid svg{width:34px;height:34px}
+.sg{margin:20px 0 -5px}
+.sg h2{margin-bottom:24px;font-size:14px}
+.sg .d{font-size:13px}
+.b1,.b2,.b3,.b4,.b5{align-self:center}
+.bt a{font-size:16px}
+.flu{padding:0 4vw}
+.flu>.in{padding:7vw 0 10vw}
+.box{width:100%;padding:40px 20px}
+.fh{margin:0}
+.fh h2{margin-bottom:12px;font-size:24px;letter-spacing:-.6px}
+.fh .d{font-size:14px}
+.sw{margin:0 0 -12px;padding:15px 7px}
+.sw .ib{text-align:center}
+.sw figure{width:40px;margin-bottom:0;float:left;margin-right:10px!important}
+.sw .d{font-size:14px;line-height:1.3em}
+.tl{width:100%;margin-top:20px;flex-wrap:wrap}
+.tgs{flex-wrap:wrap}
+.tlc{width:40px}
+.tlw{align-self:flex-start}
+.lvs{width:74%}
+.lv h3{font-size:23px}
+.lv .d{font-size:14px;line-height:1.3em;letter-spacing:-.2px}
+.tp{align-self:center;margin:-10px 0 0;padding:10px}
+.tp .ib{text-align:center}
+.tp .d{font-size:14px;line-height:1.3em;letter-spacing:-.3px}
+.dv{margin:0;padding:6px 0}
+.dv span{width:100px}
+.ap h2{margin-bottom:29px;font-size:19px}
+.ap .d{font-size:14px}
+.of{padding:0 8vw}
+.of>.in{justify-content:center;align-items:center;padding:11vw 0}
+.oh{margin:0}
+.oh figure{width:24px;margin-bottom:4px}
+.oh h2{margin-bottom:12px;font-size:27px}
+.cards{grid-template-columns:repeat(1,1fr)}
+.card{min-height:0;padding:25px;grid-column:span 6;border-radius:10px!important;border-bottom:3px solid #70C85C!important;border-left:3px solid #70C85C!important;background:#F1F8F4!important}
+.card.bx{padding:0 25px}
+.card.bx>.in{padding:25px 0}
+.inv.go{animation-name:fadeIn}
+.cd figure{margin-bottom:10px}
+.cd h3{font-size:18px;line-height:1.2em}
+.cd .d{font-size:16px;line-height:1.2em}
+.cl,.cl.nm{margin:10px 0 13px}
+.cl li:not(:last-child){padding-block-end:5px}
+.cl li:not(:first-child){margin-block-start:5px}
+.cl span:not(.ic){line-height:1.2em}
+.tq{margin:20px 0 -5px}
+.tq figure,.tq2 figure,.tq3 figure{display:flex;justify-content:center;align-items:center;padding-bottom:10px}
+.tq .d,.tq2 .d,.tq3 .d{font-size:14px}
+.cmp{padding:0 7vw;background-repeat:repeat}
+.cmp>.in{align-items:stretch;padding:11vw 0}
+.wb{width:100%;min-height:0}
+.ch{margin:10px 0 -19px}
+.ch h3{font-size:23px}
+.xl{margin:10px 0 13px;--is:17px}
+.xl li:not(:last-child){padding-block-end:5px}
+.xl li:not(:first-child){margin-block-start:5px}
+.xl span:not(.ic){font-size:15px;line-height:1.2em}
+.fb{width:100%;min-height:0;padding:11vw 7vw}
+.fh2 figure{width:75px;margin-bottom:27px}
+.fh2 h2{margin-bottom:16px;font-size:25px}
+.fh2 .d{font-size:15px}
+.bio{min-height:0;padding:0 7vw;background-image:url(/dsi-pv-v11/img/dsipv014-scaled-0e5ae33d.webp);background-position:bottom center}
+.bio>.in{padding:11vw 0 70vw}
+.bh{margin:0}
+.bh h2{margin-bottom:23px;font-size:27px}
+.bh .d{font-size:15px}
+.tq2{margin:20px 0 -5px}
+.fq{padding:0 8vw}
+.fq>.in{padding:8vw 0 11vw}
+.fqh{margin:0}
+.fq h2{margin-bottom:12px;font-size:27px}
+.tg .tq-t{font-size:15px;line-height:1.5em}
+.tg .tc{font-size:15px;line-height:1.3em}
+.tg+.tg{margin-top:-11px}
+.tq3{margin:0 0 -11px}
+.ft .tx{line-height:1.6em}
+.ft h2{text-align:center;width:100%}
+}
+</style>
+</head>
+<body>
+<!-- GTM Container placement set to automatic -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TGS4NZX5" height="0" width="0" style="display:none;visibility:hidden" aria-hidden="true"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ck" viewBox="0 0 56 57"><path d="M55.6467 23.3742L54.3205 26.6547C53.9017 27.7714 53.9017 28.958 54.3205 30.0748L55.6467 33.3553C56.4145 35.3097 55.7863 37.5432 54.0413 38.7996L51.1098 40.8237C50.1326 41.5217 49.5044 42.5687 49.2252 43.6855L48.597 47.1754C48.1783 49.2693 46.4333 50.8049 44.3394 50.8747L40.7796 51.0143C39.5931 51.0841 38.4763 51.5727 37.6387 52.4102L35.1958 54.9928C33.73 56.5283 31.4267 56.8773 29.6119 55.8304L26.5408 54.0156C25.4938 53.3874 24.3072 53.2478 23.1207 53.527L19.6308 54.3646C17.6066 54.8532 15.4429 53.876 14.4657 51.9914L12.8603 48.7807C12.3019 47.7337 11.3946 46.8962 10.2778 46.5472L6.92748 45.4304C4.90333 44.7324 3.64696 42.7781 3.85635 40.6841L4.20535 37.1244C4.34494 35.9378 3.99595 34.7513 3.22817 33.8439L0.994625 31.052C-0.331542 29.3768 -0.331542 27.0735 0.994625 25.3983L3.22817 22.6064C3.99595 21.699 4.34494 20.5124 4.20535 19.3259L3.85635 15.7661C3.64696 13.6722 4.90333 11.7178 6.92748 11.0199L10.2778 9.90309C11.3946 9.5541 12.3019 8.71652 12.8603 7.66954L14.4657 4.45882C15.4429 2.57427 17.5368 1.59709 19.6308 2.08568L23.1207 2.92326C24.2375 3.20245 25.4938 3.06286 26.5408 2.43467L29.6119 0.619919C31.4267 -0.427055 33.73 -0.147863 35.1958 1.4575L37.6387 4.04003C38.4763 4.87761 39.5931 5.436 40.7796 5.436L44.3394 5.5756C46.4333 5.64539 48.2481 7.18095 48.597 9.2749L49.2252 12.7648C49.4346 13.9514 50.1326 14.9984 51.1098 15.6265L54.0413 17.6507C55.7863 19.1863 56.4843 21.4198 55.6467 23.3742Z" fill="#6FBC5E"></path><g opacity="0.15"><path d="M16.4898 51.7821L14.8845 48.5714C14.3261 47.5245 13.4187 46.6869 12.3019 46.3379L8.95163 45.2211C6.92748 44.5231 5.67111 42.5688 5.8805 40.4748L6.2295 36.9151C6.36909 35.7285 6.0201 34.542 5.25232 33.6346L3.01878 30.8427C1.69261 29.1675 1.69261 26.8642 3.01878 25.189L5.25232 22.3971C6.0201 21.4897 6.36909 20.3031 6.2295 19.1166L5.8805 15.5568C5.67111 13.4629 6.92748 11.5085 8.95163 10.8106L12.3019 9.69379C13.4187 9.34479 14.3261 8.50721 14.8845 7.46024L16.4898 4.24952C17.0482 3.13275 18.0254 2.36497 19.0724 2.01598C17.1878 1.73678 15.3033 2.71396 14.4657 4.45891L12.8603 7.66963C12.3019 8.71661 11.3946 9.55419 10.2778 9.90318L6.92748 11.02C4.90333 11.7179 3.64696 13.6723 3.85635 15.7662L4.20535 19.3259C4.34494 20.5125 3.99595 21.6991 3.22817 22.6065L0.994625 25.3984C-0.331542 27.0736 -0.331542 29.3769 0.994625 31.0521L3.22817 33.844C3.99595 34.7514 4.34494 35.9379 4.20535 37.1245L3.85635 40.6842C3.64696 42.7782 4.90333 44.7325 6.92748 45.4305L10.2778 46.5473C11.3946 46.8963 12.3019 47.7338 12.8603 48.7808L14.4657 51.9915C15.4429 53.8761 17.5368 54.8533 19.6308 54.3647L20.0496 54.2949C18.514 54.0157 17.1878 53.1781 16.4898 51.7821Z" fill="black"></path><path d="M28.4951 2.22561L31.5662 0.410855C31.8454 0.271259 32.1246 0.131662 32.4038 0.0618639C31.4266 -0.0777326 30.3796 0.131663 29.5421 0.620251L26.4709 2.435C26.1917 2.5746 25.9126 2.7142 25.6334 2.784C26.6105 2.92359 27.5877 2.784 28.4951 2.22561Z" fill="black"></path><path d="M42.7341 50.7353C42.3851 50.7353 42.0361 50.8051 41.7569 50.8749L44.2696 50.7353C44.6186 50.7353 44.8978 50.6655 45.2468 50.5957L42.7341 50.7353Z" fill="black"></path><path d="M31.5662 55.5513L28.495 53.7365C27.4481 53.1084 26.2615 52.9688 25.0749 53.248L24.6561 53.3177C25.2843 53.3875 25.8427 53.5969 26.4011 53.8761L29.4722 55.6909C30.6588 56.3889 31.9849 56.4587 33.2413 56.0399C32.6829 56.0399 32.1245 55.9003 31.5662 55.5513Z" fill="black"></path></g><path d="M16.9086 23.9329L25.6334 33.9141L43.5018 19.5356" fill="#6FBC5E"></path><path d="M23.5397 39.0793C22.5625 39.0793 21.5853 38.6605 20.8873 37.8927L12.1626 27.9116C10.9062 26.4458 11.0458 24.282 12.4417 22.9559C13.9075 21.6995 16.0713 21.8391 17.3974 23.2351L23.9585 30.7035L39.2443 18.419C40.71 17.2324 42.9436 17.4418 44.1302 18.9774C45.3167 20.5129 45.1073 22.6767 43.5718 23.8633L25.7034 38.3115C25.0752 38.8001 24.3074 39.0793 23.5397 39.0793Z" fill="white"></path></symbol>
+  <symbol id="gk" viewBox="0 0 512 512"><path d="m512 256c0 141.386719-114.613281 256-256 256s-256-114.613281-256-256 114.613281-256 256-256 256 114.613281 256 256zm0 0" fill="#6dcd01"/><path d="m411.3125 196.6875-48-48c-6.25-6.246094-16.375-6.246094-22.625 0l-116.6875 116.679688-52.6875-52.679688c-6.25-6.246094-16.375-6.246094-22.625 0l-48 48c-6.246094 6.25-6.246094 16.375 0 22.625l96 96c3 3 7.070312 4.6875 11.3125 4.6875h32c4.242188 0 8.3125-1.6875 11.3125-4.6875l160-160c6.246094-6.25 6.246094-16.375 0-22.625zm0 0" fill="#fff"/></symbol>
+  <symbol id="xk" viewBox="0 0 512 512"><circle cx="256" cy="256" fill="#fb4d42" r="256"/><path d="m351.5 304.1-48.1-48.1 48.1-48.1c13.1-13.1 13.1-34.3 0-47.4-13.1-13.1-34.3-13.1-47.4 0l-48.1 48.1-48.1-48.1c-13.1-13.1-34.3-13.1-47.4 0-13.1 13.1-13.1 34.3 0 47.4l48.1 48.1-48.1 48.1c-13.1 13.1-13.1 34.3 0 47.4 13.1 13.1 34.3 13.1 47.4 0l48.1-48.1 48.1 48.1c13.1 13.1 34.3 13.1 47.4 0 13.3-12.9 14-33.7 1.2-47-.3-.3-.6-.6-1.2-.4z" fill="#feddd2"/></symbol>
+  <symbol id="pl" viewBox="0 0 448 512"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/></symbol>
+  <symbol id="ar" viewBox="0 0 448 512"><path d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"/></symbol>
+  <symbol id="cr" viewBox="0 0 192 512"><path d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"/></symbol>
+  <symbol id="cu" viewBox="0 0 320 512"><path d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z"/></symbol>
+</svg>
+
+<main>
+<!-- ===== 1. TOPO + PRÉ-MATRÍCULA (id="form": alvo de todos os botões, como no WordPress) ===== -->
+<section class="c hero" id="form">
+  <div class="in">
+    <div class="c col">
+      <div class="w tt">
+        <div class="ib"><figure><img src="/dsi-pv-v11/img/camada-1-0dca5e28.svg" width="140" height="43" alt="" fetchpriority="high"></figure><div class="ct"><h1>Fale <span class="ne2">inglês de verdade</span> em 10 meses - e nunca mais gaste um centavo com cursinhos.</h1></div></div>
+      </div>
+      <ul class="w il hl">
+        <li><span class="ic"><svg aria-hidden="true"><use href="#ck"/></svg></span><span>1 ano de aulas de conversação ao vivo ilimitadas</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#ck"/></svg></span><span>12 meses de acesso ao Curso de Inglês da Aloud + 1 Acesso Extra ao curso </span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#ck"/></svg></span><span>IA de pronúncia e escrita</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#ck"/></svg></span><span>Apostilas físicas </span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#ck"/></svg></span><span> Certificado Reconhecido pelo MEC</span></li>
+      </ul>
+      <div class="w pill"><div class="ib"><div class="ct"><p class="d">Preencha a pré-matrícula para que meu time entre em contato: </p></div></div></div>
+      <div class="w fw">
+        <form method="POST" action="https://aloud.activehosted.com/proc.php" id="108" class="active-form">
+          <input type="hidden" name="u" value="108" />
+          <input type="hidden" name="f" value="108" />
+          <input type="hidden" name="s" />
+          <input type="hidden" name="c" value="0" />
+          <input type="hidden" name="m" value="0" />
+          <input type="hidden" name="act" value="sub" />
+          <input type="hidden" name="v" value="2" />
+          <div class="active-form">
+            <div class="form-block">
+              <input type="text" name="fullname" id="form-field-nome" data-name="fullname" placeholder="Digite seu primeiro nome" autocomplete="given-name" required>
+            </div>
+            <div class="form-block">
+              <input type="email" name="email" id="form-field-email" data-name="email" placeholder="Digite seu melhor e-mail" autocomplete="email" required>
+            </div>
+            <div class="form-block">
+              <input type="tel" class="js-phone" id="form-field-telefone" name="phone" placeholder="Digite seu telefone" inputmode="tel" autocomplete="tel-national" required />
+            </div>
+            <div class="form-block">
+              <button>CONFERIR OFERTA</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. RESULTADOS ===== -->
+<section class="c res">
+  <div class="w rh">
+    <div class="ib"><figure><img src="/dsi-pv-v11/img/56-c97170fd.svg" width="769" height="138" alt="" loading="lazy"></figure><div class="ct"><h2>O que aconteceu com quem seguiu o <span class="ne">Curso de Inglês da Aloud?</span></h2></div></div>
+  </div>
+  <div class="c vids">
+    <div class="w vid" data-yt="R4WuD2NHO4I"><button type="button" aria-label="Reproduzir vídeo"><img src="/dsi-pv-v11/img/chrstian-467f1793.webp" width="401" height="225" alt="" loading="lazy"><svg aria-hidden="true"><use href="#pl"/></svg></button></div>
+    <div class="w vid" data-yt="Mpqsd1_4Kg8"><button type="button" aria-label="Reproduzir vídeo"><img src="/dsi-pv-v11/img/georgia-43e006bb.webp" width="401" height="225" alt="" loading="lazy"><svg aria-hidden="true"><use href="#pl"/></svg></button></div>
+    <div class="w vid" data-yt="g1t658g2Cz8"><button type="button" aria-label="Reproduzir vídeo"><img src="/dsi-pv-v11/img/julyandro-9b4edbed.webp" width="401" height="225" alt="" loading="lazy"><svg aria-hidden="true"><use href="#pl"/></svg></button></div>
+    <div class="w vid" data-yt="BoDwbtnmFVY"><button type="button" aria-label="Reproduzir vídeo"><img src="/dsi-pv-v11/img/cleiton-88d73962.webp" width="401" height="225" alt="" loading="lazy"><svg aria-hidden="true"><use href="#pl"/></svg></button></div>
+    <div class="w vid" data-yt="qw11V7SRJNU"><button type="button" aria-label="Reproduzir vídeo"><img src="/dsi-pv-v11/img/lueinny-ab5f4836.webp" width="401" height="225" alt="" loading="lazy"><svg aria-hidden="true"><use href="#pl"/></svg></button></div>
+  </div>
+  <div class="w sg">
+    <div class="ib"><div class="ct"><h2>Para ter os mesmos resultados, siga o mesmo Cronograma!</h2><p class="d">Toque no botão abaixo para fazer sua pré-matrícula </p></div></div>
+  </div>
+  <div class="w bt b1"><a href="#form"><span><span><svg aria-hidden="true"><use href="#ar"/></svg></span><span>FAZER PRÉ-MATRÍCULA</span></span></a></div>
+</section>
+
+<!-- ===== 3. DO ZERO À FLUÊNCIA (4 níveis) ===== -->
+<section class="c flu lz">
+  <div class="in">
+    <div class="c box">
+      <div class="w fh">
+        <div class="ib"><div class="ct"><h2>Do <span class="ne2">Zero à Fluencia </span> em 2026 com o Curso de Inglês da Aloud.</h2><p class="d">Você receberá um passo a passo completo e previsível até falar inglês com tranquilidade.</p></div></div>
+      </div>
+      <div class="w sw">
+        <div class="ib l m"><figure><img src="/dsi-pv-v11/img/switch-animado-2d15f1e0.svg" width="62" height="29" alt="" loading="lazy"></figure><div class="ct"><p class="d">Conheça os 4 níveis de fluência:</p></div></div>
+      </div>
+      <div class="c tl">
+        <div class="c tlc">
+          <div class="w tlw">
+            <div class="timeline">
+              <span class="timeline-line"></span>
+              <span class="timeline-progress"></span>
+              <div class="timeline-step" data-step="1"></div>
+              <div class="timeline-step" data-step="2"></div>
+              <div class="timeline-step" data-step="3"></div>
+              <div class="timeline-step" data-step="4"></div>
+            </div>
+          </div>
+        </div>
+        <div class="c lvs">
+          <div class="w lv"><div class="ib tp-v"><div class="ct"><h3><span class="lvl">Nível 01:</span> Survival</h3><p class="d">Comece a formar frases para <b>situações essenciais do dia a dia.</b></p></div></div></div>
+          <div class="w tp"><div class="ib m"><div class="ct"><p class="d"><b>Tempo de prática:</b> 30 dias.</p></div></div></div>
+          <div class="w lv"><div class="ib tp-v"><div class="ct"><h3><span class="lvl">Nível 02:</span> Adapt</h3><p class="d">Esteja pronto para ter conversas casuais com nativos em viagens.</p></div></div></div>
+          <div class="w tp"><div class="ib m"><div class="ct"><p class="d"><b>Tempo de prática:</b> 3 meses.</p></div></div></div>
+          <div class="w lv"><div class="ib tp-v"><div class="ct"><h3><span class="lvl">Nível 03:</span> Explore</h3><p class="d">Comece a socializar de forma mais profunda com nativos. Podendo até resolver problemas e sugerir soluções.</p></div></div></div>
+          <div class="w tp"><div class="ib m"><div class="ct"><p class="d"><b>Tempo de prática:</b> 6 meses.</p></div></div></div>
+          <div class="w lv"><div class="ib tp-v"><div class="ct"><h3><span class="lvl">Nível 04:</span> Create</h3><p class="d">Entenda e seja entendido em qualquer contexto. Você vai ser capaz de expressar ideias complexas, fazer piadas e se comunicar com confiança.</p></div></div></div>
+          <div class="w tp"><div class="ib m"><div class="ct"><p class="d"><b>Tempo de prática:</b> 10 meses.</p></div></div></div>
+        </div>
+      </div>
+      <div class="w dv"><span></span></div>
+      <div class="w ap">
+        <div class="ib"><div class="ct"><h2>Apenas no Curso de Inglês da Aloud você tem um <span class="ne2">cronograma</span> com tudo que precisa fazer, dia após dia, para conquistar estes resultados. </h2><p class="d">Toque no botão abaixo para garantir sua vaga. </p></div></div>
+      </div>
+      <div class="w bt b2"><a href="#form"><span><span><svg aria-hidden="true"><use href="#ar"/></svg></span><span>FAZER PRÉ-MATRÍCULA</span></span></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. TUDO QUE VOCÊ VAI RECEBER ===== -->
+<section class="c of lz">
+  <div class="in">
+    <div class="w oh">
+      <div class="ib"><figure><img src="/dsi-pv-v11/img/dsipv009-cbe67a65.webp" width="302" height="536" alt="" loading="lazy"></figure><div class="ct"><h2>Tudo que você vai receber nesta <span class="ne">oferta especial.</span></h2></div></div>
+    </div>
+    <div class="c cards">
+      <div class="c card c1 inv">
+        <div class="w cd"><div class="ib"><figure><img src="/dsi-pv-v11/img/aulas-denov-2-768x556-648b4564.webp" srcset="/dsi-pv-v11/img/aulas-denov-2-300x217-8fcee841.webp 300w, /dsi-pv-v11/img/aulas-denov-2-768x556-648b4564.webp 768w, /dsi-pv-v11/img/aulas-denov-2-1024x741-25525d64.webp 1024w, /dsi-pv-v11/img/aulas-denov-2-1536x1111-45e7a95f.webp 1536w" sizes="(max-width: 2560px) 100vw, 2560px" width="2560" height="1852" alt="" loading="lazy"></figure><div class="ct"><h3>1 ANO DE AULAS DE <span class="ne3">CONVERSAÇÃO AO VIVO ILIMITADAS</span></h3><p class="d">Agende quantas aulas de conversação ao vivo quiser durante 1 ano. 100% adaptadas ao seu nível. <b>É prática ao vivo à vontade!
+</b></p></div></div></div>
+      </div>
+      <div class="c card c2 inv">
+        <div class="w cd"><div class="ib"><figure><img src="/dsi-pv-v11/img/curso-1ok1-768x556-533df595.webp" srcset="/dsi-pv-v11/img/curso-1ok1-300x217-a4be650f.webp 300w, /dsi-pv-v11/img/curso-1ok1-768x556-533df595.webp 768w, /dsi-pv-v11/img/curso-1ok1-1024x741-5b11b14a.webp 1024w, /dsi-pv-v11/img/curso-1ok1-1536x1111-9bc71bbc.webp 1536w" sizes="(max-width: 2560px) 100vw, 2560px" width="2560" height="1852" alt="" loading="lazy"></figure><div class="ct"><h3><span class="ne3">CURSO DE INGLÊS DA ALOUD </span>DE INGLÊS</h3><p class="d">Tenha acesso ao mapa da fluência &#8232;que vai te fazer falar inglês em <b>qualquer situação em apenas 10 meses.</b>
+</p></div></div></div>
+      </div>
+      <div class="c card c3 inv">
+        <div class="w cd"><div class="ib"><figure><img src="/dsi-pv-v11/img/fisicosnov-768x556-ac16b0ff.webp" srcset="/dsi-pv-v11/img/fisicosnov-300x217-ec494c97.webp 300w, /dsi-pv-v11/img/fisicosnov-768x556-ac16b0ff.webp 768w, /dsi-pv-v11/img/fisicosnov-1024x741-662c2b00.webp 1024w, /dsi-pv-v11/img/fisicosnov-1536x1111-f17ba05f.webp 1536w" sizes="(max-width: 2560px) 100vw, 2560px" width="2560" height="1852" alt="" loading="lazy"></figure><div class="ct"><h3>APOSTILAS FÍSICAS <br><span class="ne3">DO CURSO</span>
+<br></h3></div></div></div>
+        <ul class="w il cl">
+          <li><span>2 apostilas com simulação de diálogos para revisar vocabulário.</span></li>
+          <li><span>Cronograma dos Fluentes - tudo que você precisa fazer todos os dias para chegar até a fluência num checklist.</span></li>
+          <li><span>Capa dura e acabamento premium.</span></li>
+        </ul>
+      </div>
+      <div class="c card c4 inv">
+        <div class="w cd"><div class="ib"><figure><img src="/dsi-pv-v11/img/silvernov-768x556-b91460d6.webp" srcset="/dsi-pv-v11/img/silvernov-300x217-23a2952e.webp 300w, /dsi-pv-v11/img/silvernov-768x556-b91460d6.webp 768w, /dsi-pv-v11/img/silvernov-1024x741-56799693.webp 1024w, /dsi-pv-v11/img/silvernov-1536x1112-39cee833.webp 1536w" sizes="(max-width: 2560px) 100vw, 2560px" width="2560" height="1853" alt="" loading="lazy"></figure><div class="ct"><h3>
+<span class="ne3">Silver</span> Ticket </h3><p class="d">Passe livre à biblioteca completa de cursos do Teacher Matheus: </p></div></div></div>
+        <ul class="w il cl">
+          <li><span>Inglês Para Trabalho</span></li>
+          <li><span>Inglês Travel (Viagens)</span></li>
+          <li><span>Intensivão do Inglês Básico</span></li>
+        </ul>
+      </div>
+      <div class="c card bx c5 inv">
+        <div class="in">
+          <div class="w cd"><div class="ib"><figure><img src="/dsi-pv-v11/img/para-dar-de-presenteok-38896478.webp" width="648" height="469" alt="" loading="lazy"></figure><div class="ct"><h3>
+<span class="ne3">1 ACESSO EXTRA AO CURSO</span> PARA PRESENTE</h3><p class="d">Você receberá um acesso extra, válido por 12 meses, para presentear qualquer pessoa. São duas matrículas no curso pelo valor de apenas uma.</p></div></div></div>
+        </div>
+      </div>
+      <div class="c card c6 inv">
+        <div class="w cd"><div class="ib"><figure><img src="/dsi-pv-v11/img/bonus1-29751f11.webp" width="648" height="469" alt="" loading="lazy"></figure><div class="ct"><h3>
+<span class="ne3">Bônus</span> especiais</h3><p class="d">Acesso a todos os bônus da <b>nossa caixa de ferramentas: </b></p></div></div></div>
+        <ul class="w il cl nm">
+          <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Manual Prático de Conversação.</span></li>
+          <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>IA de pronúncia e escrita</span></li>
+          <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Guia de inglês para viagens (digital)</span></li>
+          <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Guia de inglês para trabalho (digital)</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="w tq">
+      <div class="ib"><div class="ct"><p class="d">Toque no botão abaixo para fazer sua pré-matrícula </p></div></div>
+    </div>
+    <div class="w bt b3"><a href="#form"><span><span><svg aria-hidden="true"><use href="#ar"/></svg></span><span>FAZER PRÉ-MATRÍCULA</span></span></a></div>
+  </div>
+</section>
+
+<!-- ===== 5. SEM x COM A OFERTA + 2º FORMULÁRIO ===== -->
+<section class="c cmp lz">
+  <div class="in">
+    <div class="c wb">
+      <div class="w ch"><div class="ib"><div class="ct"><h3> SEU INGLÊS SEM A OFERTA EXCLUSIVA DO CURSO DE INGLÊS DA ALOUD</h3></div></div></div>
+      <ul class="w il xl">
+        <li><span class="ic"><svg aria-hidden="true"><use href="#xk"/></svg></span><span>Método tradicionais focados em gramática.</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#xk"/></svg></span><span>Horas intermináveis de estudo sem resultado.</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#xk"/></svg></span><span>Medo e trava na hora de falar na vida real.</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#xk"/></svg></span><span>Termina o ano sem falar inglês (de novo!).</span></li>
+      </ul>
+      <div class="w ch"><div class="ib"><div class="ct"><h3>SEU INGLÊS COM A OFERTA EXCLUSIVA DO CURSO DE <span class="ne3">INGLÊS DA ALOUD</span></h3></div></div></div>
+      <ul class="w il xl">
+        <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Método focado em conversação para o dia a dia.</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Aulas de 15-20 min que expandem seu vocabulário.</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Consegue fazer viagens internacionais nos primeiros meses.</span></li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#gk"/></svg></span><span>Termina o ano falando inglês com confiança (finalmente!). </span></li>
+      </ul>
+    </div>
+    <div class="c fb">
+      <div class="w fh2">
+        <div class="ib"><figure><img src="/dsi-pv-v11/img/camada-1-0dca5e28.svg" width="92" height="28" alt="" loading="lazy"></figure><div class="ct"><h2>Falta pouco para desbloquear <b>a melhor oferta que já fiz.</b></h2><p class="d">Toque no botão abaixo para fazer sua pré-matrícula </p></div></div>
+      </div>
+      <div class="w fw2">
+        <form method="POST" action="https://aloud.activehosted.com/proc.php" id="108" class="active-form">
+          <input type="hidden" name="u" value="108" />
+          <input type="hidden" name="f" value="108" />
+          <input type="hidden" name="s" />
+          <input type="hidden" name="c" value="0" />
+          <input type="hidden" name="m" value="0" />
+          <input type="hidden" name="act" value="sub" />
+          <input type="hidden" name="v" value="2" />
+          <div class="active-form">
+            <div class="form-block">
+              <input type="text" name="fullname" id="form-field-nome" data-name="fullname" placeholder="Digite seu primeiro nome" autocomplete="given-name" required>
+            </div>
+            <div class="form-block">
+              <input type="email" name="email" id="form-field-email" data-name="email" placeholder="Digite seu melhor e-mail" autocomplete="email" required>
+            </div>
+            <div class="form-block">
+              <input type="tel" class="js-phone" id="form-field-telefone" name="phone" placeholder="Digite seu telefone" inputmode="tel" autocomplete="tel-national" required />
+            </div>
+            <div class="form-block">
+              <button>CONFERIR OFERTA</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. QUEM VAI TE GUIAR ===== -->
+<section class="c bio lz">
+  <div class="in">
+    <div class="w bh">
+      <div class="ib"><div class="ct"><h2>Quem vai te <span class="ne">guiar </span> nessa Jornada?</h2><p class="d">Matheus Werner Jerke é professor de inglês e fundador da Aloud, <b>escola com mais de 56 mil alunos.</b>
+<br><br> Depois de impactar mais de 13 milhões de pessoas nas redes sociais e se tornar uma referência no ensino de inglês, Matheus reuniu <b>anos de experiência em uma jornada completa, criada para levar você do zero à fluência. <br><br></b> Com um <b>método estruturado, prático e focado na conversação desde o início,</b> você sempre saberá o que estudar, quando estudar e como evoluir, desenvolvendo a confiança necessária para falar inglês em situações do dia a dia e <b>conquistar oportunidades na carreira, nas viagens e na vida. </b></p></div></div>
+    </div>
+    <div class="w tq2">
+      <div class="ib"><div class="ct"><p class="d">Toque no botão abaixo para garantir sua vaga. </p></div></div>
+    </div>
+    <div class="w bt b4"><a href="#form"><span><span><svg aria-hidden="true"><use href="#ar"/></svg></span><span>GARANTIR VAGA</span></span></a></div>
+  </div>
+</section>
+
+<!-- ===== 7. PERGUNTAS FREQUENTES ===== -->
+<section class="c fq">
+  <div class="in">
+    <div class="w fqh"><div class="ib"><div class="ct"><h2>Perguntas <span class="ne">Frequentes</span></h2></div></div></div>
+    <div class="c tgs">
+      <div class="w tg">
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">O que é exatamente a Oferta especial do Curso de inglês da Aloud?</a></div>
+          <div class="tc" role="region"><p><span style="font-weight: 400;">É uma oferta limitada do Curso que te dá acesso a </span><b>aulas de conversação ILIMITADAS durante 1 ano inteiro</b><span style="font-weight: 400;">, além de acesso por 12 meses a todos os cursos de inglês da nossa escola, que vão te conduzir do zero à fluência.&nbsp;</span></p><p><span style="font-weight: 400;">Com apostilas físicas com frete grátis se você mora no Brasil e um acesso extra aos cursos gravados para presentear alguém.</span></p></div>
+        </div>
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">Como funciona o acesso extra ao Curso de Inglês?</a></div>
+          <div class="tc" role="region"><p><span style="font-weight: 400;">Assim que você fizer sua inscrição, vai poder presentear alguém com uma matrícula no Curso de inglês da Aloud, sem que você ou ela tenha que pagar nada.&nbsp;</span></p><p><b>O acesso extra inclui: 12 meses de acesso a todos os cursos de inglês gravados do Teacher Matheus.</b></p><p><b>O que o comprador recebe:</b></p><ul><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Acesso ao curso de inglês por 12 meses</span></li><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Conversação</span></li><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Apostilas físicas com frete grátis pro Brasil</span></li><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Silver Ticket</span></li><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">E muito mais!</span></li></ul><p><b>O que a pessoa presenteada recebe:</b></p><ul><li style="list-style-type: none;"><ul><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Acesso ao curso de inglês por 12 meses</span></li><li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Silver Ticket</span></li></ul></li></ul><ul><li aria-level="1"><b>IMPORTANTE: o acesso extra aos cursos será liberado apenas 7 dias após a inscrição.</b></li></ul><p>&nbsp;</p></div>
+        </div>
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">Como funciona o 1 ano de aulas de conversação ao vivo ilimitadas?</a></div>
+          <div class="tc" role="region"><p class="p1">Durante 1 ano inteiro, você pode agendar quantas aulas de conversação ao vivo quiser, de segunda a sábado, que é quando nossos professores estão ativos na plataforma.</p><p class="p1">Ou seja, é prática ao vivo à vontade: sem limite e sem mensalidade extra.</p></div>
+        </div>
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">O que vem nas apostilas físicas?</a></div>
+          <div class="tc" role="region"><p><b>Você recebe em casa a edição completa das apostilas físicas do curso, com:</b></p><p><span style="font-weight: 400;">✅ 2 apostilas com simulação de diálogos para revisar vocabulário.</span></p><p><span style="font-weight: 400;">✅ Cronograma dos Fluentes – tudo que você precisa fazer todos os dias para chegar até a fluência em um checklist</span></p><p><span style="font-weight: 400;">✅ Capa dura e acabamento premium.</span></p><p><span style="font-weight: 400;">Tudo isso para manter foco, constância e acompanhamento físico do seu progresso.</span></p><p><b>⚠️ Lembrando que as apostilas físicas têm frete grátis somente para quem mora no Brasil. Se você mora no exterior, entre em contato com o nosso Time de Suporte e eles te informam o valor do frete.</b></p></div>
+        </div>
+      </div>
+      <div class="w tg">
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">Os cursos são 100% online?</a></div>
+          <div class="tc" role="region"><p><span style="font-weight: 400;">Sim. Todo o conteúdo principal é online, para você estudar onde e quando quiser.</span></p><p><span style="font-weight: 400;">Apenas as apostilas físicas (frete grátis pro Brasil) são enviadas para sua casa como complemento.</span></p></div>
+        </div>
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">Preciso já saber inglês para aproveitar?</a></div>
+          <div class="tc" role="region"><p><span style="font-weight: 400;">Não. O curso de inglês da Aloud te leva do zero à fluência, mesmo que você nunca tenha estudado inglês antes.&nbsp;</span></p><p><span style="font-weight: 400;">As aulas e materiais são organizados em 14 estágios progressivos, para você começar no básico e ir até o avançado.</span></p></div>
+        </div>
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">Como funciona a garantia irrecusável?</a></div>
+          <div class="tc" role="region"><p><span style="font-weight: 400;">Simples: se, depois de 1 ano, você provar que aplicou o Cronograma completo, por meio das participações nas aulas de conversação, suas anotações e pela conclusão das aulas do curso, e </span><b>ainda assim não ficou fluente</b><span style="font-weight: 400;">, eu devolvo seu dinheiro e ainda deposito </span><b>R$ 2.000,00</b><span style="font-weight: 400;"> na sua conta</span></p></div>
+        </div>
+        <div class="it">
+          <div class="th" role="button" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><span><svg><use href="#cr"/></svg></span><span><svg><use href="#cu"/></svg></span></span><a class="tq-t">O certificado é reconhecido pelo MEC?</a></div>
+          <div class="tc" role="region"><p><span style="font-weight: 400;">Ao concluir as aulas, realizar a prova e ser aprovado, você receberá um certificado com reconhecimento do MEC — uma certificação valorizada pelo mercado para destacar seu currículo.</span></p></div>
+        </div>
+      </div>
+    </div>
+    <div class="w tq3">
+      <div class="ib"><div class="ct"><p class="d">Toque no botão abaixo para garantir sua vaga. </p></div></div>
+    </div>
+    <div class="w bt b5"><a href="#form"><span><span><svg aria-hidden="true"><use href="#ar"/></svg></span><span>GARANTIR VAGA</span></span></a></div>
+  </div>
+</section>
+</main>
+
+<!-- ===== RODAPÉ ===== -->
+<footer class="ft">
+  <div class="tx">
+    <p><strong><a href="https://matheuswerner.com.br/termos-de-uso/">Termos de uso</a> e <a href="https://matheuswerner.com.br/politicas-de-privacidade/" target="_blank" rel="noopener">políticas de privacidade</a></strong></p>
+    <p>Aloud Idiomas LTDA&nbsp; | © Copyright 2025</p>
+    <p><strong>CNPJ:</strong> 53.424.357/0001-63 | | <strong>Whatsapp:</strong> (41) 3797-1035 &nbsp;| <a href="mailto:suporte@aloud.com.br">suporte@aloud.com.br</a></p>
+  </div>
+  <h2> Desenvolvido por Aloud</h2>
+</footer>
+
+<script>
+// Interações: vídeos (capa → player no clique), FAQ, entrada dos cards, linha do tempo e fundos sob demanda.
+(function () {
+  // vídeos: mesmo embed que o Elementor cria no clique da capa (youtube.com, controls=0, rel=0) já tocando
+  document.querySelectorAll('.vid').forEach(function (v) {
+    v.querySelector('button').addEventListener('click', function () {
+      v.innerHTML = '<iframe src="https://www.youtube.com/embed/' + v.dataset.yt + '?controls=0&rel=0&playsinline=0&cc_load_policy=0&autoplay=1" title="Vídeo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+    });
+  });
+
+  // FAQ: como no WordPress, cada coluna abre um item por vez; a seta/cor do título alterna a cada clique nele
+  document.querySelectorAll('.tg').forEach(function (tg) {
+    tg.querySelectorAll('.th').forEach(function (th) {
+      var go = function () {
+        var it = th.parentNode, was = it.classList.contains('op');
+        tg.querySelectorAll('.it').forEach(function (i) { i.classList.remove('op'); });
+        if (!was) it.classList.add('op');
+        th.classList.toggle('on');
+        th.setAttribute('aria-expanded', th.classList.contains('on'));
+      };
+      th.addEventListener('click', go);
+      th.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  });
+
+  var io = 'IntersectionObserver' in window;
+  // entrada dos cards (fadeInLeft; fadeIn no mobile) e fundos das seções abaixo da dobra
+  if (io) {
+    var ob = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add(e.target.classList.contains('lz') ? 'on' : 'go'); ob.unobserve(e.target); } });
+    }, { rootMargin: '200px 0px 200px 0px' });
+    var ob2 = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('go'); ob2.unobserve(e.target); } });
+    });
+    document.querySelectorAll('.lz').forEach(function (s) { ob.observe(s); });
+    document.querySelectorAll('.inv').forEach(function (s) { ob2.observe(s); });
+  } else {
+    document.querySelectorAll('.lz').forEach(function (s) { s.classList.add('on'); });
+    document.querySelectorAll('.inv').forEach(function (s) { s.classList.add('go'); });
+  }
+
+  // linha do tempo dos 4 níveis (mesma lógica do WordPress)
+  var timeline = document.querySelector('.timeline');
+  var line = timeline.querySelector('.timeline-line'), progress = timeline.querySelector('.timeline-progress');
+  var steps = timeline.querySelectorAll('.timeline-step'), first = steps[0], last = steps[steps.length - 1];
+  var update = function () {
+    var r = timeline.getBoundingClientRect();
+    var fc = first.getBoundingClientRect().top - r.top + first.offsetHeight / 2;
+    var lc = last.getBoundingClientRect().top - r.top + last.offsetHeight / 2;
+    var h = lc - fc;
+    line.style.top = fc + 'px'; line.style.height = h + 'px';
+    var visible = window.innerHeight - r.top - fc;
+    progress.style.top = fc + 'px';
+    progress.style.height = Math.max(0, Math.min(visible, h)) + 'px';
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+  if (io) {
+    var so = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.6 });
+    steps.forEach(function (s) { so.observe(s); });
+  }
+})();
+</script>
+
+<!-- intl-tel-input JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<!-- Utils para formatar E.164 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
+<script>
+// Telefone dos dois formulários: DDI, máscara por país e validação (mesmas regras das V22–V24).
+(function () {
+    var maskMap = {
+        'br': '(00) 00000-0000', 'us': '(000) 000-0000', 'pt': '000 000 000', 'gb': '00000 000000',
+        'ie': '000 000 0000', 'ca': '(000) 000-0000', 'es': '000 000 000', 'jp': '000-0000-0000',
+        'au': '0000 000 000', 'it': '000 000 0000', 'de': '0000 0000000', 'vi': '(000) 000-0000',
+        'be': '000 00 00 00', 'nl': '000 000 0000', 'fr': '00 00 00 00 00', 'ar': '00 0000-0000',
+        'ae': '000 000 0000', 'af': '000 000 0000'
+    };
+    var placeholderMap = {
+        br: '(11) 98765-4321', us: '(202) 555-0199', pt: '912 345 678', gb: '07123 456789',
+        ie: '085 123 4567', ca: '(416) 555-0133', es: '612 345 678', jp: '090-1234-5678',
+        au: '0412 345 678', it: '347 123 4567', de: '1512 3456789', vi: '(340) 555-0123',
+        be: '470 12 34 56', nl: '061 234 5678', fr: '06 12 34 56 78', ar: '11 2345-6789',
+        ae: '050 123 4567', af: '070 123 4567'
+    };
+
+    // IDs dos campos extras no ActiveCampaign
+    var FIELD_PHONE_COUNTRY_FLAG = 42;
+    var FIELD_PHONE_DDI = 43;
+    var FIELD_RAW_PHONE = 41;
+
+    function ensureHiddenField(form, fieldId) {
+        var el = form.querySelector('input[name="field[' + fieldId + ']"]');
+        if (!el) {
+            el = document.createElement("input");
+            el.type = "hidden";
+            el.name = 'field[' + fieldId + ']';
+            form.appendChild(el);
+        }
+        return el;
+    }
+
+    function maskNumber(val, mask) {
+        var clean = val.replace(/\D/g, '');
+        var newVal = '';
+        var maskIdx = 0, cleanIdx = 0;
+        while (maskIdx < mask.length && cleanIdx < clean.length) {
+            if (mask[maskIdx] === '0') {
+                newVal += clean[cleanIdx++];
+            } else {
+                newVal += mask[maskIdx];
+            }
+            maskIdx++;
+        }
+        return newVal;
+    }
+
+    function initPhoneFields(context) {
+        context.querySelectorAll('.js-phone').forEach(function (input) {
+            if (input.dataset.itiInitialized === "true") return;
+
+            var iti = window.intlTelInput(input, {
+                separateDialCode: true,
+                preferredCountries: ["br", "us", "pt", "gb", "ie", "ca", "es", "jp", "au", "it", "de"],
+                initialCountry: "br",
+                utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            input.dataset.itiInitialized = "true";
+
+            function updatePlaceholder() {
+                input.placeholder = placeholderMap[iti.getSelectedCountryData().iso2] || '';
+            }
+            updatePlaceholder();
+
+            // máscara dinâmica
+            input.addEventListener('input', function () {
+                var mask = maskMap[iti.getSelectedCountryData().iso2];
+                input.value = mask ? maskNumber(input.value, mask) : input.value.replace(/\D/g, '');
+            });
+
+            // troca de país → reseta
+            input.addEventListener('countrychange', function () {
+                setTimeout(function () { input.value = ''; updatePlaceholder(); }, 30);
+            });
+
+            // se o envio falhou e o campo ficou em E.164, volta ao formato nacional
+            input.addEventListener('focus', function () {
+                if (input.value.charAt(0) === '+') {
+                    iti.setNumber(input.value);
+                    var mask = maskMap[iti.getSelectedCountryData().iso2];
+                    input.value = mask ? maskNumber(input.value, mask) : input.value.replace(/\D/g, '');
+                }
+            });
+
+            // validação no submit
+            input.closest("form").addEventListener("submit", function (e) {
+                if (input.value.charAt(0) === '+') iti.setNumber(input.value);
+                var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+                var isValid = iti.isValidNumberPrecise ? iti.isValidNumberPrecise() : iti.isValidNumber();
+                var errorCode = iti.getValidationError();
+
+                console.log("[submit] raw:", input.value, "full:", fullNumber, "isValid:", isValid, "errorCode:", errorCode);
+
+                if (!isValid || errorCode !== 0) {
+                    e.preventDefault();
+                    alert("Número inválido.");
+                    return false;
+                }
+
+                // regra extra BR
+                if (iti.getSelectedCountryData().iso2 === "br") {
+                    var digitsBR = fullNumber.replace(/\D/g, '').replace(/^55/, '');
+                    if (digitsBR.length < 10) {
+                        e.preventDefault();
+                        alert("Número de telefone muito curto para o Brasil.");
+                        return false;
+                    }
+                }
+
+                // força E.164
+                input.value = fullNumber;
+
+                // hidden fields
+                var form = input.closest("form");
+                var sel = iti.getSelectedCountryData();
+                var iso2 = (sel && sel.iso2) || '';
+                var ddi = (sel && sel.dialCode) || '';
+                var numeroDigits = fullNumber.replace(/\D/g, '');
+                var numeroSemDdi = numeroDigits.indexOf(ddi) === 0 ? numeroDigits.substring(ddi.length) : numeroDigits;
+
+                ensureHiddenField(form, FIELD_PHONE_COUNTRY_FLAG).value = iso2;
+                ensureHiddenField(form, FIELD_PHONE_DDI).value = ddi;
+                ensureHiddenField(form, FIELD_RAW_PHONE).value = numeroSemDdi;
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initPhoneFields(document);
+    });
+})();
+</script>
+
+<script>
+(function() {
+    const utms = {
+        'source': 281,
+        'medium': 283,
+        'campaign': 282,
+        'content': 285,
+        'term': 284,
+        'paginaCaptura': 293
+    };
+
+    const prefixo = "utm_"; // Prefixo customizado para os parâmetros UTM
+
+    function criarCampos() {
+        const form = document.querySelectorAll('form');
+        const urlParamsCapt = new URLSearchParams(window.location.search);
+        const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+
+        form.forEach(el => {
+            for (let utm in utms) {
+                const paramName = prefixo + utm;
+                console.log(`Processando UTM: ${paramName}`);
+
+                // campo já existente (ex.: valores fixos do 2º formulário) é atualizado em vez de ignorado
+                let x = el.querySelector(`input[name="field[${utms[utm]}]"]`);
+                if (!x) {
+                    x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", `field[${utms[utm]}]`);
+                    el.appendChild(x);
+                }
+
+                let utmValue;
+                if (utm === "source") {
+                    utmValue = urlParamsCapt.get(paramName)
+                        ? urlParamsCapt.get(paramName)
+                        : (document.referrer ? (urlParamsCaptReferrer.get(paramName) || new URL(document.referrer).hostname) : "direto");
+                } else if (utm === "paginaCaptura") {
+                    utmValue = window.location.pathname.replace('/', '');
+                } else {
+                    utmValue = urlParamsCapt.get(paramName) || urlParamsCaptReferrer.get(paramName) || "";
+                }
+
+                console.log(`Campo: ${paramName}, Valor: ${utmValue}`);
+                x.setAttribute("value", utmValue);
+                x.value = utmValue;
+            }
+        });
+    }
+
+    criarCampos();
+    window.onload = criarCampos;
+    document.getElementById("form-field-email").onchange = function () {
+        criarCampos();
+        console.log("Campos UTM recriados após alteração no campo de e-mail.");
+    }
+})();
+</script>
