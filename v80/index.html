@@ -22,8 +22,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="robots" content="max-image-preview:large">
 <title>Pré-Matrícula – Cronograma dos Fluentes 80 – Matheus Werner</title>
 <link rel="canonical" href="https://cronogramadosfluentes.com.br/pc-le-cdf-v80/">
-<link rel="icon" type="image/png" sizes="192x192" href="/pc-le-cdf-v80/img/fivecon.png">
-<link rel="icon" type="image/svg+xml" href="/pc-le-cdf-v80/img/fivecon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="/pc-le-cdf-v80/img/fivecon-24aaec54.png">
+<link rel="icon" type="image/svg+xml" href="/pc-le-cdf-v80/img/fivecon-34deea99.svg">
 <link rel="preload" href="/pc-le-cdf-v80/img/lpmcopa018-6324b778.webp" as="image" media="(min-width:768px)" fetchpriority="high">
 <link rel="preload" href="/pc-le-cdf-v80/img/lpmcopa020-scaled-scaled-scaled-0b35b15f.webp" as="image" media="(max-width:767px)" fetchpriority="high">
 <link rel="preload" href="/pc-le-cdf-v80/fonts/switzer-bold-9dcc430a.woff2" as="font" type="font/woff2" crossorigin>
@@ -378,7 +378,9 @@ form *{box-sizing:border-box}
   .anim.vis{animation-name:fadeIn}
 }
 h1,h2,h3,h4{text-wrap:balance}
+.js .bio:not(.bg-on){background-image:none}
 </style>
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1067,6 +1069,11 @@ document.querySelectorAll('.tg').forEach(function (col) {
     pop.querySelector('.x').addEventListener('click', close);
     pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
 })();
+</script>
+<script>
+// fundo da seção .bio (imagem de 50-80 KB) só quando ela chega a ~1000px da tela
+(function(){var b=document.querySelector(".bio");if(!b)return;if(!("IntersectionObserver" in window)){b.classList.add("bg-on");return}
+var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){b.classList.add("bg-on");o.disconnect()}},{rootMargin:"1000px 0px"});o.observe(b)})();
 </script>
 </body>
 </html>

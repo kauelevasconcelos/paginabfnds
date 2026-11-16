@@ -1,0 +1,36 @@
+# Cache longo (1 ano, immutable) só para imagens e fontes das páginas otimizadas em 16/11/2026.
+# Todos esses arquivos têm hash no nome (ex.: foto-1a2b3c4d.webp): para trocar um asset, gere um arquivo novo
+# com outro hash e atualize o index.html — NUNCA substitua o conteúdo mantendo o mesmo nome.
+# O HTML (index.html) não entra aqui e continua com o padrão do Pages (max-age=0, must-revalidate).
+/v80/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v80/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v111/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v111/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v25/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v25/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v26/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v26/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v27/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v27/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/dsi-pv-v11/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/dsi-pv-v11/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/dsi-pv-v12/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/dsi-pv-v12/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/dsi-pv-v13/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/dsi-pv-v13/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
