@@ -255,7 +255,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="nums">
-    <div class="num"><span>ALUNOS</span><b><span>+</span><span class="cnt" data-to="60" data-ms="3000">60</span><span>mil</span></b></div>
+    <div class="num"><span>ALUNOS</span><b><span>+</span><span class="cnt" data-to="62" data-ms="3000">62</span><span>mil</span></b></div>
     <div class="num"><span>inscritos</span><b><span>+</span><span class="cnt" data-to="13" data-ms="2000">13</span><span>mil</span></b></div>
     <div class="num"><span>de experiência</span><b><span>+</span><span class="cnt" data-to="10" data-ms="2000">10</span><span>anos</span></b></div>
   </div>
@@ -305,7 +305,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     timer = setInterval(tick, 1000);
   }
 
-  // contadores (+60 mil, +13 mil, +10 anos) animam ao entrar na tela
+  // contadores (+62 mil, +13 mil, +10 anos) animam ao entrar na tela
   var count = function (el) {
     var to = +el.dataset.to, ms = +el.dataset.ms, t0 = null;
     var step = function (t) { t0 = t0 || t; var p = Math.min(1, (t - t0) / ms); el.textContent = Math.round(to * p); if (p < 1) requestAnimationFrame(step); };
