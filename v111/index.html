@@ -589,5 +589,310 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+<!-- =====================================================================
+  ALOUD · EXIT POP-UP · PADRÃO ÚNICO v2.0 (2026-11)
+  Um só código para todas as LPs (Aloud e Black). Sem contador.
+
+  COMO USAR
+  - LP estática: cole este bloco inteiro antes de </body>.
+  - LP no Elementor: cole num widget "HTML" no fim da página,
+    ou uma vez só em Elementor > Custom Code (Body - End).
+  - O pop-up envia para o MESMO formulário do ActiveCampaign da LP
+    (o primeiro form da página). Se a LP não tiver form do AC,
+    usa o form 113 abaixo como reserva.
+  - Para mudar o texto, edite direto no HTML (bloco "TEXTO").
+  - Teste em qualquer LP: adicione ?aep=1 na URL.
+====================================================================== -->
+<script data-no-optimize="1" data-no-defer="1" data-cfasync="false">
+window.AEP_CONFIG = {
+  campaign: "aloud-exit",   // limite de frequência (troque para reexibir a todos)
+  minSecondsOnPage: 4,      // não abre antes disso
+  capHours: 24,             // no máximo 1x a cada 24h por pessoa
+  mobileBack: true,         // celular: botão "voltar" abre o pop-up
+  mobileScrollUp: true      // celular: rolagem rápida para cima abre o pop-up
+};
+</script>
+
+<style id="aep-css">
+.aep{--aep-bg:#0f0f0f;--aep-line:rgba(255,255,255,.12);--aep-text:#fff;--aep-muted:rgba(255,255,255,.74);
+  --aep-accent:#00ffff;--aep-on-accent:#000;--aep-glow:rgba(0,255,255,.16);--aep-error:#ff6b6b;--aep-radius:16px;--aep-ctrl:6px;
+  position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:24px;
+  font-family:Switzer,Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--aep-text);
+  -webkit-font-smoothing:antialiased;line-height:1.4;text-align:left}
+.aep[hidden]{display:none!important}
+.aep *,.aep *::before,.aep *::after{box-sizing:border-box}
+html.aep-lock,html.aep-lock body{overflow:hidden!important}
+
+.aep__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;transition:opacity .22s ease}
+.aep__dialog{position:relative;width:100%;max-width:460px;max-height:calc(100dvh - 48px);overflow:auto;overscroll-behavior:contain;
+  background:radial-gradient(120% 70% at 50% 0%,var(--aep-glow) 0%,transparent 60%),var(--aep-bg);
+  border:1px solid var(--aep-line);border-radius:var(--aep-radius);padding:36px 32px 22px;box-shadow:0 24px 80px rgba(0,0,0,.6);
+  opacity:0;transform:translateY(8px) scale(.97);transition:opacity .22s ease,transform .22s ease;outline:none}
+.aep.is-open .aep__backdrop{opacity:1}
+.aep.is-open .aep__dialog{opacity:1;transform:none}
+
+/* X de fechar: visível, contraste alto, área de toque de 44px */
+.aep__close{position:absolute;top:12px;right:12px;width:44px;height:44px;display:grid;place-items:center;margin:0;padding:0;
+  border:1px solid var(--aep-line);border-radius:999px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:background .15s}
+.aep__close:hover{background:rgba(255,255,255,.18)}
+.aep__close svg{width:18px;height:18px;display:block}
+.aep__close:focus-visible,.aep__dismiss:focus-visible,.aep__cta:focus-visible,.aep__dialog:focus-visible{outline:2px solid var(--aep-accent);outline-offset:3px}
+
+.aep__logo{display:block;height:24px;width:auto;margin:0 0 18px}
+.aep__pill{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;padding:6px 11px;border-radius:999px;
+  background:rgba(0,255,255,.12);color:var(--aep-accent);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.aep__pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:aep-pulse 1.6s ease-in-out infinite}
+@keyframes aep-pulse{50%{opacity:.25}}
+.aep__title{margin:0 0 8px;font-size:28px;line-height:1.12;font-weight:700;letter-spacing:-.02em;color:#fff;font-family:inherit;text-transform:none}
+.aep__title em{font-style:normal;color:var(--aep-accent)}
+.aep__desc{margin:0 0 18px;font-size:16px;color:var(--aep-muted)}
+
+.aep__form{display:grid;gap:10px;margin:0}
+.aep__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.aep .aep__input,.aep .aep__ddi{-webkit-appearance:none;appearance:none;margin:0;width:100%;height:50px;padding:0 16px;
+  border:1px solid transparent;border-radius:var(--aep-ctrl);background:#fff;color:#111;box-shadow:none;
+  font-family:inherit;font-size:16px;font-weight:400;line-height:1.2} /* 16px evita o zoom automático do iPhone */
+.aep .aep__input::placeholder{color:#7a7a7a;opacity:1}
+.aep .aep__input:focus,.aep .aep__ddi:focus{outline:2px solid var(--aep-accent);outline-offset:1px}
+.aep .aep__input[aria-invalid="true"]{border-color:var(--aep-error);outline-color:var(--aep-error)}
+.aep__phone{display:grid;grid-template-columns:104px 1fr;gap:8px}
+.aep .aep__ddi{padding:0 28px 0 12px;cursor:pointer;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23111'/%3E%3C/svg%3E") no-repeat right 12px center}
+.aep__err{margin:0;font-size:13px;color:var(--aep-error)}
+.aep__err:empty{display:none}
+.aep .aep__cta{-webkit-appearance:none;appearance:none;margin:4px 0 0;width:100%;min-height:54px;padding:14px 20px;border:0;border-radius:var(--aep-ctrl);
+  background:var(--aep-accent);color:var(--aep-on-accent);cursor:pointer;font-family:inherit;font-size:17px;font-weight:700;line-height:1.2;
+  text-transform:uppercase;letter-spacing:.02em;transition:filter .15s,transform .1s}
+.aep .aep__cta:hover{filter:brightness(1.08)}
+.aep .aep__cta:active{transform:translateY(1px)}
+.aep .aep__cta[disabled]{opacity:.7;cursor:progress}
+.aep__trust{display:flex;gap:8px;align-items:flex-start;margin:4px 0 0;font-size:13px;color:var(--aep-muted)}
+.aep__trust svg{flex:none;width:14px;height:14px;margin-top:2px}
+.aep__dismiss{display:block;margin:12px auto 0;padding:10px 12px;border:0;background:none;color:var(--aep-muted);
+  font-family:inherit;font-size:14px;font-weight:500;line-height:1;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.aep__dismiss:hover{color:#fff}
+
+/* Celular: gaveta que sobe da base da tela */
+@media (max-width:600px){
+  .aep{align-items:flex-end;padding:0}
+  .aep__dialog{max-width:none;max-height:92dvh;border-radius:20px 20px 0 0;border-bottom:0;
+    padding:30px 20px calc(14px + env(safe-area-inset-bottom));transform:translateY(100%)}
+  .aep__dialog::before{content:"";position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:4px;background:rgba(255,255,255,.25)}
+  .aep__close{top:10px;right:10px}
+  .aep__logo{margin-bottom:14px}
+  .aep__title{font-size:24px;padding-right:40px}
+  .aep__desc{font-size:15px;margin-bottom:14px}
+}
+/* Telas baixas (notebook 1366x768): compacta para o botão caber sem rolar */
+@media (max-height:760px) and (min-width:601px){
+  .aep__dialog{padding:28px 28px 14px}
+  .aep__logo{margin-bottom:12px}
+  .aep__title{font-size:25px}
+  .aep__desc{margin-bottom:14px;font-size:15px}
+  .aep .aep__input,.aep .aep__ddi{height:46px}
+  .aep .aep__cta{min-height:50px}
+  .aep__dismiss{margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){.aep__dialog,.aep__backdrop{transition:none}.aep__dialog{transform:none!important}.aep__pill::before{animation:none}}
+</style>
+
+<div class="aep" id="aep" hidden>
+  <div class="aep__backdrop" data-aep-close="backdrop"></div>
+  <div class="aep__dialog" role="dialog" aria-modal="true" aria-labelledby="aep-title" aria-describedby="aep-desc" tabindex="-1">
+    <button class="aep__close" type="button" aria-label="Fechar" data-aep-close="x">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <img class="aep__logo" src="https://cronogramadosfluentes.com.br/pc-le-cdf-v80/img/lpmatt002-15b5be06.svg" alt="Aloud" width="80" height="24">
+
+    <!-- ===== TEXTO (edite aqui) ===== -->
+    <p class="aep__pill">Últimas vagas</p>
+    <h2 class="aep__title" id="aep-title">Antes de sair: <em>restam poucas vagas</em> com a condição especial</h2>
+    <p class="aep__desc" id="aep-desc">Deixe seus dados e receba a oferta no WhatsApp antes que as vagas acabem.</p>
+    <!-- ===== /TEXTO ===== -->
+
+    <!-- Formulário reserva (form 113). Se a LP tiver form do ActiveCampaign, o pop-up usa o dela. -->
+    <form class="aep__form" method="POST" action="https://aloud.activehosted.com/proc.php" novalidate>
+      <input type="hidden" name="u" value="85"><input type="hidden" name="f" value="113">
+      <input type="hidden" name="s"><input type="hidden" name="c" value="0"><input type="hidden" name="m" value="0">
+      <input type="hidden" name="act" value="sub"><input type="hidden" name="v" value="2">
+
+      <label class="aep__sr" for="aep-nome">Primeiro nome</label>
+      <input class="aep__input" id="aep-nome" name="fullname" type="text" autocomplete="given-name" placeholder="Seu primeiro nome" required>
+      <label class="aep__sr" for="aep-email">E-mail</label>
+      <input class="aep__input" id="aep-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Seu melhor e-mail" required>
+      <div class="aep__phone">
+        <label class="aep__sr" for="aep-ddi">Código do país</label>
+        <select class="aep__ddi" id="aep-ddi" aria-label="Código do país">
+          <option value="br|55" selected>🇧🇷 +55</option><option value="pt|351">🇵🇹 +351</option><option value="us|1">🇺🇸 +1</option>
+          <option value="ca|1">🇨🇦 +1</option><option value="gb|44">🇬🇧 +44</option><option value="ie|353">🇮🇪 +353</option>
+          <option value="es|34">🇪🇸 +34</option><option value="it|39">🇮🇹 +39</option><option value="de|49">🇩🇪 +49</option>
+          <option value="fr|33">🇫🇷 +33</option><option value="jp|81">🇯🇵 +81</option><option value="au|61">🇦🇺 +61</option>
+          <option value="ar|54">🇦🇷 +54</option>
+        </select>
+        <label class="aep__sr" for="aep-tel">WhatsApp</label>
+        <input class="aep__input" id="aep-tel" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(11) 98765-4321" required>
+      </div>
+      <p class="aep__err" role="alert" aria-live="polite" data-aep="err"></p>
+      <button class="aep__cta" type="submit" data-aep="cta">Quero garantir minha vaga</button>
+      <p class="aep__trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Seus dados estão protegidos. Nosso time fala com você em até 10 minutos pelo WhatsApp.</span></p>
+    </form>
+    <button class="aep__dismiss" type="button" data-aep-close="dismiss">Agora não</button>
+  </div>
+</div>
+
+<script data-no-optimize="1" data-no-defer="1" data-cfasync="false">
+(function () {
+  var root = document.getElementById('aep');
+  if (!root || root.__aep) return; root.__aep = 1;
+
+  var C = Object.assign({ campaign: 'aloud-exit', minSecondsOnPage: 4, capHours: 24, mobileBack: true, mobileScrollUp: true }, window.AEP_CONFIG || {});
+  var force = /[?&]aep=1\b/.test(location.search);
+  var KEY = 'aep:' + C.campaign, t0 = Date.now(), shown = false, lastFocus = null, trigger = '';
+  var dialog = root.querySelector('.aep__dialog'), form = root.querySelector('form');
+  var err = root.querySelector('[data-aep="err"]'), cta = root.querySelector('[data-aep="cta"]');
+
+  // ---- utilidades
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function ss(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+  function track(action) {
+    (window.dataLayer = window.dataLayer || []).push({ event: 'exit_popup', aep_action: action, aep_trigger: trigger, aep_campaign: C.campaign });
+  }
+  function blocked() {
+    if (shown) return true;
+    if (force) return false;
+    if (ss(KEY) || ls(KEY + ':lead')) return true;
+    return Date.now() - (+ls(KEY + ':t') || 0) < C.capHours * 36e5;
+  }
+  function hidden(name) {
+    var i = form.querySelector('input[type=hidden][name="' + name + '"]');
+    if (!i) { i = document.createElement('input'); i.type = 'hidden'; i.name = name; form.insertBefore(i, form.firstChild); }
+    return i;
+  }
+
+  // ---- formulário: usa o form do ActiveCampaign da própria LP (mesma lista e automação)
+  var UTM = { source: [281, 357], medium: [283, 359], campaign: [282, 358], content: [285, 361], term: [284, 360] };
+  function syncForm() {
+    var src = document.querySelector('form:not(.aep__form)[action*="activehosted"]');
+    if (src) {
+      form.action = src.action;
+      [].slice.call(form.querySelectorAll('input[type=hidden]')).forEach(function (i) { i.parentNode.removeChild(i); });
+      src.querySelectorAll('input[type=hidden][name]').forEach(function (i) { hidden(i.name).value = i.value; });
+    }
+    // UTMs da URL, sem depender de scripts da página (o LiteSpeed os atrasa)
+    var usesUtm = !src || [].some.call(document.scripts, function (s) { return /source'?\s*:\s*281/.test(s.textContent); });
+    if (usesUtm) {
+      var q = new URLSearchParams(location.search), r = new URLSearchParams((document.referrer.split('?')[1]) || '');
+      Object.keys(UTM).forEach(function (k) {
+        var v = q.get('utm_' + k) || r.get('utm_' + k) || (k === 'source' ? 'direto' : '');
+        UTM[k].forEach(function (id) { var i = hidden('field[' + id + ']'); if (!i.value) i.value = v; });
+      });
+      var slug = location.pathname.replace(/^\/+/, '');
+      [293, 370].forEach(function (id) { var i = hidden('field[' + id + ']'); if (!i.value) i.value = slug; });
+    }
+    ['field[41]', 'field[42]', 'field[43]'].forEach(hidden);
+  }
+
+  // ---- abrir / fechar
+  function open(src) {
+    if (blocked() || (!force && Date.now() - t0 < C.minSecondsOnPage * 1000)) return false;
+    shown = true; trigger = src; ss(KEY, '1'); ls(KEY + ':t', String(Date.now()));
+    syncForm();
+    lastFocus = document.activeElement;
+    root.hidden = false;
+    document.documentElement.classList.add('aep-lock');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.add('is-open'); }); });
+    dialog.focus({ preventScroll: true });
+    if (window.HandLRunFieldFiller) { try { window.HandLRunFieldFiller(); } catch (e) {} }
+    track('view');
+    return true;
+  }
+  function close(how) {
+    if (root.hidden) return;
+    root.classList.remove('is-open');
+    document.documentElement.classList.remove('aep-lock');
+    setTimeout(function () { root.hidden = true; }, 230);
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    track('close_' + how);
+  }
+  root.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-aep-close]'); if (b) close(b.getAttribute('data-aep-close'));
+  });
+  document.addEventListener('keydown', function (e) {
+    if (root.hidden) return;
+    if (e.key === 'Escape') { close('esc'); return; }
+    if (e.key !== 'Tab') return; // mantém o foco dentro do pop-up
+    var f = [].filter.call(dialog.querySelectorAll('button,input:not([type=hidden]),select,a[href]'), function (x) { return x.offsetParent !== null; });
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog)) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  // ---- gatilhos
+  var touch = window.matchMedia && matchMedia('(hover: none) and (pointer: coarse)').matches;
+  document.addEventListener('mouseout', function (e) { // desktop: mouse sai pelo topo
+    if (touch || e.relatedTarget || e.toElement) return;
+    if (e.clientY <= 10) open('exit_intent');
+  });
+  if (touch && C.mobileBack) { // celular: botão voltar
+    var armed = false;
+    var arm = function () { if (armed || blocked()) return; armed = true; try { history.pushState({ aep: 1 }, '', location.href); } catch (e) { armed = false; } };
+    window.addEventListener('touchstart', arm, { once: true, passive: true });
+    window.addEventListener('scroll', arm, { once: true, passive: true });
+    window.addEventListener('popstate', function () { if (!armed) return; armed = false; if (!open('back_button')) history.back(); });
+  }
+  if (touch && C.mobileScrollUp) { // celular: rolagem rápida para cima depois de ler a página
+    var lastY = scrollY, lastT = Date.now(), maxY = 0;
+    window.addEventListener('scroll', function () {
+      var y = scrollY, t = Date.now(), v = (lastY - y) / Math.max(1, t - lastT);
+      maxY = Math.max(maxY, y);
+      if (v > 1.8 && maxY > innerHeight * 1.5 && y < maxY * 0.6) open('scroll_up');
+      lastY = y; lastT = t;
+    }, { passive: true });
+  }
+  if (force) setTimeout(function () { open('forced'); }, 300);
+
+  // quem já enviou o formulário principal não vê o pop-up
+  window.addEventListener('submit', function (e) { setTimeout(function () { if (!e.defaultPrevented) ls(KEY + ':lead', '1'); }, 0); });
+
+  // ---- telefone: máscara BR, validação e campos do AC (41 número, 42 país, 43 DDI)
+  var tel = form.querySelector('#aep-tel'), ddi = form.querySelector('#aep-ddi');
+  function country() { var p = ddi.value.split('|'); return { iso: p[0], code: p[1] }; }
+  function maskBR(d) {
+    d = d.slice(0, 11);
+    if (d.length <= 2) return d.length ? '(' + d : '';
+    if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+    return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+  }
+  tel.addEventListener('input', function () {
+    var d = tel.value.replace(/\D/g, '');
+    tel.value = country().iso === 'br' ? maskBR(d) : d.slice(0, 15);
+    tel.removeAttribute('aria-invalid'); err.textContent = '';
+  });
+  ddi.addEventListener('change', function () {
+    tel.placeholder = country().iso === 'br' ? '(11) 98765-4321' : 'Número com DDD';
+    tel.dispatchEvent(new Event('input'));
+  });
+  function fail(input, msg) { input.setAttribute('aria-invalid', 'true'); err.textContent = msg; input.focus(); }
+  form.addEventListener('submit', function (e) {
+    var nome = form.querySelector('#aep-nome'), email = form.querySelector('#aep-email');
+    [nome, email, tel].forEach(function (i) { i.removeAttribute('aria-invalid'); });
+    var c = country(), d = tel.value.replace(/\D/g, '');
+    if (nome.value.trim().length < 2) { e.preventDefault(); return fail(nome, 'Digite seu primeiro nome.'); }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) { e.preventDefault(); return fail(email, 'Confira o seu e-mail.'); }
+    if (c.iso === 'br' ? !/^[1-9]{2}9?\d{8}$/.test(d) : (d.length < 6 || d.length > 15)) {
+      e.preventDefault(); return fail(tel, c.iso === 'br' ? 'Digite o WhatsApp com DDD, ex.: (11) 98765-4321.' : 'Confira o número de telefone.');
+    }
+    syncForm(); // de novo no envio: pega UTMs/HandL que a LP só cria depois da 1ª interação
+    hidden('field[41]').value = d; hidden('field[42]').value = c.iso; hidden('field[43]').value = c.code;
+    tel.value = '+' + c.code + d;
+    ls(KEY + ':lead', '1');
+    cta.disabled = true; cta.textContent = 'Enviando…';
+    trigger = trigger || 'submit'; track('submit');
+  });
+})();
+</script>
+<!-- /ALOUD EXIT POP-UP · PADRÃO ÚNICO -->
 </body>
 </html>

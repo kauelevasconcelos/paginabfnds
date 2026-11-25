@@ -3,7 +3,7 @@
 Landing pages da Aloud servidas pelo Cloudflare Pages (projeto `paginabfnds-v1`, deploy via Git no `main`).
 Cada pasta `vNN/` é uma página do cronogramadosfluentes.com.br; as pastas `dsi-pv-vNN/` são páginas do
 mathwerner.com.br (ver a seção "Domínio mathwerner.com.br"). O mapeamento das URLs do domínio (ex.:
-`/pc-le-cdf-v80/` → `/v80/`) é feito por Workers roteadores da Cloudflare (ver "Roteador do domínio"). Arquivos internos (`CLAUDE.md`, `workers/`)
+`/pc-le-cdf-v80/` → `/v80/`) é feito por Workers roteadores da Cloudflare (ver "Roteador do domínio"). Arquivos internos (`CLAUDE.md`, `workers/`, `_shared/`, `scripts/`)
 não são servidos pelo site: o `functions/_middleware.js` devolve 404 para eles.
 
 ## Formulários (padrão v136/v137)
@@ -16,7 +16,6 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | Página | Formulário(s) | AC u / f |
 |---|---|---|
 | v80 (`/pc-le-cdf-v80/`) | 2 principais (`#105`, `#105-2`) | 105 / 105 |
-| v80 | popup "Ei, espera!" (`#113`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
@@ -29,6 +28,19 @@ O lead não depende dela (o AC já gravou), mas a página de obrigado sim.
 Até nov/2026 os formulários principais da v80 enviavam pelo WordPress (página 4553, Elementor
 `7a14b0e`/`3de2f0f` → webhook `aloud-etl` com `campaign_id=ppt-lpm-cdf` e `conversion_type_id=1`).
 Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
+
+## Exit pop-up padrão (v2.0, nov/2026)
+
+O bloco `_shared/aloud-exit-popup-padrao.html` (config + CSS + HTML + script, entre os comentários
+"ALOUD · EXIT POP-UP · PADRÃO ÚNICO" e `<!-- /ALOUD EXIT POP-UP · PADRÃO ÚNICO -->`) fica antes do `</body>` de
+v80, v111, v137 e das BF26 V4, V8 (`v29/`), V11 (`v30/`), V23, V24, V25 e V26 (a V27 ficou de fora de propósito).
+**Não edite o bloco nas páginas:** mude o arquivo-fonte e rode `node scripts/sync-exit-popup.js` (substitui o bloco
+existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
+
+- O pop-up envia para o 1º form do ActiveCampaign da página (copia os hidden dele): v80 → form 105, v111/v137 → 113,
+  BF26 → 116. Nas BF26 ele também manda os campos 357–361 e 370 (o bloco detecta `source: 281` e preenche os dois conjuntos).
+- **v80:** o popup antigo "Ei, espera!" (form `#113`, u=85) foi removido. Os leads de saída da v80 agora vão para o
+  **form 105**, não mais para o 85/113.
 
 ## Roteador do domínio (Workers da Cloudflare)
 

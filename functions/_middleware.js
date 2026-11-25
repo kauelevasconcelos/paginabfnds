@@ -1,10 +1,10 @@
 // Cloudflare Pages middleware (roda antes de todas as rotas).
 // Único papel: não servir arquivos internos do repositório no site publicado (CLAUDE.md e a pasta
-// workers/, com o código dos Workers roteadores), comparando o caminho já decodificado para cobrir
-// variações como /%43LAUDE.md ou /%77orkers/.
+// workers/, com o código dos Workers roteadores; _shared/, com blocos-fonte como o exit pop-up; scripts/, com
+// os scripts de manutenção), comparando o caminho já decodificado para cobrir variações como /%43LAUDE.md ou /%77orkers/.
 // Qualquer outra requisição segue normalmente; em caso de erro também segue (nunca derruba o site).
 const BLOCKED = new Set(['/claude.md']);
-const BLOCKED_PREFIXES = ['/workers'];
+const BLOCKED_PREFIXES = ['/workers', '/_shared', '/scripts'];
 
 export async function onRequest({ request, next }) {
   try {
