@@ -16,6 +16,7 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | Página | Formulário(s) | AC u / f |
 |---|---|---|
 | v80 (`/pc-le-cdf-v80/`) | 2 principais (`#105`, `#105-2`) | 105 / 105 |
+| v80 | pop-up de saída padrão (`AEP_PAGE.form = "reserva"`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
