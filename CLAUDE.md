@@ -29,7 +29,7 @@ Até nov/2026 os formulários principais da v80 enviavam pelo WordPress (página
 `7a14b0e`/`3de2f0f` → webhook `aloud-etl` com `campaign_id=ppt-lpm-cdf` e `conversion_type_id=1`).
 Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 
-## Exit pop-up padrão (v2.1, nov/2026)
+## Exit pop-up padrão (v2.2, nov/2026)
 
 O bloco `_shared/aloud-exit-popup-padrao.html` (config + CSS + HTML + script, entre os comentários
 "ALOUD · EXIT POP-UP · PADRÃO ÚNICO" e `<!-- /ALOUD EXIT POP-UP · PADRÃO ÚNICO -->`) fica antes do `</body>` de
@@ -37,14 +37,15 @@ v80, v111, v137 e das BF26 V4, V8 (`v29/`), V11 (`v30/`), V23, V24, V25 e V26 (a
 **Não edite o bloco nas páginas:** mude o arquivo-fonte e rode `node scripts/sync-exit-popup.js` (substitui o bloco
 existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
 
-- O pop-up envia para o 1º form do ActiveCampaign da página (copia os hidden dele): v80 → form 105, v111/v137 → 113,
+- O pop-up envia para o 1º form do ActiveCampaign da página (copia os hidden dele): v111/v137 → 113,
   BF26 → 116. Nas BF26 ele também manda os campos 357–361 e 370 (o bloco detecta `source: 281` e preenche os dois conjuntos).
 - Gatilhos: desktop = mouse sai da página pelo topo (até 10px do topo, ou na metade de cima subindo, para pegar a
   saída rápida rumo às abas/X; entrar num iframe não conta); celular = botão voltar ou rolagem rápida para cima.
   Limite: 1x a cada 24h **por domínio** (localStorage `aep:aloud-exit:t`), valendo para todas as LPs do domínio; quem
   enviou qualquer form não vê mais. Para testar de novo: janela anônima ou `?aep=1`.
-- **v80:** o popup antigo "Ei, espera!" (form `#113`, u=85) foi removido. Os leads de saída da v80 agora vão para o
-  **form 105**, não mais para o 85/113.
+- **v80:** o popup antigo "Ei, espera!" foi removido e o pop-up padrão continua no **form antigo (u=85, f=113)**,
+  por decisão de 25/11/2026: a linha `<script>window.AEP_PAGE = { form: "reserva" };</script>` antes do bloco faz o
+  pop-up usar o form reserva dele (85/113) em vez do form 105 da página. Os forms principais da v80 seguem no 105.
 
 ## Roteador do domínio (Workers da Cloudflare)
 

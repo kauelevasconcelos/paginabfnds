@@ -403,7 +403,7 @@ window.ondragstart = function () { return false; };
 })();
 </script>
 <!-- =====================================================================
-  ALOUD · EXIT POP-UP · PADRÃO ÚNICO v2.1 (2026-11)
+  ALOUD · EXIT POP-UP · PADRÃO ÚNICO v2.2 (2026-11)
   Um só código para todas as LPs (Aloud e Black). Sem contador.
 
   COMO USAR
@@ -413,6 +413,8 @@ window.ondragstart = function () { return false; };
   - O pop-up envia para o MESMO formulário do ActiveCampaign da LP
     (o primeiro form da página). Se a LP não tiver form do AC,
     usa o form 113 abaixo como reserva.
+  - Para uma LP usar sempre o form reserva (u=85, f=113), coloque ANTES
+    deste bloco: <script>window.AEP_PAGE = { form: "reserva" };</script>
   - Para mudar o texto, edite direto no HTML (bloco "TEXTO").
   - Teste em qualquer LP: adicione ?aep=1 na URL.
 ====================================================================== -->
@@ -559,7 +561,7 @@ html.aep-lock,html.aep-lock body{overflow:hidden!important}
   var root = document.getElementById('aep');
   if (!root || root.__aep) return; root.__aep = 1;
 
-  var C = Object.assign({ campaign: 'aloud-exit', minSecondsOnPage: 4, capHours: 24, mobileBack: true, mobileScrollUp: true }, window.AEP_CONFIG || {});
+  var C = Object.assign({ campaign: 'aloud-exit', minSecondsOnPage: 4, capHours: 24, mobileBack: true, mobileScrollUp: true, form: 'pagina' }, window.AEP_CONFIG || {}, window.AEP_PAGE || {});
   var force = /[?&]aep=1\b/.test(location.search);
   var KEY = 'aep:' + C.campaign, t0 = Date.now(), shown = false, lastFocus = null, trigger = '';
   var dialog = root.querySelector('.aep__dialog'), form = root.querySelector('form');
@@ -586,7 +588,7 @@ html.aep-lock,html.aep-lock body{overflow:hidden!important}
   // ---- formulário: usa o form do ActiveCampaign da própria LP (mesma lista e automação)
   var UTM = { source: [281, 357], medium: [283, 359], campaign: [282, 358], content: [285, 361], term: [284, 360] };
   function syncForm() {
-    var src = document.querySelector('form:not(.aep__form)[action*="activehosted"]');
+    var src = C.form === 'reserva' ? null : document.querySelector('form:not(.aep__form)[action*="activehosted"]');
     if (src) {
       form.action = src.action;
       [].slice.call(form.querySelectorAll('input[type=hidden]')).forEach(function (i) { i.parentNode.removeChild(i); });
