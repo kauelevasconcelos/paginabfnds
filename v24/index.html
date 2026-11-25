@@ -659,7 +659,7 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 </script>
 <!-- =====================================================================
-  ALOUD · EXIT POP-UP · PADRÃO ÚNICO v2.0 (2026-11)
+  ALOUD · EXIT POP-UP · PADRÃO ÚNICO v2.1 (2026-11)
   Um só código para todas as LPs (Aloud e Black). Sem contador.
 
   COMO USAR
@@ -899,9 +899,16 @@ html.aep-lock,html.aep-lock body{overflow:hidden!important}
 
   // ---- gatilhos
   var touch = window.matchMedia && matchMedia('(hover: none) and (pointer: coarse)').matches;
-  document.addEventListener('mouseout', function (e) { // desktop: mouse sai pelo topo
+  var py = 0, ly = 0; // desktop: penúltima e última altura do mouse, para saber se ele vinha subindo
+  document.addEventListener('mousemove', function (e) { if (e.clientY !== ly) { py = ly; ly = e.clientY; } }, { passive: true });
+  document.addEventListener('mouseout', function (e) { // desktop: mouse sai pelo topo, inclusive rápido rumo às abas/X
     if (touch || e.relatedTarget || e.toElement) return;
-    if (e.clientY <= 10) open('exit_intent');
+    var x = e.clientX, y = e.clientY;
+    var over = y >= 0 && document.elementFromPoint(x, y);
+    if (over && over.tagName === 'IFRAME') return; // entrou num vídeo/iframe: não saiu da página
+    if (y <= 10) { open('exit_intent'); return; }
+    // saída rápida: o último ponto fica mais abaixo; vale se estava na metade de cima, subindo e não saiu pela lateral
+    if (y < innerHeight / 2 && y < py && x > 0 && x < innerWidth - 1) open('exit_intent');
   });
   if (touch && C.mobileBack) { // celular: botão voltar
     var armed = false;
