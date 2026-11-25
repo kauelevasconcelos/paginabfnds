@@ -46,3 +46,15 @@
   Cache-Control: public, max-age=31536000, immutable
 /v36/fonts/*
   Cache-Control: public, max-age=31536000, immutable
+/v33/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v33/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v35/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v35/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v37/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v37/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
