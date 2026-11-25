@@ -34,3 +34,15 @@
   Cache-Control: public, max-age=31536000, immutable
 /dsi-pv-v13/fonts/*
   Cache-Control: public, max-age=31536000, immutable
+/v32/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v32/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v34/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v34/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/v36/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/v36/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

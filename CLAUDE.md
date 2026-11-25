@@ -33,8 +33,15 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 ## Roteador do domínio (Workers da Cloudflare)
 
 - **`bf26-v14-router`**: rotas `cronogramadosfluentes.com.br/pc-lpm-bf26vNN*` e `/pc-le-cdf-v128*` … `v137*`
-  (uma rota por página, sem padrão genérico: hoje bf26v4, v8, v11, v14–v24, v28–v30) → pastas do Pages
-  `paginabfnds-v1`. Não cobre a V25–V27.
+  (uma rota por página, sem padrão genérico: em 25/11/2026 bf26v4, v8, v11, v14–v24 e pc-le-cdf v128–v137) → pastas
+  do Pages `paginabfnds-v1`. Não cobre a V25–V27 nem a V28–V31 (essas estão no `lp-black-aloud`, abaixo).
+  Atenção: a rota `pc-lpm-bf26v4*` também casa `/pc-lpm-bf26v40` … `v49` (prefixo), por isso esses números não são usados.
+- **`lp-black-aloud`** (fora deste repositório: Worker de assets estáticos publicado com `wrangler` pelo dono da
+  conta; a API não devolve o código e não há `wrangler.jsonc` dele aqui). Rotas em 25/11/2026:
+  `cronogramadosfluentes.com.br/lp-black-26/*` (respondia 404), `/pc-lpm-bf26v28*`, `v29*`, `v30*` e `v31*`
+  (páginas "Black Vitalícia Aloud", servidas por ele com `Cache-Control: max-age=0`). Último deploy: 25/11/2026
+  18:57 UTC (versão `616f1dec`), com vários deploys em 24/11. **Não mexer nele a partir deste repositório**; as pastas
+  `v29/` e `v30/` daqui (BF26 V8 e V11) não têm relação com as rotas `bf26v29`/`bf26v30` desse Worker.
 - **`pc-le-cdf-v80-v111-router`** (código em `workers/pc-le-cdf-v80-v111-router/`, publicado com
   `npx wrangler@4 deploy` a partir dessa pasta; a pasta não é servida pelo Pages — bloqueada no
   `functions/_middleware.js`). Worker separado, só para v80 e v111:
@@ -179,6 +186,28 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
   IntersectionObserver; sem JavaScript o fundo carrega normalmente).
 - Não mexer no carregamento do GTM nem das tags (render-blocking restante: CSS do intl-tel-input no cdnjs e Google
   Fonts — candidatos a otimizar só com teste visual do campo de telefone).
+
+## Campanha D-007 (teste A/B, em preview desde 25/11/2026)
+
+6 páginas novas feitas a partir do Figma `NBH50jkRf0wvWVRjWSRkp6` (linha de cima, sem as linhas "DS novo"). Base técnica
+da BF26 V4 (GTM/`page_version`, Clarity com atraso, intl-tel-input, campos 41–43, UTMs 281–285 + 293, form AC 116,
+obrigado `/confirmacao-bf26v1/` pela configuração do form). Slugs e pastas aprovados em 25/11/2026 (não há página
+no WordPress: são páginas novas, sem `-off` nem ID):
+
+| Pasta | Frame | Endereço | Variante |
+|---|---|---|---|
+| `v32/` | `3:836` página completa | `/pc-lpm-bf26v32/` | A |
+| `v33/` | `14:460` | `/pc-lpm-bf26v33/` | B (depoimento provisório) |
+| `v34/` | `2:2` dobra única | `/pc-lpm-bf26v34/` | A |
+| `v35/` | `14:921` | `/pc-lpm-bf26v35/` | B (depoimento provisório) |
+| `v36/` | `3:551` dobra única | `/pc-lpm-bf26v36/` | A |
+| `v37/` | `18:1065` | `/pc-lpm-bf26v37/` | B (depoimento provisório) |
+
+- **As variantes B (v33, v35, v37) estão bloqueadas para o domínio** até chegar o depoimento final autorizado (hoje
+  têm o texto provisório do Figma). Só as A vão para o domínio.
+- v32–v37 estavam livres em 25/11/2026 (domínio 404, nenhuma página no REST do WordPress, nenhuma rota de Worker).
+- Diferenças aprovadas em relação ao Figma: "+62 mil" alunos (o Figma diz +60 mil), "Entre **na** Plataforma" (o Figma
+  diz "no"), respostas do FAQ da V32/V33 adaptadas da V25, Switzer ExtraBold no lugar de Switzer Black/Epilogue Black.
 
 ## Preview
 

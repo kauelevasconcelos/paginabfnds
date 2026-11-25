@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4.160.0/config-schema.json",
+  "name": "pc-lpm-bf26-d007-router",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  // conta da zona cronogramadosfluentes.com.br
+  "account_id": "1674537158620e3e2821c20c2f1dd48a",
+  // Publicado SEM rotas. Cada rota é criada pela API (POST zones/:zone/workers/routes), uma página por vez,
+  // para não recriar rotas já no ar. Esta lista é o registro do estado atual (preenchida conforme as rotas entram).
+  // Um `wrangler deploy` com rotas aqui recria todas (alguns segundos sem Worker), então só em horário de pouco tráfego.
+  "routes": [],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true }
+}

@@ -4,3 +4,7 @@
 /pc-lpm-bf26v25/*  /v25/:splat  200
 /pc-lpm-bf26v26/*  /v26/:splat  200
 /pc-lpm-bf26v27/*  /v27/:splat  200
+# D-007 (teste A/B): BF26 V32, V34, V36 (versões A; as B ficam fora até o depoimento)
+/pc-lpm-bf26v32/*  /v32/:splat  200
+/pc-lpm-bf26v34/*  /v34/:splat  200
+/pc-lpm-bf26v36/*  /v36/:splat  200
