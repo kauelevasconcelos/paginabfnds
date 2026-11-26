@@ -1482,13 +1482,13 @@ html.aep-lock,html.aep-lock body{overflow:hidden!important}
 // TODO JV: trocar pelo ID do campo "indicado por" no AC (ex.: "field[57]")
 var CAMPO_INDICADO_POR = "field[ID_INDICADO_POR]";
 
-// TODO JV: confirmar se MGM usa lista própria (hoje = mesmas da v4)
+// MGM = form 117 (confirmado pelo JV em 26/11/2026; a v4 usa o 116)
 // principal: forms #matricula (topo) e #matricula2 (meio).
 // popup: form reserva do pop-up. Atenção: como na v4, ao abrir o pop-up ele copia os campos
 // escondidos do 1º form da página (#matricula), então na prática envia com a lista "principal".
 // A lista "popup" só vale se a página usar window.AEP_PAGE = { form: "reserva" }.
 var AC_LISTAS = {
-  principal: { u: "116", f: "116" },
+  principal: { u: "117", f: "117" },
   popup:     { u: "85",  f: "113" }
 };
 

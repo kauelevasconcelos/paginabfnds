@@ -30,7 +30,7 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | v80 (`/pc-le-cdf-v80/`) | 2 principais (`#105`, `#105-2`) | 105 / 105 |
 | v80 | pop-up de saída padrão (`AEP_PAGE.form = "reserva"`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
-| MGM (`/pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 116 / 116 |
+| MGM (`/pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 117 / 117 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
 
@@ -292,14 +292,15 @@ página no WordPress e sem Redirect Rule (variações como maiúsculas dão 404 
 - **Indicação:** script no fim do HTML lê `?ref=` (só `A-Z a-z 0-9 _ -`, até 40), guarda em localStorage `mgm:ref`
   (para recarregar sem o parâmetro) e preenche o hidden `CAMPO_INDICADO_POR` nos 3 forms (`#matricula`,
   `#matricula2`, pop-up). Sem ref: campo vazio.
-- **Listas:** constante `AC_LISTAS` no mesmo script (principal 116/116, pop-up reserva 85/113). Como na v4, o pop-up
+- **Listas:** constante `AC_LISTAS` no mesmo script (principal **117/117**, form próprio da MGM confirmado pelo JV em 26/11/2026; pop-up reserva 85/113). O HTML dos forms ainda traz 116 (herdado da v4), mas o script troca para o 117 ao carregar. O embed do 117 (`/f/embed.php?id=117`) só tem nome, telefone e e-mail, igual ao 116. Como na v4, o pop-up
   copia os hidden do 1º form ao abrir, então envia na lista principal; a reserva só vale com `AEP_PAGE.form = "reserva"`.
   No pop-up o field 357 vai `"direto"` (preenchido pelo bloco padrão), enquanto o 281 vai `"mgm"`.
 - **Pop-up de saída:** bloco padrão com `enabled: false`, como na v4. A MGM **não está** no `scripts/sync-exit-popup.js`
   (o texto do pop-up é próprio); se o arquivo-fonte mudar, aplicar à mão.
 - **TODOs do JV (pendentes em 26/11/2026):**
-  1. `CAMPO_INDICADO_POR = "field[ID_INDICADO_POR]"`: trocar pelo ID do campo "indicado por" no AC.
-  2. `AC_LISTAS`: confirmar se a MGM usa lista própria (hoje = as da v4).
+  1. `CAMPO_INDICADO_POR = "field[ID_INDICADO_POR]"`: o JV vai gravar o ref num campo de UTM já existente (qual, a definir).
+     Como o script de UTM regrava esses campos no `load` e ao mudar o e-mail, o ajuste tem de ser dentro dele (ref com prioridade).
+  2. ~~`AC_LISTAS`~~: resolvido em 26/11/2026 (form 117). Pendente: conferir no AC para qual obrigado o form 117 redireciona.
   3. `page_version 'mgm'`: confirmar que os relatórios (GA4/Clarity) separam a MGM da v4.
   Nenhum lead de teste foi enviado (o campo ainda é placeholder). Depois do ID: lead de teste com GTM/pixels bloqueados
   pelos 2 forms e conferir no AC "indicado por", origem `mgm` e field 293.
