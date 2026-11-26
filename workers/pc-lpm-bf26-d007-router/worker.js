@@ -1,12 +1,12 @@
 // pc-lpm-bf26-d007-router
-// Serve as páginas da campanha D-007 (versões A do teste A/B) do Cloudflare Pages (projeto paginabfnds-v1) nos
-// endereços https://cronogramadosfluentes.com.br/pc-lpm-bf26v32/, /pc-lpm-bf26v34/ e /pc-lpm-bf26v36/.
+// Serve as páginas da campanha D-007 (teste A/B, versões A e B) do Cloudflare Pages (projeto paginabfnds-v1) nos
+// endereços https://cronogramadosfluentes.com.br/pc-lpm-bf26v32/ … /pc-lpm-bf26v37/.
 // São páginas novas (sem página antiga no WordPress). Rotas: uma por página, criadas pela API, uma por vez.
 // Separado dos outros roteadores de propósito: nenhuma página já publicada passa por aqui.
-// As versões B (v33, v35, v37) NÃO estão na lista até chegar o depoimento final autorizado.
+// As versões B (v33, v35, v37) entraram em 26/11/2026, com o depoimento final autorizado.
 
 const PAGES_ORIGIN = "https://paginabfnds-v1.pages.dev";
-const VERSIONS = new Set(["32", "34", "36"]); // lista fechada
+const VERSIONS = new Set(["32", "33", "34", "35", "36", "37"]); // lista fechada
 
 export default {
   async fetch(request) {
