@@ -3,19 +3,31 @@
   "name": "pc-lpm-mgm-router",
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
-  // conta da zona cronogramadosfluentes.com.br
+  // conta das zonas cronogramadosfluentes.com.br e aloud.com.br
   "account_id": "1674537158620e3e2821c20c2f1dd48a",
-  // Publicado em 26/11/2026 SEM rotas (versão 9b120409). A rota foi criada depois pela API
-  // (POST zones/:zone/workers/routes), sem mexer nas outras 40 rotas da zona. Esta lista é o estado atual:
-  //   cronogramadosfluentes.com.br/pc-lpm-mgmv1*  → id 822336f6c8774e0aad87e10d819caa4b (26/11/2026)
-  // Para publicar código novo sem mexer na rota: `npx wrangler@4 versions upload` + `versions deploy <id>@100%`.
-  // Um `wrangler deploy` com esta lista recria a rota (alguns segundos de 404 do WordPress), então só em horário de pouco tráfego.
-  // Rollback (apaga só esta rota):
-  //   curl -X DELETE "https://api.cloudflare.com/client/v4/zones/64725095c94dd484bf2e5416bda7d7d8/workers/routes/822336f6c8774e0aad87e10d819caa4b" \
-  //     -H "Authorization: Bearer <token OAuth do wrangler>"
-  //   e tirar a rota desta lista.
+  // Estado publicado (26/11/2026). Nada aqui foi criado por `wrangler deploy`: a rota e o custom domain foram criados
+  // pela API, um de cada vez, sem mexer nas outras rotas e domínios. Esta lista é só o registro do estado atual.
+  //   - cronogramadosfluentes.com.br/pc-lpm-mgmv1*  → rota id 822336f6c8774e0aad87e10d819caa4b (endereço antigo: 301 para o novo)
+  //   - indica.aloud.com.br (custom domain)         → id 22257a3502feb3415e4d68200c644f29e734da38
+  //     (a Cloudflare criou o DNS AAAA indica 100:: com proxy, só leitura, e o certificado; apagar o domínio apaga os dois)
+  // Versões: 9b120409 (só o endereço antigo) → 600900e7 (indica + endereço antigo ainda servindo a página)
+  //          → 9641fde3-4bdb-4fc9-af8b-e3ab61e0d1eb (atual: indica + 301 do endereço antigo).
+  // Para publicar código novo sem mexer em rota/domínio: `npx wrangler@4 versions upload` + `versions deploy <id>@100% -y`.
+  // NÃO use `wrangler deploy` com esta lista: ele recria a rota e o custom domain.
+  //
+  // Rollbacks (token OAuth do wrangler em %APPDATA%/xdg.config/.wrangler/config/default.toml):
+  //   Tirar o 301 (endereço antigo volta a servir a página):
+  //     npx wrangler@4 versions deploy 600900e7-dcbd-4689-b19f-d886d643cbe3@100% -y
+  //   Tirar o indica.aloud.com.br (apaga o custom domain, o DNS e o certificado). Antes, tirar o 301 (acima):
+  //     curl -X DELETE "https://api.cloudflare.com/client/v4/accounts/1674537158620e3e2821c20c2f1dd48a/workers/domains/22257a3502feb3415e4d68200c644f29e734da38" \
+  //       -H "Authorization: Bearer <token OAuth do wrangler>"
+  //   Tirar o endereço antigo (o caminho volta a dar 404 no WordPress):
+  //     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/64725095c94dd484bf2e5416bda7d7d8/workers/routes/822336f6c8774e0aad87e10d819caa4b" \
+  //       -H "Authorization: Bearer <token OAuth do wrangler>"
+  //   e tirar a entrada correspondente desta lista.
   "routes": [
-    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-mgmv1*", "zone_name": "cronogramadosfluentes.com.br" }
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-mgmv1*", "zone_name": "cronogramadosfluentes.com.br" },
+    { "pattern": "indica.aloud.com.br", "custom_domain": true }
   ],
   "workers_dev": false,
   "preview_urls": false,

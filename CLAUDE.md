@@ -30,7 +30,7 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | v80 (`/pc-le-cdf-v80/`) | 2 principais (`#105`, `#105-2`) | 105 / 105 |
 | v80 | pop-up de saída padrão (`AEP_PAGE.form = "reserva"`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
-| MGM (`/pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 117 / 117 |
+| MGM (`indica.aloud.com.br`, pasta `pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 117 / 117 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
 | BF26 V25b, V26b, V27b (`/pc-lpm-bf26v25b/` … `v27b/`) | 1 cada (`#116`) | 116 / 116 |
@@ -313,24 +313,30 @@ no WordPress: são páginas novas, sem `-off` nem ID):
 - Diferenças aprovadas em relação ao Figma: "+62 mil" alunos (o Figma diz +60 mil), "Entre **na** Plataforma" (o Figma
   diz "no"), respostas do FAQ da V32/V33 adaptadas da V25, Switzer ExtraBold no lugar de Switzer Black/Epilogue Black.
 
-## Página de indicação MGM (no domínio desde 26/11/2026)
+## Página de indicação MGM (em indica.aloud.com.br desde 26/11/2026)
 
-`https://cronogramadosfluentes.com.br/pc-lpm-mgmv1/` ("Member Get Member" da Black Vitalícia; o aluno compartilha
-`…/pc-lpm-mgmv1/?ref=CODIGO`). Pasta **`pc-lpm-mgmv1/`** (pasta = caminho, como as `dsi-pv-vNN`). Página nova, sem
-página no WordPress e sem Redirect Rule (variações como maiúsculas dão 404 do WP).
+**`https://indica.aloud.com.br/`** ("Member Get Member" da Black Vitalícia; o aluno compartilha
+`https://indica.aloud.com.br/?ref=CODIGO`). Pasta **`pc-lpm-mgmv1/`** no Pages (o nome da pasta ficou do primeiro
+endereço). Página nova, sem página no WordPress. O endereço antigo `cronogramadosfluentes.com.br/pc-lpm-mgmv1/`
+(no ar só em 26/11/2026, antes da mudança) faz **301 para `https://indica.aloud.com.br/` com a query string inteira**.
 
 - **É uma cópia da BF26 V4 (`v4/`)**, gerada a partir dela, com só estas mudanças: headline + texto de apoio
   (`.sub-mgm`), 3 perguntas no início do FAQ, texto/botão/logo do pop-up de saída (`bf25img001` da v4, sem
-  dependência da v80), `<head>` (title, description, `noindex, nofollow`, canonical para a própria MGM) e
-  `page_version: 'mgm'` no dataLayer e no Clarity. GTM, Pixel e Clarity com os mesmos IDs da v4. Textos do arquivo
+  dependência da v80), `<head>` (title, description, `noindex, nofollow`, canonical `https://indica.aloud.com.br/`) e
+  `page_version: 'mgm'` no dataLayer e no Clarity. GTM, Pixel e Clarity com os mesmos IDs da v4 (o sGTM continua em
+  `servidor.cronogramadosfluentes.com.br`; o JV vai mandar uma versão nova do GTM). Textos do arquivo
   `pagina-mgm.html` do Nadal (fora do git; só a fonte do conteúdo, não da estrutura).
-- **Assets vêm da pasta da v4** (`/pc-lpm-bf26v4/img|fonts/…`, servidos no domínio pelo `bf26-v14-router`); a pasta
-  da MGM só tem o `index.html`. Não apague nem renomeie assets da v4 sem ver a MGM. No pages.dev e nos previews
-  `/pc-lpm-bf26v4/…` não existe (o Pages devolve o HTML de fallback com 200), então lá as imagens não aparecem.
+- **Assets vêm da pasta da v4**: o HTML usa `/pc-lpm-bf26v4/img|fonts/…` e o Worker da MGM responde esses caminhos em
+  `indica.aloud.com.br` com `paginabfnds-v1.pages.dev/v4/img|fonts/…` (sem cópia). A pasta da MGM só tem o `index.html`.
+  Não apague nem renomeie assets da v4 sem ver a MGM. No pages.dev e nos previews `/pc-lpm-bf26v4/…` não existe (o Pages
+  devolve o HTML de fallback com 200), então lá as imagens não aparecem.
 - **Origem (field 281):** `utm_source` da URL; sem ela, `"mgm"` (o referrer não entra no 281). Os outros campos de UTM
   seguem a lógica da v4 (URL, depois referrer).
+- **Página de captura (field 293):** fixo `"pc-lpm-mgmv1/"` (constante `PAGINA_CAPTURA_MGM` no script de UTM), porque na
+  raiz do `indica.` o caminho é só `/`. O field 370 do pop-up (bloco padrão, preenchido com o caminho) vai vazio.
 - **Indicação:** script no fim do HTML lê `?ref=` (só `A-Z a-z 0-9 _ -`, até 40), guarda em localStorage `mgm:ref`
-  (para recarregar sem o parâmetro) e preenche o hidden `CAMPO_INDICADO_POR` nos 3 forms (`#matricula`,
+  (para recarregar sem o parâmetro; o localStorage é por domínio, então o ref guardado no endereço antigo não passa
+  para o novo, mas o 301 leva o `?ref=`) e preenche o hidden `CAMPO_INDICADO_POR` nos 3 forms (`#matricula`,
   `#matricula2`, pop-up). Sem ref: campo vazio.
 - **Listas:** constante `AC_LISTAS` no mesmo script (principal **117/117**, form próprio da MGM confirmado pelo JV em 26/11/2026; pop-up reserva 85/113). O HTML dos forms ainda traz 116 (herdado da v4), mas o script troca para o 117 ao carregar. O embed do 117 (`/f/embed.php?id=117`) só tem nome, telefone e e-mail, igual ao 116. Como na v4, o pop-up
   copia os hidden do 1º form ao abrir, então envia na lista principal; a reserva só vale com `AEP_PAGE.form = "reserva"`.
@@ -338,23 +344,40 @@ página no WordPress e sem Redirect Rule (variações como maiúsculas dão 404 
 - **Pop-up de saída:** bloco padrão, ligado como na v4. A MGM **não está** no `scripts/sync-exit-popup.js`
   (o texto do pop-up é próprio); se o arquivo-fonte mudar, aplicar à mão.
 - **TODOs do JV (pendentes em 26/11/2026):**
-  1. `CAMPO_INDICADO_POR = "field[ID_INDICADO_POR]"`: o JV vai gravar o ref num campo de UTM já existente (qual, a definir).
-     Como o script de UTM regrava esses campos no `load` e ao mudar o e-mail, o ajuste tem de ser dentro dele (ref com prioridade).
-  2. ~~`AC_LISTAS`~~: resolvido em 26/11/2026 (form 117). Pendente: conferir no AC para qual obrigado o form 117 redireciona.
-  3. `page_version 'mgm'`: confirmar que os relatórios (GA4/Clarity) separam a MGM da v4.
-  Nenhum lead de teste foi enviado (o campo ainda é placeholder). Depois do ID: lead de teste com GTM/pixels bloqueados
-  pelos 2 forms e conferir no AC "indicado por", origem `mgm` e field 293.
-- **Worker `pc-lpm-mgm-router`** (`workers/pc-lpm-mgm-router/`, teste `node test.mjs`): mesmo modelo do d007, só HTML
-  (`/pc-lpm-mgmv1[/|/index.html]` → `paginabfnds-v1.pages.dev/pc-lpm-mgmv1/` com a query string; outros subcaminhos 404;
-  `/pc-lpm-mgmv10`, `-off` → origem). Publicado em 26/11/2026 sem rotas (versão `9b120409`); rota criada pela API:
+  1. "Indicado por": o JV vai mandar o ajuste do script de UTM para gravar o ref numa UTM (`CAMPO_INDICADO_POR` ainda é
+     o placeholder `"field[ID_INDICADO_POR]"`). Como o script de UTM regrava esses campos no `load` e ao mudar o e-mail, o
+     ajuste tem de ser dentro dele (ref com prioridade).
+  2. GTM: versão nova vinda do JV (hoje é o mesmo GTM da v4, com sGTM no cronogramadosfluentes).
+  3. ~~`AC_LISTAS`~~: resolvido em 26/11/2026 (form 117). Pendente: conferir no AC para qual obrigado o form 117 redireciona.
+  4. `page_version 'mgm'`: confirmar que os relatórios (GA4/Clarity) separam a MGM da v4.
+  Nenhum lead de teste foi enviado. Depois do GTM e do script: lead de teste com GTM/pixels bloqueados pelos 2 forms e
+  conferir no AC "indicado por", origem `mgm` e field 293.
+- **Worker `pc-lpm-mgm-router`** (`workers/pc-lpm-mgm-router/`, teste `node test.mjs`, 58 casos). Atende dois nomes:
+  - `indica.aloud.com.br` (custom domain; o Worker é a origem): `/` e `/index.html` → `paginabfnds-v1.pages.dev/pc-lpm-mgmv1/`
+    com a query string; `/pc-lpm-bf26v4/(img|fonts)/<arquivo>` → `pages.dev/v4/…` (arquivo inexistente → 404); o resto → 404.
+  - `cronogramadosfluentes.com.br/pc-lpm-mgmv1*` (rota): `/pc-lpm-mgmv1` e qualquer subcaminho → 301 para
+    `https://indica.aloud.com.br/` + query string (constante `REDIRECT_OLD`); `/pc-lpm-mgmv10`, `-off` → origem (404 do WP).
 
-  | Página | Rota (id) | No ar desde |
+  | O quê | Id | Criado |
   |---|---|---|
-  | MGM v1 | `…/pc-lpm-mgmv1*` (`822336f6`) | 26/11/2026 |
+  | Rota `cronogramadosfluentes.com.br/pc-lpm-mgmv1*` | `822336f6c8774e0aad87e10d819caa4b` | 26/11/2026 (API) |
+  | Custom domain `indica.aloud.com.br` (DNS `AAAA indica 100::` com proxy, só leitura, + certificado) | `22257a3502feb3415e4d68200c644f29e734da38` | 26/11/2026 (API) |
 
-  Rollback: `curl -X DELETE ".../zones/64725095c94dd484bf2e5416bda7d7d8/workers/routes/822336f6c8774e0aad87e10d819caa4b"`
-  (comando completo no `wrangler.jsonc`) e tirar a rota do `wrangler.jsonc`. Conferido no ar: v4 idêntica byte a byte
-  antes/depois da rota, 41 rotas na zona com as 40 antigas intactas.
+  Versões: `9b120409` (só o endereço antigo) → `600900e7` (indica + endereço antigo servindo a página) → **`9641fde3`**
+  (atual: indica + 301). Código novo: `versions upload` + `versions deploy` (não use `wrangler deploy`: recria rota e domínio).
+  Rollbacks (comandos completos no `wrangler.jsonc`): tirar o 301 = `versions deploy 600900e7-…@100%`; tirar o `indica.` =
+  `DELETE accounts/<conta>/workers/domains/22257a35…` (apaga também o DNS); tirar o endereço antigo = `DELETE` da rota.
+  Conferido em 26/11/2026: v4 idêntica byte a byte antes/depois, 41 rotas na zona cronogramadosfluentes (intactas), DNS
+  da aloud.com.br 73 → 74 (só o `indica`), custom domains da conta só com o novo a mais.
+- **Zona aloud.com.br** (mesma conta, plano Pro; o token OAuth do wrangler não lê DNS nem regras dela: conferido pelo
+  painel). Nenhuma regra (WAF, rate limit, redirect, config) nem Page Rule pega o `indica.` (todas filtram por outros
+  nomes). Configurações da zona que valem para ele, diferentes do cronogramadosfluentes:
+  - Rocket Loader ligado, mas **não reescreve** a resposta do Worker (conferido: 0 scripts alterados). Se algum dia
+    aparecer `type="…-text/javascript"` ou `rocket-loader` no HTML, desligar só para o `indica.` com uma Configuration Rule.
+  - **Cloudflare Fonts** troca o `<link>` do Google Fonts (Inter) por `@font-face` em `/cf-fonts/…` (carrega normal).
+  - Detecção de bots por JavaScript: injeta um script `/cdn-cgi/challenge-platform` (não bloqueia).
+  - `/robots.txt` é o gerenciado da Cloudflare (`Allow: /`, não chega ao Worker); a página continua `noindex, nofollow`.
+  - Prévia de link: WhatsApp, facebookexternalhit e Telegram recebem 200 com o HTML.
 
 ## Preview
 
