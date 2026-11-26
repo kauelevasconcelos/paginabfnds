@@ -38,6 +38,10 @@ v80, v111, v137 e das BF26 V4, V8 (`v29/`), V11 (`v30/`), V23, V24, V25 e V26 (a
 **Não edite o bloco nas páginas:** mude o arquivo-fonte e rode `node scripts/sync-exit-popup.js` (substitui o bloco
 existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
 
+> **DESLIGADO em 26/11/2026 em todas as páginas** (não estava passando as UTMs para o AC): `enabled: false` no
+> `AEP_CONFIG` do arquivo-fonte. O bloco continua nas páginas, mas o pop-up não abre sozinho; `?aep=1` ainda abre (para
+> testar a correção). Para religar: `enabled: true` + `node scripts/sync-exit-popup.js`.
+
 - O pop-up envia para o 1º form do ActiveCampaign da página (copia os hidden dele): v111/v137 → 113,
   BF26 → 116. Nas BF26 ele também manda os campos 357–361 e 370 (o bloco detecta `source: 281` e preenche os dois conjuntos).
 - Gatilhos: desktop = mouse sai da página pelo topo (até 10px do topo, ou na metade de cima subindo, para pegar a
