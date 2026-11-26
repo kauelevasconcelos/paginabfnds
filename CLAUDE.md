@@ -8,6 +8,16 @@ não são servidos pelo site: o `functions/_middleware.js` devolve 404 para eles
 produção do Pages (`paginabfnds-v1.pages.dev`, `main.` e URLs de deployment), as páginas da lista `HIDDEN_IN_PRODUCTION`
 (hoje as B da D-007: v33, v35, v37); os previews de branch continuam abrindo.
 
+## Leads de teste (regra fixa, 26/11/2026)
+
+**Todo lead de teste, em preview ou no domínio, é enviado com o GTM e todos os pixels bloqueados, mesmo que o pedido
+não diga isso.** Bloquear antes de abrir a página (não depois do carregamento): `googletagmanager.com`,
+`google-analytics.com`, `analytics.google.com`, `googleadservices.com`, `doubleclick.net`, `connect.facebook.net`,
+`facebook.com/tr`, `analytics.tiktok.com`, `clarity.ms` e o sGTM (`servidor.*`, ex.: `servidor.mathjerke.com.br`).
+Conferir que nenhuma requisição para esses hosts saiu (aba Rede) antes de enviar. Se não der para bloquear, não envie:
+teste o formulário sem enviar e avise. O envio ao ActiveCampaign (`aloud.activehosted.com`) e o obrigado continuam
+liberados. Depois do teste, informar os e-mails usados para apagar os contatos no AC.
+
 ## Formulários (padrão v136/v137)
 
 Todas as páginas enviam o lead direto ao ActiveCampaign (`https://aloud.activehosted.com/proc.php`,
@@ -248,7 +258,8 @@ no WordPress: são páginas novas, sem `-off` nem ID):
   dão 404). Sem limpeza de cache: a resposta não passa pelo cache da borda (sem `cf-cache-status`), e o token OAuth do
   wrangler não tem permissão de purge. Testado em 26/11/2026: HTML no domínio idêntico ao do Pages (desktop e celular),
   todos os assets 200 com cache de 1 ano, lead real nas 3 (AC 116, campos 41–43 e UTMs 281–285 + 293, redireciona para
-  `/confirmacao-bf26v1/`). Rollback: `DELETE /zones/<zona>/workers/routes/<id>` e tirar a rota do `wrangler.jsonc`.
+  `/confirmacao-bf26v1/`). ⚠️ Esses 3 leads (e-mails `teste.preview.claude+d007v32dom|v34dom|v36dom@example.com`)
+  foram enviados **sem** bloquear o GTM/pixels: as conversões de 26/11/2026 ~13:10 UTC nessas páginas são testes. Rollback: `DELETE /zones/<zona>/workers/routes/<id>` e tirar a rota do `wrangler.jsonc`.
 - As D-007 não estão no exit pop-up (`scripts/sync-exit-popup.js`).
 - v32–v37 estavam livres em 25/11/2026 (domínio 404, nenhuma página no REST do WordPress, nenhuma rota de Worker).
 - Diferenças aprovadas em relação ao Figma: "+62 mil" alunos (o Figma diz +60 mil), "Entre **na** Plataforma" (o Figma
