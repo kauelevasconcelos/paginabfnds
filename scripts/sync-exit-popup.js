@@ -26,6 +26,8 @@ const PAGES = {
   '/pc-lpm-bf26v24/': 'v24/index.html',
   '/pc-lpm-bf26v25/': 'v25/index.html',
   '/pc-lpm-bf26v26/': 'v26/index.html',
+  '/pc-lpm-bf26v25b/': 'v25b/index.html',
+  '/pc-lpm-bf26v26b/': 'v26b/index.html',
 };
 
 const START_TEXT = 'ALOUD · EXIT POP-UP · PADRÃO ÚNICO';

@@ -15,6 +15,18 @@ const cases = [
   ['/pc-lpm-bf26v27', 'pages /v27/'], ['/pc-lpm-bf26v27/?fbclid=x', 'pages /v27/?fbclid=x'], ['/pc-lpm-bf26v27/fonts/a.woff2', 'pages /v27/fonts/a.woff2'], ['/pc-lpm-bf26v27-off/', 'origem'],
   ['/pc-lpm-bf26v270/', 'origem'], ['/pc-lpm-bf26v24/', 'origem'], ['/pc-lpm-bf26v28/', 'origem'], ['/pc-le-cdf-v80/', 'origem'],
 ];
+// Versões B (26/11/2026): cada par vNN / vNNb cai na sua pasta; o resto continua como antes.
+for (const v of ['25', '26', '27']) cases.push(
+  [`/pc-lpm-bf26v${v}b`, `pages /v${v}b/`], [`/pc-lpm-bf26v${v}b/`, `pages /v${v}b/`], [`/pc-lpm-bf26v${v}b/index.html`, `pages /v${v}b/`],
+  [`/pc-lpm-bf26v${v}b/?utm_source=a&utm_medium=b&fbclid=x`, `pages /v${v}b/?utm_source=a&utm_medium=b&fbclid=x`],
+  [`/pc-lpm-bf26v${v}b/img/logo-aloud-17e10ae7.svg`, `pages /v${v}b/img/logo-aloud-17e10ae7.svg`],
+  [`/pc-lpm-bf26v${v}b/fonts/switzer-bold-9dcc430a.woff2`, `pages /v${v}b/fonts/switzer-bold-9dcc430a.woff2`],
+  [`/pc-lpm-bf26v${v}b/img/sub/x.webp`, '404'], [`/pc-lpm-bf26v${v}b/outra`, '404'], [`/pc-lpm-bf26v${v}b/wp-admin/`, '404'],
+  [`/pc-lpm-bf26v${v}b-off/`, 'origem'],
+  [`/pc-lpm-bf26v${v}`, `pages /v${v}/`], [`/pc-lpm-bf26v${v}/`, `pages /v${v}/`], [`/pc-lpm-bf26v${v}/?utm_source=a`, `pages /v${v}/?utm_source=a`],
+  [`/pc-lpm-bf26v${v}/img/fivecon.svg`, `pages /v${v}/img/fivecon.svg`], [`/pc-lpm-bf26v${v}-off/`, 'origem'],
+  [`/pc-lpm-bf26v${v}bb/`, 'origem'], [`/pc-lpm-bf26v${v}b0/`, 'origem'], [`/pc-lpm-bf26v${v}c/`, 'origem']);
+cases.push(['/pc-lpm-bf26v24b/', 'origem'], ['/pc-lpm-bf26v28b/', 'origem'], ['/pc-lpm-bf26v250b/', 'origem']);
 let fails = 0;
 for (const [p, exp] of cases) {
   last = null;
