@@ -54,7 +54,8 @@ fora de propósito).
 existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
 
 > Desligado de manhã em 26/11/2026 (não estava passando as UTMs para o AC) e **religado no mesmo dia em todas as
-> páginas**, inclusive na MGM (à mão). A lógica de UTM do bloco não mudou entre o desligamento e a religação.
+> páginas**, inclusive na MGM (à mão). O problema das UTMs foi dado como resolvido pelo time (a correção não foi
+> feita no código do bloco, que não mudou entre o desligamento e a religação).
 > Para desligar de novo: `enabled: false` no `AEP_CONFIG` do arquivo-fonte + `node scripts/sync-exit-popup.js`
 > (e na MGM à mão); `?aep=1` abre mesmo desligado.
 
