@@ -145,6 +145,8 @@ b,strong{font-weight:bolder}
 /* ===== garantia + números ===== */
 .fin{background:#141414;padding:25px 0 35px}
 .gar{width:1149px;max-width:100%;margin:0 auto;display:flex;align-items:flex-start}
+/* centraliza a grade (1195px) e a garantia como no Figma: sem isto elas começam na borda do .w (1132px) e ficam 32px à direita */
+@media(min-width:1196px){.ent .grid{margin-left:calc((100% - 1195px)/2);margin-right:calc((100% - 1195px)/2)}.gar{max-width:none;margin-left:calc((100% - 1195px)/2);margin-right:0}}
 .gar>img{width:370px;flex:none}
 .gar>div{width:779px;padding-top:30px}
 .gar h2{font-size:29px;font-weight:900;line-height:1.09}
