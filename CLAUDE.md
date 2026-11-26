@@ -6,7 +6,7 @@ mathwerner.com.br (ver a seção "Domínio mathwerner.com.br"). O mapeamento das
 `/pc-le-cdf-v80/` → `/v80/`) é feito por Workers roteadores da Cloudflare (ver "Roteador do domínio"). Arquivos internos (`CLAUDE.md`, `workers/`, `_shared/`, `scripts/`)
 não são servidos pelo site: o `functions/_middleware.js` devolve 404 para eles. O mesmo middleware esconde, só na
 produção do Pages (`paginabfnds-v1.pages.dev`, `main.` e URLs de deployment), as páginas da lista `HIDDEN_IN_PRODUCTION`
-(hoje as B da D-007: v33, v35, v37); os previews de branch continuam abrindo.
+(hoje vazia; foi usada para as B da D-007 até a liberação em 26/11/2026); os previews de branch continuam abrindo.
 
 ## Leads de teste (regra fixa, 26/11/2026)
 
@@ -221,7 +221,7 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
 - Não mexer no carregamento do GTM nem das tags (render-blocking restante: CSS do intl-tel-input no cdnjs e Google
   Fonts — candidatos a otimizar só com teste visual do campo de telefone).
 
-## Campanha D-007 (teste A/B; versões A no domínio desde 26/11/2026)
+## Campanha D-007 (teste A/B; as 6 páginas no domínio desde 26/11/2026)
 
 6 páginas novas feitas a partir do Figma `NBH50jkRf0wvWVRjWSRkp6` (linha de cima, sem as linhas "DS novo"). Base técnica
 da BF26 V4 (GTM/`page_version`, Clarity com atraso, intl-tel-input, campos 41–43, UTMs 281–285 + 293, form AC 116,
@@ -231,36 +231,41 @@ no WordPress: são páginas novas, sem `-off` nem ID):
 | Pasta | Frame | Endereço | Variante |
 |---|---|---|---|
 | `v32/` | `3:836` página completa | `/pc-lpm-bf26v32/` | A |
-| `v33/` | `14:460` | `/pc-lpm-bf26v33/` | B (depoimento provisório) |
+| `v33/` | `14:460` | `/pc-lpm-bf26v33/` | B |
 | `v34/` | `2:2` dobra única | `/pc-lpm-bf26v34/` | A |
-| `v35/` | `14:921` | `/pc-lpm-bf26v35/` | B (depoimento provisório) |
+| `v35/` | `14:921` | `/pc-lpm-bf26v35/` | B |
 | `v36/` | `3:551` dobra única | `/pc-lpm-bf26v36/` | A |
-| `v37/` | `18:1065` | `/pc-lpm-bf26v37/` | B (depoimento provisório) |
+| `v37/` | `18:1065` | `/pc-lpm-bf26v37/` | B |
 
-- **As variantes B (v33, v35, v37) estão bloqueadas** até a autorização de uso do depoimento ser confirmada. Desde
-  26/11/2026 já têm o depoimento final do Figma (Lueinny, foto `foto-lueinny-d78b2dd1.webp`; o Figma não traz profissão nem
-  cidade/UF) e o preview delas está no branch `d007-b-depoimento` (`d007-b-depoimento.paginabfnds-v1.pages.dev/v33/` etc.).
-  Bloqueio: fora do Worker (domínio 404) e com 404 na produção do Pages pelo `functions/_middleware.js`
-  (`HIDDEN_IN_PRODUCTION`, desde 26/11/2026). Abrem só em preview de branch (ex.: `d007-preview.paginabfnds-v1.pages.dev`).
-  Para liberar uma B: trocar o depoimento, tirá-la do `HIDDEN_IN_PRODUCTION`, incluir o número em `VERSIONS` no Worker,
-  `npx wrangler@4 deploy` **com `routes: []` temporário ou só em horário de pouco tráfego** (o deploy recria as rotas da
-  lista) e criar a rota dela pela API.
+- **Variantes B (v33, v35, v37) liberadas em 26/11/2026** (autorização do depoimento confirmada). Depoimento do Figma:
+  Lueinny, foto `foto-lueinny-d78b2dd1.webp` (o Figma não traz profissão nem cidade/UF). Até a liberação ficaram fora do
+  Worker e com 404 na produção do Pages (`HIDDEN_IN_PRODUCTION` do middleware, hoje vazio).
+- **v32/v33: grade de cards e garantia centralizadas** (26/11/2026): a grade tem 1195px e a garantia 1149px dentro do `.w`
+  (1132px), e com `margin:auto` elas começavam na borda do `.w`, 32px à direita do Figma. Correção só a partir de 1196px
+  (`@media(min-width:1196px)` com margens negativas simétricas); hero, FAQ e rodapé ficaram idênticos pixel a pixel.
+- Branches de preview: `d007-preview` (o trabalho original, com as pastas provisórias `d007-v25a`… renomeadas; páginas e
+  Worker idênticos ao `main` em 25/11/2026, nada falta no `main`) e `d007-b-depoimento` (preview das B com o depoimento).
 - **Worker `pc-lpm-bf26-d007-router`** (`workers/pc-lpm-bf26-d007-router/`, teste `node test.mjs`): mesmo modelo do
   Worker da V25–V27 (`/pc-lpm-bf26vNN[/|/index.html]` → `paginabfnds-v1.pages.dev/vNN/` com a query string, `img/` e
   `fonts/`, outros subcaminhos 404, prefixos como `/pc-lpm-bf26v320` ou `-off` → origem, que responde 404). Lista fechada
-  `VERSIONS` = 32, 34, 36. Publicado em 25/11/2026 sem rotas (versão `83c85e8b`); rotas criadas pela API em 26/11/2026:
+  `VERSIONS` = 32 a 37. Publicado em 25/11/2026 sem rotas (versão `83c85e8b`); B incluídas na versão `6fd5467e` (26/11/2026,
+  publicada com `versions upload` + `versions deploy`, que não recria as rotas). Rotas criadas pela API, uma por vez:
 
   | Página | Rota (id) | No ar desde |
   |---|---|---|
   | V32 | `…/pc-lpm-bf26v32*` (`b75abea9`) | 26/11/2026 13:04 UTC |
   | V34 | `…/pc-lpm-bf26v34*` (`40be5a1b`) | 26/11/2026 13:04 UTC |
   | V36 | `…/pc-lpm-bf26v36*` (`aa7e488c`) | 26/11/2026 13:04 UTC |
+  | V33 | `…/pc-lpm-bf26v33*` (`a3a93d05`) | 26/11/2026 13:57 UTC |
+  | V35 | `…/pc-lpm-bf26v35*` (`feae1037`) | 26/11/2026 13:57 UTC |
+  | V37 | `…/pc-lpm-bf26v37*` (`b575c0f5`) | 26/11/2026 13:57 UTC |
 
   Sem Redirect Rules (decisão de 26/11/2026: não há página no WordPress, então variações como maiúsculas ou `%2D` só
   dão 404). Sem limpeza de cache: a resposta não passa pelo cache da borda (sem `cf-cache-status`), e o token OAuth do
   wrangler não tem permissão de purge. Testado em 26/11/2026: HTML no domínio idêntico ao do Pages (desktop e celular),
   todos os assets 200 com cache de 1 ano, lead real nas 3 (AC 116, campos 41–43 e UTMs 281–285 + 293, redireciona para
-  `/confirmacao-bf26v1/`). ⚠️ Esses 3 leads (e-mails `teste.preview.claude+d007v32dom|v34dom|v36dom@example.com`)
+  `/confirmacao-bf26v1/`). B testadas em 26/11/2026 com GTM e pixels bloqueados (Chrome headless por CDP com
+  `--host-resolver-rules`: 6 tentativas de tracker por lead, nenhuma com resposta). ⚠️ Os 3 leads das A (e-mails `teste.preview.claude+d007v32dom|v34dom|v36dom@example.com`)
   foram enviados **sem** bloquear o GTM/pixels: as conversões de 26/11/2026 ~13:10 UTC nessas páginas são testes. Rollback: `DELETE /zones/<zona>/workers/routes/<id>` e tirar a rota do `wrangler.jsonc`.
 - As D-007 não estão no exit pop-up (`scripts/sync-exit-popup.js`).
 - v32–v37 estavam livres em 25/11/2026 (domínio 404, nenhuma página no REST do WordPress, nenhuma rota de Worker).

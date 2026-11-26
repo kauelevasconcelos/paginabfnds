@@ -7,11 +7,15 @@
   "account_id": "1674537158620e3e2821c20c2f1dd48a",
   // Publicado em 25/11/2026 SEM rotas (versão 83c85e8b). As rotas foram criadas em 26/11/2026 pela API
   // (POST zones/:zone/workers/routes), uma página por vez, para não recriar rotas já no ar. Esta lista é o estado atual.
-  // Um `wrangler deploy` com ela recria as 3 rotas (alguns segundos de 404 do WordPress), então só em horário de pouco tráfego.
+  // Para publicar código novo sem mexer nas rotas: `npx wrangler@4 versions upload` + `versions deploy <id>@100%`.
+  // Um `wrangler deploy` com ela recria as 6 rotas (alguns segundos de 404 do WordPress), então só em horário de pouco tráfego.
   "routes": [
     { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v32*", "zone_name": "cronogramadosfluentes.com.br" },
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v33*", "zone_name": "cronogramadosfluentes.com.br" },
     { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v34*", "zone_name": "cronogramadosfluentes.com.br" },
-    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v36*", "zone_name": "cronogramadosfluentes.com.br" }
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v35*", "zone_name": "cronogramadosfluentes.com.br" },
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v36*", "zone_name": "cronogramadosfluentes.com.br" },
+    { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v37*", "zone_name": "cronogramadosfluentes.com.br" }
   ],
   "workers_dev": false,
   "preview_urls": false,
