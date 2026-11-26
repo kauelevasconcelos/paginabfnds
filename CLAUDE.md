@@ -4,7 +4,9 @@ Landing pages da Aloud servidas pelo Cloudflare Pages (projeto `paginabfnds-v1`,
 Cada pasta `vNN/` é uma página do cronogramadosfluentes.com.br; as pastas `dsi-pv-vNN/` são páginas do
 mathwerner.com.br (ver a seção "Domínio mathwerner.com.br"). O mapeamento das URLs do domínio (ex.:
 `/pc-le-cdf-v80/` → `/v80/`) é feito por Workers roteadores da Cloudflare (ver "Roteador do domínio"). Arquivos internos (`CLAUDE.md`, `workers/`, `_shared/`, `scripts/`)
-não são servidos pelo site: o `functions/_middleware.js` devolve 404 para eles.
+não são servidos pelo site: o `functions/_middleware.js` devolve 404 para eles. O mesmo middleware esconde, só na
+produção do Pages (`paginabfnds-v1.pages.dev`, `main.` e URLs de deployment), as páginas da lista `HIDDEN_IN_PRODUCTION`
+(hoje as B da D-007: v33, v35, v37); os previews de branch continuam abrindo.
 
 ## Formulários (padrão v136/v137)
 
@@ -209,7 +211,7 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
 - Não mexer no carregamento do GTM nem das tags (render-blocking restante: CSS do intl-tel-input no cdnjs e Google
   Fonts — candidatos a otimizar só com teste visual do campo de telefone).
 
-## Campanha D-007 (teste A/B, em preview desde 25/11/2026)
+## Campanha D-007 (teste A/B; versões A no domínio desde 26/11/2026)
 
 6 páginas novas feitas a partir do Figma `NBH50jkRf0wvWVRjWSRkp6` (linha de cima, sem as linhas "DS novo"). Base técnica
 da BF26 V4 (GTM/`page_version`, Clarity com atraso, intl-tel-input, campos 41–43, UTMs 281–285 + 293, form AC 116,
@@ -225,8 +227,29 @@ no WordPress: são páginas novas, sem `-off` nem ID):
 | `v36/` | `3:551` dobra única | `/pc-lpm-bf26v36/` | A |
 | `v37/` | `18:1065` | `/pc-lpm-bf26v37/` | B (depoimento provisório) |
 
-- **As variantes B (v33, v35, v37) estão bloqueadas para o domínio** até chegar o depoimento final autorizado (hoje
-  têm o texto provisório do Figma). Só as A vão para o domínio.
+- **As variantes B (v33, v35, v37) estão bloqueadas** até chegar o depoimento final autorizado (hoje têm o texto
+  provisório do Figma): fora do Worker (domínio 404) e com 404 na produção do Pages pelo `functions/_middleware.js`
+  (`HIDDEN_IN_PRODUCTION`, desde 26/11/2026). Abrem só em preview de branch (ex.: `d007-preview.paginabfnds-v1.pages.dev`).
+  Para liberar uma B: trocar o depoimento, tirá-la do `HIDDEN_IN_PRODUCTION`, incluir o número em `VERSIONS` no Worker,
+  `npx wrangler@4 deploy` **com `routes: []` temporário ou só em horário de pouco tráfego** (o deploy recria as rotas da
+  lista) e criar a rota dela pela API.
+- **Worker `pc-lpm-bf26-d007-router`** (`workers/pc-lpm-bf26-d007-router/`, teste `node test.mjs`): mesmo modelo do
+  Worker da V25–V27 (`/pc-lpm-bf26vNN[/|/index.html]` → `paginabfnds-v1.pages.dev/vNN/` com a query string, `img/` e
+  `fonts/`, outros subcaminhos 404, prefixos como `/pc-lpm-bf26v320` ou `-off` → origem, que responde 404). Lista fechada
+  `VERSIONS` = 32, 34, 36. Publicado em 25/11/2026 sem rotas (versão `83c85e8b`); rotas criadas pela API em 26/11/2026:
+
+  | Página | Rota (id) | No ar desde |
+  |---|---|---|
+  | V32 | `…/pc-lpm-bf26v32*` (`b75abea9`) | 26/11/2026 13:04 UTC |
+  | V34 | `…/pc-lpm-bf26v34*` (`40be5a1b`) | 26/11/2026 13:04 UTC |
+  | V36 | `…/pc-lpm-bf26v36*` (`aa7e488c`) | 26/11/2026 13:04 UTC |
+
+  Sem Redirect Rules (decisão de 26/11/2026: não há página no WordPress, então variações como maiúsculas ou `%2D` só
+  dão 404). Sem limpeza de cache: a resposta não passa pelo cache da borda (sem `cf-cache-status`), e o token OAuth do
+  wrangler não tem permissão de purge. Testado em 26/11/2026: HTML no domínio idêntico ao do Pages (desktop e celular),
+  todos os assets 200 com cache de 1 ano, lead real nas 3 (AC 116, campos 41–43 e UTMs 281–285 + 293, redireciona para
+  `/confirmacao-bf26v1/`). Rollback: `DELETE /zones/<zona>/workers/routes/<id>` e tirar a rota do `wrangler.jsonc`.
+- As D-007 não estão no exit pop-up (`scripts/sync-exit-popup.js`).
 - v32–v37 estavam livres em 25/11/2026 (domínio 404, nenhuma página no REST do WordPress, nenhuma rota de Worker).
 - Diferenças aprovadas em relação ao Figma: "+62 mil" alunos (o Figma diz +60 mil), "Entre **na** Plataforma" (o Figma
   diz "no"), respostas do FAQ da V32/V33 adaptadas da V25, Switzer ExtraBold no lugar de Switzer Black/Epilogue Black.
