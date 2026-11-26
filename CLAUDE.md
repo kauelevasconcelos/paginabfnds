@@ -237,8 +237,10 @@ no WordPress: são páginas novas, sem `-off` nem ID):
 | `v36/` | `3:551` dobra única | `/pc-lpm-bf26v36/` | A |
 | `v37/` | `18:1065` | `/pc-lpm-bf26v37/` | B (depoimento provisório) |
 
-- **As variantes B (v33, v35, v37) estão bloqueadas** até chegar o depoimento final autorizado (hoje têm o texto
-  provisório do Figma): fora do Worker (domínio 404) e com 404 na produção do Pages pelo `functions/_middleware.js`
+- **As variantes B (v33, v35, v37) estão bloqueadas** até a autorização de uso do depoimento ser confirmada. Desde
+  26/11/2026 já têm o depoimento final do Figma (Lueinny, foto `foto-lueinny-d78b2dd1.webp`; o Figma não traz profissão nem
+  cidade/UF) e o preview delas está no branch `d007-b-depoimento` (`d007-b-depoimento.paginabfnds-v1.pages.dev/v33/` etc.).
+  Bloqueio: fora do Worker (domínio 404) e com 404 na produção do Pages pelo `functions/_middleware.js`
   (`HIDDEN_IN_PRODUCTION`, desde 26/11/2026). Abrem só em preview de branch (ex.: `d007-preview.paginabfnds-v1.pages.dev`).
   Para liberar uma B: trocar o depoimento, tirá-la do `HIDDEN_IN_PRODUCTION`, incluir o número em `VERSIONS` no Worker,
   `npx wrangler@4 deploy` **com `routes: []` temporário ou só em horário de pouco tráfego** (o deploy recria as rotas da
