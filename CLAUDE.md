@@ -33,6 +33,7 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | MGM (`/pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 117 / 117 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
+| BF26 V25b, V26b, V27b (`/pc-lpm-bf26v25b/` … `v27b/`) | 1 cada (`#116`) | 116 / 116 |
 
 As BF26 (V4, V8, V11, V22–V24, V25–V27) usam o padrão próprio das BF26 (scripts da V4: campos 41–43 e UTMs
 281–285 + 293, sem os campos 357–370) e o mesmo form AC 116 das páginas no WordPress. Depois do envio, o
@@ -47,7 +48,8 @@ Isso foi substituído pelo AC 105; a v80 não depende mais dessa página.
 
 O bloco `_shared/aloud-exit-popup-padrao.html` (config + CSS + HTML + script, entre os comentários
 "ALOUD · EXIT POP-UP · PADRÃO ÚNICO" e `<!-- /ALOUD EXIT POP-UP · PADRÃO ÚNICO -->`) fica antes do `</body>` de
-v80, v111, v137 e das BF26 V4, V8 (`v29/`), V11 (`v30/`), V23, V24, V25 e V26 (a V27 ficou de fora de propósito).
+v80, v111, v137 e das BF26 V4, V8 (`v29/`), V11 (`v30/`), V23, V24, V25, V26, V25b e V26b (a V27 e a V27b ficaram de
+fora de propósito).
 **Não edite o bloco nas páginas:** mude o arquivo-fonte e rode `node scripts/sync-exit-popup.js` (substitui o bloco
 existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
 
@@ -107,6 +109,13 @@ existente ou insere; `--check` só confere). A lista de páginas está no própr
   | V26 | `…/pc-lpm-bf26v26*` (`32252a1b`) | 16/11/2026 17:35 UTC | id 6493, slug `pc-lpm-bf26v26` (mantida) |
   | V27 | `…/pc-lpm-bf26v27*` (`b0c22e65`) | 16/11/2026 17:36 UTC | id 6558, slug `pc-lpm-bf26v27` (mantida) |
 
+  - **Versões B (V25b, V26b, V27b), no ar desde 26/11/2026 18:14 UTC** (ver "Versões B da V25–V27" abaixo): o mesmo
+    Worker serve `/pc-lpm-bf26vNNb` (NN = 25, 26, 27; lista fechada `B_VERSIONS`), tratado **antes** das não-b, com as
+    mesmas regras (sem barra, `/`, `/index.html` → pasta `vNNb/` com a query string; `img/` e `fonts/`; outros
+    subcaminhos 404; `vNNb-off`, `vNNbb`, `vNNc`, `v24b`, `v250b` → origem). **Sem rotas novas**: o padrão
+    `…/pc-lpm-bf26v25*` já casa `v25b`. Versão `b956336e`, publicada com `versions upload` + `versions deploy`
+    (rotas e IDs intactos, 41 rotas na zona). `node test.mjs`: 86 casos.
+
   **Decisão (16/11/2026): a slug da V25–V27 NÃO vira `-off`.** As páginas do WordPress ficam com a slug original
   e publicadas, com o título prefixado por "[EM CÓDIGO] " (16/11/2026, só pela Edição rápida: slug, status e
   conteúdo do Elementor intactos). O Worker e as Redirect Rules (abaixo) garantem que todo acesso cai no código.
@@ -137,6 +146,8 @@ existente ou insere; `--check` só confere). A lista de páginas está no própr
     `http.request.uri.path`, mas a rota do Worker compara o caminho cru. Com o campo normalizado, `/pc%2Dlpm-…`
     caía no WordPress.
   - Página nova servida por Worker = rota + uma regra destas. As `-off` não são redirecionadas (de propósito).
+  - As versões B (`…v25b` etc.) NÃO têm regra e não são afetadas pelas da V25–V27 (conferido em 26/11/2026:
+    `/pc-lpm-bf26v25b` não redireciona; `/PC-LPM-BF26V25B/`, `%2D` e `?pagename=pc-lpm-bf26v25b` dão 404 do WordPress).
   - As outras BF26 do `bf26-v14-router` NÃO têm regra: `/PC-LPM-BF26V4/` ainda cai no WordPress (301 para a `-off`).
 - **Always Use HTTPS** ligado em 16/11/2026 (SSL/TLS → Certificados de borda): http → 301 https em 1 salto, com a
   query string. Testado sem loop no WordPress, nas BF26, v80/v111/v128–v137 e na `/confirmacao-bf26v1/`.
@@ -208,7 +219,7 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
 
 ## Cache e otimização (16/11/2026)
 
-- **`_headers`**: `Cache-Control: public, max-age=31536000, immutable` para `img/*` e `fonts/*` de v80, v111, v25–v27 e
+- **`_headers`**: `Cache-Control: public, max-age=31536000, immutable` para `img/*` e `fonts/*` de v80, v111, v25–v27, v25b–v27b e
   dsi-pv-v11–v13. O HTML segue o padrão do Pages (`max-age=0, must-revalidate`), então publicar o `index.html`
   atualiza a página na hora. As outras pastas (v4, v15–v24 etc.) não foram incluídas.
 - **Regra de nomes:** todo arquivo nessas pastas tem hash de conteúdo no nome (`nome-<8 hex do md5>.ext`). Para
@@ -221,6 +232,33 @@ tracking diferente: só pixel Meta, sem GTM); `pv.mathwerner.com.br` → Vercel 
   IntersectionObserver; sem JavaScript o fundo carrega normalmente).
 - Não mexer no carregamento do GTM nem das tags (render-blocking restante: CSS do intl-tel-input no cdnjs e Google
   Fonts — candidatos a otimizar só com teste visual do campo de telefone).
+
+## Versões B da V25–V27 (V25b, V26b, V27b; no domínio desde 26/11/2026)
+
+Variantes B do teste A/B da D-007, nos endereços definitivos (substituem a v33/v35/v37, que ficam no ar até a limpeza
+junto com as A):
+
+| Pasta | Conteúdo de | Endereço | Base técnica de |
+|---|---|---|---|
+| `v25b/` | v33 (frame `14:460`) | https://cronogramadosfluentes.com.br/pc-lpm-bf26v25b/ | v25 |
+| `v26b/` | v35 (frame `14:921`) | https://cronogramadosfluentes.com.br/pc-lpm-bf26v26b/ | v26 |
+| `v27b/` | v37 (frame `18:1065`) | https://cronogramadosfluentes.com.br/pc-lpm-bf26v27b/ | v27 |
+
+- Conteúdo = v33/v35/v37 (depoimento Lueinny, centralização de 32px). Técnico = V25/V26/V27: mesmo GTM e prioridade,
+  `<form … id="116">` igual ao da A, AC 116, campos 41–43, UTMs 281–285 + 293, cookies; `page_version` `v25b`/`v26b`/`v27b`
+  (dataLayer e Clarity); título `Cronograma dos Fluentes – BF 26 – V25b – Matheus Werner`. Blocos técnicos comparados
+  com a A: 0 linhas de diferença (v26b só difere no script do contador, que é da UI da v35).
+- Exit pop-up: v25b e v26b no `scripts/sync-exit-popup.js` (como v25/v26); v27b fora (como a v27). Desligado (`enabled:false`).
+- Assets em `/pc-lpm-bf26vNNb/img|fonts/…` (hash no nome, cache de 1 ano no `_headers`; `_redirects` para o preview).
+- Não há página no WordPress nem Redirect Rule. Servidas pelo `pc-lpm-bf26-v25-v27-router` (ver "Roteador do domínio").
+- Testado em 26/11/2026 no domínio: com/sem barra e `/index.html`, HTML idêntico ao do Pages (desktop e celular), assets
+  200 com cache de 1 ano (22/18/16), UTMs mantidas, celular 390px sem overflow; v25/v26/v27, v4/v8/v11/v14/v23/v24/v28/v32,
+  v80/v111/v137 byte a byte iguais a antes. Leads com GTM e pixels bloqueados (6 tentativas de tracker por lead, nenhuma
+  com resposta): AC 116, field 293 = `pc-lpm-bf26v25b/` etc., obrigado `/confirmacao-bf26v1/`. E-mails
+  `teste.preview.claude+v25bdom|v26bdom|v27bdom@example.com` (enviados 2x cada; mesmo contato).
+- Branch de preview `bf26-b-v25b-v27b` (já no `main`; pode ser apagado).
+- **Pendente:** v25/v26/v27 com os frames A (`3:836`/`2:2`/`3:551`) e depois a remoção da v32–v37, do Worker
+  `pc-lpm-bf26-d007-router` e das rotas dele.
 
 ## Campanha D-007 (teste A/B; as 6 páginas no domínio desde 26/11/2026)
 
@@ -320,4 +358,4 @@ página no WordPress e sem Redirect Rule (variações como maiúsculas dão 404 
 
 Branches que não são o `main` geram `https://<branch>.paginabfnds-v1.pages.dev`. Os assets usam caminhos
 absolutos do domínio (`/pc-le-cdf-vNN/img/...`, `/pc-lpm-bf26vNN/img/...`), por isso o `_redirects` reescreve
-esses caminhos no preview (hoje v80, v111 e BF26 V25–V27). As `dsi-pv-vNN` não precisam (pasta = caminho).
+esses caminhos no preview (hoje v80, v111, BF26 V25–V27 e V25b–V27b). As `dsi-pv-vNN` não precisam (pasta = caminho).

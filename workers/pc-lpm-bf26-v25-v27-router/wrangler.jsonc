@@ -9,6 +9,9 @@
   // O Worker foi publicado em 16/11/2026 SEM rotas, e cada rota foi criada pela API (POST zones/:zone/workers/routes),
   // uma página por vez, para não recriar rotas já no ar. Esta lista é o estado atual. Um `wrangler deploy`
   // com ela recria as 3 rotas (alguns segundos sem Worker → WordPress), então só em horário de pouco tráfego.
+  // Para mudar só o código, use `npx wrangler@4 versions upload` + `npx wrangler@4 versions deploy <id>@100% -y`
+  // (não mexe nas rotas). Assim foi publicada a versão b956336e (26/11/2026), que também serve as versões B
+  // (/pc-lpm-bf26v25b, v26b, v27b), que chegam pelas mesmas 3 rotas (o padrão pc-lpm-bf26v25* casa v25b).
   "routes": [
     { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v25*", "zone_name": "cronogramadosfluentes.com.br" },
     { "pattern": "cronogramadosfluentes.com.br/pc-lpm-bf26v26*", "zone_name": "cronogramadosfluentes.com.br" },
