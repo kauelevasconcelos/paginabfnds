@@ -1,4 +1,9 @@
-// pc-lpm-mgm-router  (PREPARADO, NÃO PUBLICADO: revisar com o JV antes)
+// pc-lpm-mgm-router
+// Publicado em 26/11/2026 sem rotas (versão 9b120409); rota criada depois pela API, sem recriar as outras:
+//   cronogramadosfluentes.com.br/pc-lpm-mgmv1*  (id 822336f6c8774e0aad87e10d819caa4b)
+// Rollback (apaga só esta rota; o caminho volta a dar 404 no WordPress):
+//   curl -X DELETE "https://api.cloudflare.com/client/v4/zones/64725095c94dd484bf2e5416bda7d7d8/workers/routes/822336f6c8774e0aad87e10d819caa4b" //     -H "Authorization: Bearer <token OAuth do wrangler>"
+//   e tirar a rota do wrangler.jsonc.
 // Serve a página de indicação (MGM) da Black Vitalícia do Cloudflare Pages (projeto paginabfnds-v1) em
 // https://cronogramadosfluentes.com.br/pc-lpm-mgmv1/ (link do aluno: …/pc-lpm-mgmv1/?ref=CODIGO).
 // Mesmo modelo do pc-lpm-bf26-d007-router. Diferenças:

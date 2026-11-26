@@ -30,6 +30,7 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | v80 (`/pc-le-cdf-v80/`) | 2 principais (`#105`, `#105-2`) | 105 / 105 |
 | v80 | pop-up de saída padrão (`AEP_PAGE.form = "reserva"`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
+| MGM (`/pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 116 / 116 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
 
@@ -271,6 +272,48 @@ no WordPress: são páginas novas, sem `-off` nem ID):
 - v32–v37 estavam livres em 25/11/2026 (domínio 404, nenhuma página no REST do WordPress, nenhuma rota de Worker).
 - Diferenças aprovadas em relação ao Figma: "+62 mil" alunos (o Figma diz +60 mil), "Entre **na** Plataforma" (o Figma
   diz "no"), respostas do FAQ da V32/V33 adaptadas da V25, Switzer ExtraBold no lugar de Switzer Black/Epilogue Black.
+
+## Página de indicação MGM (no domínio desde 26/11/2026)
+
+`https://cronogramadosfluentes.com.br/pc-lpm-mgmv1/` ("Member Get Member" da Black Vitalícia; o aluno compartilha
+`…/pc-lpm-mgmv1/?ref=CODIGO`). Pasta **`pc-lpm-mgmv1/`** (pasta = caminho, como as `dsi-pv-vNN`). Página nova, sem
+página no WordPress e sem Redirect Rule (variações como maiúsculas dão 404 do WP).
+
+- **É uma cópia da BF26 V4 (`v4/`)**, gerada a partir dela, com só estas mudanças: headline + texto de apoio
+  (`.sub-mgm`), 3 perguntas no início do FAQ, texto/botão/logo do pop-up de saída (`bf25img001` da v4, sem
+  dependência da v80), `<head>` (title, description, `noindex, nofollow`, canonical para a própria MGM) e
+  `page_version: 'mgm'` no dataLayer e no Clarity. GTM, Pixel e Clarity com os mesmos IDs da v4. Textos do arquivo
+  `pagina-mgm.html` do Nadal (fora do git; só a fonte do conteúdo, não da estrutura).
+- **Assets vêm da pasta da v4** (`/pc-lpm-bf26v4/img|fonts/…`, servidos no domínio pelo `bf26-v14-router`); a pasta
+  da MGM só tem o `index.html`. Não apague nem renomeie assets da v4 sem ver a MGM. No pages.dev e nos previews
+  `/pc-lpm-bf26v4/…` não existe (o Pages devolve o HTML de fallback com 200), então lá as imagens não aparecem.
+- **Origem (field 281):** `utm_source` da URL; sem ela, `"mgm"` (o referrer não entra no 281). Os outros campos de UTM
+  seguem a lógica da v4 (URL, depois referrer).
+- **Indicação:** script no fim do HTML lê `?ref=` (só `A-Z a-z 0-9 _ -`, até 40), guarda em localStorage `mgm:ref`
+  (para recarregar sem o parâmetro) e preenche o hidden `CAMPO_INDICADO_POR` nos 3 forms (`#matricula`,
+  `#matricula2`, pop-up). Sem ref: campo vazio.
+- **Listas:** constante `AC_LISTAS` no mesmo script (principal 116/116, pop-up reserva 85/113). Como na v4, o pop-up
+  copia os hidden do 1º form ao abrir, então envia na lista principal; a reserva só vale com `AEP_PAGE.form = "reserva"`.
+  No pop-up o field 357 vai `"direto"` (preenchido pelo bloco padrão), enquanto o 281 vai `"mgm"`.
+- **Pop-up de saída:** bloco padrão com `enabled: false`, como na v4. A MGM **não está** no `scripts/sync-exit-popup.js`
+  (o texto do pop-up é próprio); se o arquivo-fonte mudar, aplicar à mão.
+- **TODOs do JV (pendentes em 26/11/2026):**
+  1. `CAMPO_INDICADO_POR = "field[ID_INDICADO_POR]"`: trocar pelo ID do campo "indicado por" no AC.
+  2. `AC_LISTAS`: confirmar se a MGM usa lista própria (hoje = as da v4).
+  3. `page_version 'mgm'`: confirmar que os relatórios (GA4/Clarity) separam a MGM da v4.
+  Nenhum lead de teste foi enviado (o campo ainda é placeholder). Depois do ID: lead de teste com GTM/pixels bloqueados
+  pelos 2 forms e conferir no AC "indicado por", origem `mgm` e field 293.
+- **Worker `pc-lpm-mgm-router`** (`workers/pc-lpm-mgm-router/`, teste `node test.mjs`): mesmo modelo do d007, só HTML
+  (`/pc-lpm-mgmv1[/|/index.html]` → `paginabfnds-v1.pages.dev/pc-lpm-mgmv1/` com a query string; outros subcaminhos 404;
+  `/pc-lpm-mgmv10`, `-off` → origem). Publicado em 26/11/2026 sem rotas (versão `9b120409`); rota criada pela API:
+
+  | Página | Rota (id) | No ar desde |
+  |---|---|---|
+  | MGM v1 | `…/pc-lpm-mgmv1*` (`822336f6`) | 26/11/2026 |
+
+  Rollback: `curl -X DELETE ".../zones/64725095c94dd484bf2e5416bda7d7d8/workers/routes/822336f6c8774e0aad87e10d819caa4b"`
+  (comando completo no `wrangler.jsonc`) e tirar a rota do `wrangler.jsonc`. Conferido no ar: v4 idêntica byte a byte
+  antes/depois da rota, 41 rotas na zona com as 40 antigas intactas.
 
 ## Preview
 
