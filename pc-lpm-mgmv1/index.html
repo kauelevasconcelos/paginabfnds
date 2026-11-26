@@ -27,7 +27,7 @@ window.clarity("set", "page_version", "mgm"); // TODO JV: confirmar page_version
 <title>Black Vitalícia · Você recebeu uma indicação · Aloud</title>
 <meta name="description" content="Você recebeu uma indicação para a Black Vitalícia da Aloud: aulas de conversação ao vivo, Cronograma dos Fluentes e garantia de fluência em contrato.">
 <meta name="robots" content="noindex, nofollow">
-<link rel="canonical" href="https://cronogramadosfluentes.com.br/pc-lpm-mgmv1/">
+<link rel="canonical" href="https://indica.aloud.com.br/">
 <link rel="icon" type="image/png" sizes="192x192" href="/pc-lpm-bf26v4/img/fivecon.png">
 <link rel="icon" type="image/svg+xml" href="/pc-lpm-bf26v4/img/fivecon.svg">
 <link rel="preload" href="/pc-lpm-bf26v4/img/bf25img002-d7f2a327.webp" as="image" media="(min-width:768px)" fetchpriority="high">
@@ -1115,6 +1115,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const prefixo = "utm_"; // Prefixo customizado para os parâmetros UTM
     const ORIGEM_MGM = "mgm"; // MGM: valor do field[281] quando não há utm_source
+    const PAGINA_CAPTURA_MGM = "pc-lpm-mgmv1/"; // MGM: field[293] fixo (na raiz de indica.aloud.com.br o caminho é só "/")
 
     function criarCampos() {
         const form = document.querySelectorAll('form');
@@ -1141,7 +1142,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     // Os outros campos (283, 282, 285, 284) continuam lendo a URL e o referrer, como na v4.
                     utmValue = urlParamsCapt.get(paramName) || ORIGEM_MGM;
                 } else if (utm === "paginaCaptura") {
-                    utmValue = window.location.pathname.replace('/', '');
+                    utmValue = PAGINA_CAPTURA_MGM; // MGM: a v4 usa o caminho da URL
                 } else {
                     utmValue = urlParamsCapt.get(paramName) || urlParamsCaptReferrer.get(paramName) || "";
                 }
