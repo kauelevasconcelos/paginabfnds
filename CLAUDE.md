@@ -53,9 +53,10 @@ fora de propósito).
 **Não edite o bloco nas páginas:** mude o arquivo-fonte e rode `node scripts/sync-exit-popup.js` (substitui o bloco
 existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
 
-> **DESLIGADO em 26/11/2026 em todas as páginas** (não estava passando as UTMs para o AC): `enabled: false` no
-> `AEP_CONFIG` do arquivo-fonte. O bloco continua nas páginas, mas o pop-up não abre sozinho; `?aep=1` ainda abre (para
-> testar a correção). Para religar: `enabled: true` + `node scripts/sync-exit-popup.js`.
+> Desligado de manhã em 26/11/2026 (não estava passando as UTMs para o AC) e **religado no mesmo dia em todas as
+> páginas**, inclusive na MGM (à mão). A lógica de UTM do bloco não mudou entre o desligamento e a religação.
+> Para desligar de novo: `enabled: false` no `AEP_CONFIG` do arquivo-fonte + `node scripts/sync-exit-popup.js`
+> (e na MGM à mão); `?aep=1` abre mesmo desligado.
 
 - O pop-up envia para o 1º form do ActiveCampaign da página (copia os hidden dele): v111/v137 → 113,
   BF26 → 116. Nas BF26 ele também manda os campos 357–361 e 370 (o bloco detecta `source: 281` e preenche os dois conjuntos).
@@ -333,7 +334,7 @@ página no WordPress e sem Redirect Rule (variações como maiúsculas dão 404 
 - **Listas:** constante `AC_LISTAS` no mesmo script (principal **117/117**, form próprio da MGM confirmado pelo JV em 26/11/2026; pop-up reserva 85/113). O HTML dos forms ainda traz 116 (herdado da v4), mas o script troca para o 117 ao carregar. O embed do 117 (`/f/embed.php?id=117`) só tem nome, telefone e e-mail, igual ao 116. Como na v4, o pop-up
   copia os hidden do 1º form ao abrir, então envia na lista principal; a reserva só vale com `AEP_PAGE.form = "reserva"`.
   No pop-up o field 357 vai `"direto"` (preenchido pelo bloco padrão), enquanto o 281 vai `"mgm"`.
-- **Pop-up de saída:** bloco padrão com `enabled: false`, como na v4. A MGM **não está** no `scripts/sync-exit-popup.js`
+- **Pop-up de saída:** bloco padrão, ligado como na v4. A MGM **não está** no `scripts/sync-exit-popup.js`
   (o texto do pop-up é próprio); se o arquivo-fonte mudar, aplicar à mão.
 - **TODOs do JV (pendentes em 26/11/2026):**
   1. `CAMPO_INDICADO_POR = "field[ID_INDICADO_POR]"`: o JV vai gravar o ref num campo de UTM já existente (qual, a definir).
