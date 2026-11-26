@@ -30,7 +30,7 @@ Telefone com intl-tel-input + máscara/validação por país (campos AC 41-43) e
 | v80 (`/pc-le-cdf-v80/`) | 2 principais (`#105`, `#105-2`) | 105 / 105 |
 | v80 | pop-up de saída padrão (`AEP_PAGE.form = "reserva"`) | 85 / 113 |
 | v111 (`/pc-le-cdf-v111/`) | 1 | 113 / 113 |
-| MGM (`indica.aloud.com.br`, pasta `pc-lpm-mgmv1/`) | 2 + pop-up (padrão da BF26 V4; ver "Página de indicação MGM") | 117 / 117 |
+| MGM (`indica.aloud.com.br`, pasta `pc-lpm-mgmv1/`) | 2 (sem exit pop-up; ver "Página de indicação MGM") | 117 / 117 |
 | v136, v137 | 2 / 1 | 113 / 113 |
 | BF26 V25, V26, V27 (`/pc-lpm-bf26v25/` … `v27/`) | 1 cada (`#116`) | 116 / 116 |
 | BF26 V25b, V26b, V27b (`/pc-lpm-bf26v25b/` … `v27b/`) | 1 cada (`#116`) | 116 / 116 |
@@ -54,10 +54,9 @@ fora de propósito).
 existente ou insere; `--check` só confere). A lista de páginas está no próprio script. Teste: `?aep=1` na URL.
 
 > Desligado de manhã em 26/11/2026 (não estava passando as UTMs para o AC) e **religado no mesmo dia em todas as
-> páginas**, inclusive na MGM (à mão). O problema das UTMs foi dado como resolvido pelo time (a correção não foi
+> páginas** (a MGM, que também o tinha, ficou sem pop-up: bloco removido em 26/11/2026). O problema das UTMs foi dado como resolvido pelo time (a correção não foi
 > feita no código do bloco, que não mudou entre o desligamento e a religação).
-> Para desligar de novo: `enabled: false` no `AEP_CONFIG` do arquivo-fonte + `node scripts/sync-exit-popup.js`
-> (e na MGM à mão); `?aep=1` abre mesmo desligado.
+> Para desligar de novo: `enabled: false` no `AEP_CONFIG` do arquivo-fonte + `node scripts/sync-exit-popup.js`; `?aep=1` abre mesmo desligado.
 
 - O pop-up envia para o 1º form do ActiveCampaign da página (copia os hidden dele): v111/v137 → 113,
   BF26 → 116. Nas BF26 ele também manda os campos 357–361 e 370 (o bloco detecta `source: 281` e preenche os dois conjuntos).
@@ -321,8 +320,8 @@ endereço). Página nova, sem página no WordPress. O endereço antigo `cronogra
 (no ar só em 26/11/2026, antes da mudança) faz **301 para `https://indica.aloud.com.br/` com a query string inteira**.
 
 - **É uma cópia da BF26 V4 (`v4/`)**, gerada a partir dela, com só estas mudanças: headline + texto de apoio
-  (`.sub-mgm`), 3 perguntas no início do FAQ, texto/botão/logo do pop-up de saída (`bf25img001` da v4, sem
-  dependência da v80), `<head>` (title, description, `noindex, nofollow`, canonical `https://indica.aloud.com.br/`) e
+  (`.sub-mgm`), 3 perguntas no início do FAQ, **sem o exit pop-up** (o bloco padrão da v4 foi removido em
+  26/11/2026), `<head>` (title, description, `noindex, nofollow`, canonical `https://indica.aloud.com.br/`) e
   `page_version: 'mgm'` no dataLayer e no Clarity. **GTM próprio da MGM: `GTM-56D2T4ST`** (26/11/2026, pedido do JV; a
   v4 segue no `GTM-P9ZJRS9R`), carregado direto de `www.googletagmanager.com` (script do head, preload e noscript). O Pixel
   vem pelo GTM (no HTML só há o preload do `fbevents.js`); o Clarity (`wcovrh3plq`, o mesmo da v4) está no HTML. O
@@ -335,16 +334,14 @@ endereço). Página nova, sem página no WordPress. O endereço antigo `cronogra
 - **Origem (field 281):** `utm_source` da URL; sem ela, `"mgm"` (o referrer não entra no 281). Os outros campos de UTM
   seguem a lógica da v4 (URL, depois referrer).
 - **Página de captura (field 293):** fixo `"pc-lpm-mgmv1/"` (constante `PAGINA_CAPTURA_MGM` no script de UTM), porque na
-  raiz do `indica.` o caminho é só `/`. O field 370 do pop-up (bloco padrão, preenchido com o caminho) vai vazio.
+  raiz do `indica.` o caminho é só `/`.
 - **Indicação:** script no fim do HTML lê `?ref=` (só `A-Z a-z 0-9 _ -`, até 40), guarda em localStorage `mgm:ref`
   (para recarregar sem o parâmetro; o localStorage é por domínio, então o ref guardado no endereço antigo não passa
-  para o novo, mas o 301 leva o `?ref=`) e preenche o hidden `CAMPO_INDICADO_POR` nos 3 forms (`#matricula`,
-  `#matricula2`, pop-up). Sem ref: campo vazio.
-- **Listas:** constante `AC_LISTAS` no mesmo script (principal **117/117**, form próprio da MGM confirmado pelo JV em 26/11/2026; pop-up reserva 85/113). O HTML dos forms ainda traz 116 (herdado da v4), mas o script troca para o 117 ao carregar. O embed do 117 (`/f/embed.php?id=117`) só tem nome, telefone e e-mail, igual ao 116. Como na v4, o pop-up
-  copia os hidden do 1º form ao abrir, então envia na lista principal; a reserva só vale com `AEP_PAGE.form = "reserva"`.
-  No pop-up o field 357 vai `"direto"` (preenchido pelo bloco padrão), enquanto o 281 vai `"mgm"`.
-- **Pop-up de saída:** bloco padrão, ligado como na v4. A MGM **não está** no `scripts/sync-exit-popup.js`
-  (o texto do pop-up é próprio); se o arquivo-fonte mudar, aplicar à mão.
+  para o novo, mas o 301 leva o `?ref=`) e preenche o hidden `CAMPO_INDICADO_POR` nos 2 forms (`#matricula`,
+  `#matricula2`). Sem ref: campo vazio.
+- **Listas:** constante `AC_LISTAS` no mesmo script (principal **117/117**, form próprio da MGM confirmado pelo JV em 26/11/2026). O HTML dos forms ainda traz 116 (herdado da v4), mas o script troca para o 117 ao carregar. O embed do 117 (`/f/embed.php?id=117`) só tem nome, telefone e e-mail, igual ao 116.
+- **Sem exit pop-up** (removido em 26/11/2026: bloco `ALOUD · EXIT POP-UP` e a lista `popup` do `AC_LISTAS`). A MGM não
+  está no `scripts/sync-exit-popup.js`, então o sync não o recoloca. Para voltar: reverter o commit da remoção.
 - **TODOs do JV (pendentes em 26/11/2026):**
   1. "Indicado por": o JV vai mandar o ajuste do script de UTM para gravar o ref numa UTM (`CAMPO_INDICADO_POR` ainda é
      o placeholder `"field[ID_INDICADO_POR]"`). Como o script de UTM regrava esses campos no `load` e ao mudar o e-mail, o
