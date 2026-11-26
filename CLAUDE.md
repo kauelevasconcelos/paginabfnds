@@ -323,8 +323,10 @@ endereço). Página nova, sem página no WordPress. O endereço antigo `cronogra
 - **É uma cópia da BF26 V4 (`v4/`)**, gerada a partir dela, com só estas mudanças: headline + texto de apoio
   (`.sub-mgm`), 3 perguntas no início do FAQ, texto/botão/logo do pop-up de saída (`bf25img001` da v4, sem
   dependência da v80), `<head>` (title, description, `noindex, nofollow`, canonical `https://indica.aloud.com.br/`) e
-  `page_version: 'mgm'` no dataLayer e no Clarity. GTM, Pixel e Clarity com os mesmos IDs da v4 (o sGTM continua em
-  `servidor.cronogramadosfluentes.com.br`; o JV vai mandar uma versão nova do GTM). Textos do arquivo
+  `page_version: 'mgm'` no dataLayer e no Clarity. **GTM próprio da MGM: `GTM-56D2T4ST`** (26/11/2026, pedido do JV; a
+  v4 segue no `GTM-P9ZJRS9R`), carregado direto de `www.googletagmanager.com` (script do head, preload e noscript). O Pixel
+  vem pelo GTM (no HTML só há o preload do `fbevents.js`); o Clarity (`wcovrh3plq`, o mesmo da v4) está no HTML. O
+  `preconnect` para `servidor.cronogramadosfluentes.com.br` (sGTM da v4) ficou da cópia. Textos do arquivo
   `pagina-mgm.html` do Nadal (fora do git; só a fonte do conteúdo, não da estrutura).
 - **Assets vêm da pasta da v4**: o HTML usa `/pc-lpm-bf26v4/img|fonts/…` e o Worker da MGM responde esses caminhos em
   `indica.aloud.com.br` com `paginabfnds-v1.pages.dev/v4/img|fonts/…` (sem cópia). A pasta da MGM só tem o `index.html`.
@@ -347,7 +349,7 @@ endereço). Página nova, sem página no WordPress. O endereço antigo `cronogra
   1. "Indicado por": o JV vai mandar o ajuste do script de UTM para gravar o ref numa UTM (`CAMPO_INDICADO_POR` ainda é
      o placeholder `"field[ID_INDICADO_POR]"`). Como o script de UTM regrava esses campos no `load` e ao mudar o e-mail, o
      ajuste tem de ser dentro dele (ref com prioridade).
-  2. GTM: versão nova vinda do JV (hoje é o mesmo GTM da v4, com sGTM no cronogramadosfluentes).
+  2. ~~GTM~~: trocado para `GTM-56D2T4ST` em 26/11/2026.
   3. ~~`AC_LISTAS`~~: resolvido em 26/11/2026 (form 117). Pendente: conferir no AC para qual obrigado o form 117 redireciona.
   4. `page_version 'mgm'`: confirmar que os relatórios (GA4/Clarity) separam a MGM da v4.
   Nenhum lead de teste foi enviado. Depois do GTM e do script: lead de teste com GTM/pixels bloqueados pelos 2 forms e
