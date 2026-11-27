@@ -378,6 +378,23 @@ endereço). Página nova, sem página no WordPress. O endereço antigo `cronogra
   - `/robots.txt` é o gerenciado da Cloudflare (`Allow: /`, não chega ao Worker); a página continua `noindex, nofollow`.
   - Prévia de link: WhatsApp, facebookexternalhit e Telegram recebem 200 com o HTML.
 
+## Números das redes do Matheus (bloco de números; atualizado em 27/11/2026)
+
+Números usados em 27/11/2026: **Instagram +5 mi seguidores** (real: 5,1 mi) e **YouTube +1,4 mi inscritos** (real: 1,41 mi).
+O bloco de 3 números (`.nums` / `.num`: "+62 mil ALUNOS" · item do meio · "+10 anos de experiência") dizia
+"+13 mil inscritos" sem dizer onde. Regra aplicada: bloco sem número do Instagram → o item vira **"+5 mi" /
+"seguidores no Instagram"**; bloco que já tem o Instagram → o "+13 mil inscritos" vira "+1,4 mi" / "inscritos no YouTube".
+
+- Trocado em 27/11/2026 (todas pela regra 1; nenhuma tinha o Instagram): **v4, MGM (`pc-lpm-mgmv1/`), v25, v25b, v27, v27b**.
+  Marcação: `<span class="cnt" data-to="5" data-ms="2000">5</span><span>mi</span>` + rótulo `seguidores no Instagram`
+  (o contador anima de 0 até `data-to`, só inteiros: para "1,4 mi" o contador teria de mudar).
+- Sem o bloco (nada a trocar): v15, v22, v128–v131, v136 e a raiz (só "Alunos +62 mil / Reputação Ótima" no `ab-stats`), v16–v21,
+  v23, v24, v26, v26b, v29, v30, v80, v111, v132–v135, v137, dsi-pv-v11–v13. As v32–v37 ficaram de fora (vão ser removidas).
+- Não mexer: "13 milhões de pessoas" da bio, "+62 mil alunos" e "+10 anos".
+- Layout: 1 linha no desktop (texto 187px na caixa de 209px) e no celular (360/390). **No tablet (768–1024px) o rótulo
+  quebra em 2 linhas** em v4, MGM, v25 e v27 (lá ele é 18px na caixa de 209px); o bloco fica 32px mais alto, sem overflow.
+  Mantido assim para não mudar o estilo.
+
 ## Preview
 
 Branches que não são o `main` geram `https://<branch>.paginabfnds-v1.pages.dev`. Os assets usam caminhos
