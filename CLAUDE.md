@@ -391,9 +391,10 @@ O bloco de 3 números (`.nums` / `.num`: "+62 mil ALUNOS" · item do meio · "+1
 - Sem o bloco (nada a trocar): v15, v22, v128–v131, v136 e a raiz (só "Alunos +62 mil / Reputação Ótima" no `ab-stats`), v16–v21,
   v23, v24, v26, v26b, v29, v30, v80, v111, v132–v135, v137, dsi-pv-v11–v13. As v32–v37 ficaram de fora (vão ser removidas).
 - Não mexer: "13 milhões de pessoas" da bio, "+62 mil alunos" e "+10 anos".
-- Layout: 1 linha no desktop (texto 187px na caixa de 209px) e no celular (360/390). **No tablet (768–1024px) o rótulo
-  quebra em 2 linhas** em v4, MGM, v25 e v27 (lá ele é 18px na caixa de 209px); o bloco fica 32px mais alto, sem overflow.
-  Mantido assim para não mudar o estilo.
+- Layout: 1 linha no desktop (texto 187px na caixa de 209px), no tablet e no celular (360/390). Em v4, MGM, v25 e v27 o
+  rótulo do tablet (`@media(max-width:1024px)`) é 18px e "seguidores no Instagram" quebrava em 2 linhas; por isso o rótulo
+  tem `class="ig"` e a regra `.num>span.ig{font-size:16px}` no mesmo `@media` (27/11/2026). Os outros rótulos seguem em 18px
+  no tablet; celular e desktop já eram 16px. v25b e v27b não precisam (caixas maiores, 1 linha em todas as larguras).
 
 ## Preview
 
